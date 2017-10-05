@@ -1,0 +1,4 @@
+ocl test6 {
+  context Auction a inv Test6 :
+   forall Auction a: forall p in Person: forall Message m in a.message: p isin a.bidder implies m isin p.message;
+}

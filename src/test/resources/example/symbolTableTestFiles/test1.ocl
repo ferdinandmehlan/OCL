@@ -1,0 +1,8 @@
+ocl test1 {
+  context boolean BidMessage.isAuctionsSpecific() throws Exception
+  pre IAS1: true;
+  post IAS2: result == true;
+   
+}
+
+

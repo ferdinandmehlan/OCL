@@ -1,0 +1,11 @@
+
+
+ocl test14 {
+  context ComponentInstance b inv test14:
+      let
+        List<Object> c = List{};
+      in
+        b == c;
+}
+
+

@@ -1,0 +1,5 @@
+ocl test12 {
+  context new Test(double Param1, float Param2, double Param3)
+  pre Pre: g != h;
+  post Post: i == j;
+}
