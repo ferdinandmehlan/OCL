@@ -1,0 +1,8 @@
+install:
+- rm -r -f "$HOME/.m2/repository"
+- git clone "https://github.com/EmbeddedMontiArc/external-dependencies" "$HOME/.m2/repository"
+
+script:
+- mvn clean install --settings "./settings.xml"
+after_success:
+- mvn deploy --debug --settings "./settings.xml"

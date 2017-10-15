@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Optional;
 
+import ocl.LogConfig;
 import org.antlr.v4.runtime.RecognitionException;
 
 import de.monticore.ModelingLanguageFamily;
@@ -77,6 +78,7 @@ public abstract class AbstractOCLTest {
 	protected ASTCompilationUnit loadModel(String modelFullQualifiedFilename) {
 		Path model = Paths.get(modelFullQualifiedFilename);
 
+		LogConfig.init();
 		try {
 			Optional<ASTCompilationUnit> root = parser.parse(model.toString());
 			if (root.isPresent()) {
