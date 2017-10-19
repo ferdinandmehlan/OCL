@@ -34,7 +34,7 @@ import ocl.monticoreocl.ocl._cocos.OCLCoCoChecker;
 import ocl.monticoreocl.ocl._cocos.OCLCoCos;
 
 
-public class ConstructorNameStartsWithCapitalLetter extends AbstractOCLTest {
+public class ConstructorNameStartsWithCapitalLetterTest extends AbstractOCLTest {
 
 	@Override
 	  protected OCLCoCoChecker getChecker() {
