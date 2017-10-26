@@ -40,6 +40,7 @@
     <se-commons.version>1.7.7</se-commons.version>
     <mc.grammars.assembly.version>0.0.6-SNAPSHOT</mc.grammars.assembly.version>
     <SIUnit.version>0.0.3-SNAPSHOT</SIUnit.version>
+    <cd4analysis.version>1.3.11-SNAPSHOT</cd4analysis.version>
 
     <!-- .. Libraries .................................................. -->
     <guava.version>18.0</guava.version>
@@ -79,6 +80,12 @@
     </dependency>
 
     <!-- MontiCore Dependencies -->
+    <dependency>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>cd4analysis</artifactId>
+      <version>${cd4analysis.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>de.monticore</groupId>
       <artifactId>monticore-runtime</artifactId>
