@@ -19,56 +19,57 @@
  */
 package ocl.monticoreocl.ocl._symboltable;
 
-import static de.monticore.symboltable.Symbols.sortSymbolsByPosition;
+import de.monticore.symboltable.types.CommonJFieldSymbol;
+import de.monticore.umlcd4a.symboltable.references.CDTypeSymbolReference;
 
-import java.util.Collection;
+public class OCLVariableDeclarationSymbol extends CommonJFieldSymbol<CDTypeSymbolReference> {
 
-import de.monticore.symboltable.CommonScopeSpanningSymbol;
-import de.monticore.types.types._ast.ASTType;
-
-public class OCLVariableDeclarationSymbol extends CommonScopeSpanningSymbol {
-
-	public static final OCLVariableDeclarationKind KIND = OCLVariableDeclarationKind.INSTANCE;
+	public static final OCLVariableDeclarationKind KIND = new OCLVariableDeclarationKind();
 
 	protected String varName;
-	protected ASTType type;
-	protected String className;
+	protected CDTypeSymbolReference typeReference;
+	protected String varTypeName;
 
-	public OCLVariableDeclarationSymbol(String name) {
-		super(name, KIND);
+
+	public OCLVariableDeclarationSymbol(String varName, CDTypeSymbolReference typeReference) {
+		super(varName, KIND, typeReference);
+		this.varName = varName;
+		this.typeReference = typeReference;
+		this.varTypeName = "";
+		if (typeReference!=null) {
+			this.varTypeName = typeReference.getName();
+		}
+	}
+
+	public String getExtendedName() {
+		return "OCL field " + getName();
+	}
+
+	@Override
+	public String toString() {
+		return  OCLVariableDeclarationSymbol.class.getSimpleName() + " " + getName();
 	}
 
 	public void setName(String varName){
 		this.varName = varName;
-
 	}
 
+	@Override
 	public String getName(){
-
 		return varName;
 	}
 
-	public void setType(ASTType type){
-		this.type = type;
-
+	@Override
+	public void setType(CDTypeSymbolReference typeReference){
+		this.typeReference = typeReference;
 	}
 
-	public ASTType getType(){
-
-		return type;
+	@Override
+	public CDTypeSymbolReference getType(){
+		return typeReference;
 	}
 
-	public void setClassName(String className){
-		this.className = className;
-
-	}
-
-	public String getClassName(){
-
-		return className;
-	}
-
-	public Collection<OCLVariableDeclarationSymbol> getOCLVariableDeclaration() {
-		return sortSymbolsByPosition(getSpannedScope().resolveLocally(OCLVariableDeclarationSymbol.KIND));
+	public String getVarTypeName(){
+		return varTypeName;
 	}
 }

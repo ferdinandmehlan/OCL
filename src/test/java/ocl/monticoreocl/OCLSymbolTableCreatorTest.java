@@ -55,7 +55,7 @@ import ocl.monticoreocl.ocl._symboltable.OCLVariableDeclarationSymbol;
 public class OCLSymbolTableCreatorTest {
 
 	@Test
-	public void test() {
+	public void test01() {
 		final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/example/symbolTableTestFiles");
 
 		// 1st case:
@@ -156,7 +156,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol2 -> variableDeclarationSymbol1
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol1 = methSigSymbol2.getOCLVariableDecl("oldCo").orElse(null);
 		assertNotNull(variableDeclarationSymbol1);
-		assertEquals("ClassName", variableDeclarationSymbol1.getClassName());
+		assertEquals("ClassName", variableDeclarationSymbol1.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol1
 		assertTrue(variableDeclarationSymbol1.getAstNode().isPresent());
@@ -164,6 +164,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(variableDeclarationSymbol1, variableDeclarationSymbol1.getAstNode().get().getSymbol().get());
 		assertSame(variableDeclarationSymbol1.getEnclosingScope(),
 				variableDeclarationSymbol1.getAstNode().get().getEnclosingScope().get());
+
 
 		// methSigSymbol2 -> variableDeclarationSymbol2
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol2 = methSigSymbol2.getOCLVariableDecl("newCos").orElse(null);
@@ -176,6 +177,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(variableDeclarationSymbol2, variableDeclarationSymbol2.getAstNode().get().getSymbol().get());
 		assertSame(variableDeclarationSymbol2.getEnclosingScope(),
 				variableDeclarationSymbol2.getAstNode().get().getEnclosingScope().get());
+
 
 		// methSigSymbol2 -> variableDeclarationSymbol3
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol3 = methSigSymbol2.getOCLVariableDecl("newCo").orElse(null);
@@ -306,7 +308,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol5 -> variableDeclarationSymbol4
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol4 = methSigSymbol5.getOCLVariableDecl("oldUniName").orElse(null);
 		assertNotNull(variableDeclarationSymbol4);
-		assertEquals("Name", variableDeclarationSymbol4.getClassName());
+		assertEquals("Name", variableDeclarationSymbol4.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol4
 		assertTrue(variableDeclarationSymbol4.getAstNode().isPresent());
@@ -318,7 +320,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol5 -> variableDeclarationSymbol5
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol5 = methSigSymbol5.getOCLVariableDecl("newUniName").orElse(null);
 		assertNotNull(variableDeclarationSymbol5);
-		assertEquals("Name", variableDeclarationSymbol5.getClassName());
+		assertEquals("Name", variableDeclarationSymbol5.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol5
 		assertTrue(variableDeclarationSymbol5.getAstNode().isPresent());
@@ -497,7 +499,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol7 -> variableDeclarationSymbol6
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol6 = methSigSymbol7.getOCLVariableDecl("helpVariable").orElse(null);
 		assertNotNull(variableDeclarationSymbol6);
-		assertEquals("VariableClass", variableDeclarationSymbol6.getClassName());
+		assertEquals("VariableClass", variableDeclarationSymbol6.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol6
 		assertTrue(variableDeclarationSymbol6.getAstNode().isPresent());

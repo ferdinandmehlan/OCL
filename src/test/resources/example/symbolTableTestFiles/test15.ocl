@@ -1,0 +1,15 @@
+
+
+ocl test15 {
+  context Cmp cmp inv test15:
+    let
+        List<Port> p = cmp.ports;
+        Port p1 = p.get(0);
+        int i = 0;
+        Auction var = null;
+        int a = i;
+    in
+        true;
+}
+
+
