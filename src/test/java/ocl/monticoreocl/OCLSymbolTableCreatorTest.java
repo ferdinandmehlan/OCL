@@ -55,7 +55,7 @@ import ocl.monticoreocl.ocl._symboltable.OCLVariableDeclarationSymbol;
 public class OCLSymbolTableCreatorTest {
 
 	@Test
-	public void test01() {
+	public void test() {
 		final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/example/symbolTableTestFiles");
 
 		// 1st case:
