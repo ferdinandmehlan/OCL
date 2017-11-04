@@ -43,7 +43,6 @@ import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import ocl.monticoreocl.ocl._ast.ASTCompilationUnit;
 import ocl.monticoreocl.ocl._cocos.OCLCoCoChecker;
-import ocl.monticoreocl.ocl._parser.OCLParser;
 import ocl.monticoreocl.ocl._symboltable.OCLLanguage;
 import ocl.monticoreocl.ocl._symboltable.OCLSymbolTableCreator;
 
@@ -91,7 +90,7 @@ public abstract class AbstractOCLTest {
 			resolvingConfiguration.addDefaultFilters(ocllang.getResolvers());
 			resolvingConfiguration.addDefaultFilters(cd4AnalysisLang.getResolvers());
 
-			OCLSymbolTableCreator oclSymbolTableCreator = ocllang.getSymbolTableCreator(new ResolvingConfiguration(), globalScope).get();
+			OCLSymbolTableCreator oclSymbolTableCreator = ocllang.getSymbolTableCreator(resolvingConfiguration, globalScope).get();
 			Optional<ASTCompilationUnit> astOCLCompilationUnit = ocllang.getModelLoader().loadModel(modelFullQualifiedFilename, modelPath);
 
 			if(astOCLCompilationUnit.isPresent()) {
