@@ -1,0 +1,11 @@
+package example;
+
+classdiagram AuctionCD {
+
+  public class Auction {
+  }
+
+  public class AllData {
+  }
+
+}

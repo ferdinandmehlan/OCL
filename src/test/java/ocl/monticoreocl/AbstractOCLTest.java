@@ -22,12 +22,14 @@ package ocl.monticoreocl;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Optional;
 
+import de.monticore.umlcd4a.CD4AnalysisLanguage;
 import ocl.LogConfig;
 import org.antlr.v4.runtime.RecognitionException;
 
@@ -48,9 +50,9 @@ import ocl.monticoreocl.ocl._symboltable.OCLSymbolTableCreator;
 public abstract class AbstractOCLTest {
 
 	private final OCLLanguage ocllang = new OCLLanguage();
-	OCLParser parser = new OCLParser();
+	private final  CD4AnalysisLanguage cd4AnalysisLang = new CD4AnalysisLanguage();
+	protected static String PARENT_DIR = "src/test/resources/";
 
-	private GlobalScope globalScope;
 
 	protected Scope cdScope;
 
@@ -59,48 +61,47 @@ public abstract class AbstractOCLTest {
 
 	abstract protected OCLCoCoChecker getChecker();
 
-	protected void testModelForErrors(String model, Collection<Finding> expectedErrors) {
+	protected void testModelForErrors(String parentDirectory, String model, Collection<Finding> expectedErrors) {
 		OCLCoCoChecker checker = getChecker();
 
-		ASTCompilationUnit root = loadModel(model);
+		ASTCompilationUnit root = loadModel(parentDirectory, model);
 		checker.checkAll(root);
 		Assert.assertEqualErrorCounts(expectedErrors, Log.getFindings());
 		Assert.assertErrorMsg(expectedErrors, Log.getFindings());
 	}
 
-	protected void testModelNoErrors(String model) {
+	protected void testModelNoErrors(String parentDirectory, String model) {
 		OCLCoCoChecker checker = getChecker();
-		ASTCompilationUnit root = loadModel(model);
+		ASTCompilationUnit root = loadModel(parentDirectory, model);
 		checker.checkAll(root);
 		assertEquals(0, Log.getFindings().stream().filter(f -> f.isError()).count());
 	}
 
-	protected ASTCompilationUnit loadModel(String modelFullQualifiedFilename) {
-		Path model = Paths.get(modelFullQualifiedFilename);
+	protected ASTCompilationUnit loadModel(String parentDirectory, String modelFullQualifiedFilename) {
 
 		LogConfig.init();
 		try {
-			Optional<ASTCompilationUnit> root = parser.parse(model.toString());
-			if (root.isPresent()) {
-				// create Symboltable
-				ModelingLanguageFamily fam = new ModelingLanguageFamily();
-				fam.addModelingLanguage(new OCLLanguage());
-				final ModelPath mp = new ModelPath(model.toAbsolutePath());
-				this.globalScope = new GlobalScope(mp, fam);
+			ModelPath modelPath = new ModelPath(Paths.get(parentDirectory));
+			ModelingLanguageFamily modelingLanguageFamily = new ModelingLanguageFamily();
+			modelingLanguageFamily.addModelingLanguage(ocllang);
+			modelingLanguageFamily.addModelingLanguage(cd4AnalysisLang);
+			GlobalScope globalScope = new GlobalScope(modelPath, modelingLanguageFamily);
 
-				ResolvingConfiguration resolvingConfiguration = new ResolvingConfiguration();
-				resolvingConfiguration.addTopScopeResolvers(ocllang.getResolvers());
-				Optional<OCLSymbolTableCreator> stc = ocllang.getSymbolTableCreator(resolvingConfiguration, globalScope);
-				if (stc.isPresent()) {
-					stc.get().createFromAST(root.get());
-				}
+			ResolvingConfiguration resolvingConfiguration = new ResolvingConfiguration();
+			resolvingConfiguration.addDefaultFilters(ocllang.getResolvers());
+			resolvingConfiguration.addDefaultFilters(cd4AnalysisLang.getResolvers());
+
+			OCLSymbolTableCreator oclSymbolTableCreator = ocllang.getSymbolTableCreator(new ResolvingConfiguration(), globalScope).get();
+			Optional<ASTCompilationUnit> astOCLCompilationUnit = ocllang.getModelLoader().loadModel(modelFullQualifiedFilename, modelPath);
+
+			if(astOCLCompilationUnit.isPresent()) {
+				astOCLCompilationUnit.get().accept(oclSymbolTableCreator);
 				cdScope = globalScope.getSubScopes().get(0).getSubScopes().get(0);
-				return root.get();
+				return astOCLCompilationUnit.get();
 			}
-		} catch (RecognitionException | IOException e) {
+		} catch (RecognitionException e) {
 			e.printStackTrace();
 		}
 		throw new RuntimeException("Error during loading of model " + modelFullQualifiedFilename + ".");
 	}
-
 }

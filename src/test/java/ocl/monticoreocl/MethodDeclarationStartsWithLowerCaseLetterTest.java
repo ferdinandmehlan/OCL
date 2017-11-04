@@ -52,14 +52,10 @@ public class MethodDeclarationStartsWithLowerCaseLetterTest extends AbstractOCLT
 	  public void setUp() {
 	    Log.getFindings().clear();
 	  }
-	  
-	  private static String MODEL_PATH_VALID = "src/test/resources/example/cocos/valid/";
-	  
-	  private static String MODEL_PATH_INVALID = "src/test/resources/example/cocos/invalid/";
-	  
+
 	  @Test
 	  public void testInvalidMethodDeclarationName() {
-	    String modelName = "invalidMethodDeclarationName.ocl";
+	    String modelName = "example.cocos.invalid.invalidMethodDeclarationName";
 	    String errorCode = "0xOCL06";
 	    
 	    Collection<Finding> expectedErrors = Arrays
@@ -67,14 +63,14 @@ public class MethodDeclarationStartsWithLowerCaseLetterTest extends AbstractOCLT
 	        Finding.error(errorCode + " method declaration name 'Min' should start with a capital letter.",
 	            new SourcePosition(4, 6))
 	        );
-	    testModelForErrors(MODEL_PATH_INVALID + modelName, expectedErrors);
+		  testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	  }
 	  
 	  @Test
 	  public void testValidMethodDeclarationName() {
 		  
-		  String modelName = "validMethodDeclarationName.ocl";
-		  testModelNoErrors(MODEL_PATH_VALID + modelName);
+		  String modelName = "example.cocos.valid.validMethodDeclarationName";
+		  testModelNoErrors(PARENT_DIR, modelName);
 	  }
 
 }

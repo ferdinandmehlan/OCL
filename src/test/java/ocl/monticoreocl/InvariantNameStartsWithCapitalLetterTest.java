@@ -50,14 +50,9 @@ public class InvariantNameStartsWithCapitalLetterTest extends AbstractOCLTest{
 	  public void setUp() {
 	    Log.getFindings().clear();
 	  }
-	  
-	  private static String MODEL_PATH_VALID = "src/test/resources/example/cocos/valid/";
-	  
-	  private static String MODEL_PATH_INVALID = "src/test/resources/example/cocos/invalid/";
-	  
 	  @Test
 	  public void testInvalidInvariantName() {
-	    String modelName = "invalidInvariantName.ocl";
+	    String modelName = "example.cocos.invalid.invalidInvariantName";
 	    String errorCode = "0xOCL02";
 	    
 	    Collection<Finding> expectedErrors = Arrays
@@ -65,7 +60,7 @@ public class InvariantNameStartsWithCapitalLetterTest extends AbstractOCLTest{
 	        Finding.error(errorCode + " " + "invariant name 'nameInv' cannot start in lower-case.",
 	            new SourcePosition(2, 2))
 	        );
-	    testModelForErrors(MODEL_PATH_INVALID + modelName, expectedErrors);
+		  testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	  }
 	  
 	  
@@ -73,7 +68,7 @@ public class InvariantNameStartsWithCapitalLetterTest extends AbstractOCLTest{
 	  @Test
 	  public void testValidInvariantName() {
 		  
-		  String modelName = "validInvariantName.ocl";
-		  testModelNoErrors(MODEL_PATH_VALID + modelName);
+		  String modelName = "example.cocos.valid.validInvariantName";
+		  testModelNoErrors(PARENT_DIR, modelName);
 	  }
 }

@@ -1,3 +1,5 @@
+import example.AuctionCD.*;
+
 ocl validInvariantName {
   context AllData _ad, Auction a inv InvName:
     _ad.auction[a.auctionIdent] == a;

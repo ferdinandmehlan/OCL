@@ -255,6 +255,15 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		}
 	}
 
+
+	@Override
+	public void visit(final ASTOCLForallExpr astForAllExpr) {
+		if (astForAllExpr.oCLCollectionVarDeclarationIsPresent()) {
+			ASTOCLInExpr inExpr = astForAllExpr.getOCLCollectionVarDeclaration().get().getOCLInExpr().get();
+			handleInExpr(astForAllExpr, inExpr);
+		}
+	}
+
 	protected void handleInExpr(ASTOCLNode astNode, ASTOCLInExpr inExpr) {
 		if (inExpr.oCLInWithTypeIsPresent()) {
 			ASTOCLInWithType inWithType = inExpr.getOCLInWithType().get();
@@ -327,9 +336,9 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	}
 
 	private void addActualArguments(ASTOCLNestedContainer astoclNestedContainer, CDTypeSymbolReference typeReference) {
-		if (astoclNestedContainer.oCLNestedContainerIsPresent()) {
+		if (astoclNestedContainer.getArguments().size() > 0) {
 			List<ActualTypeArgument> actualTypeArguments = new ArrayList<>();
-			CDTypeSymbolReference argumentReferenceType = getTypeSymbolReferenceFromNestedContainer(astoclNestedContainer.getOCLNestedContainer().get());
+			CDTypeSymbolReference argumentReferenceType = getTypeSymbolReferenceFromNestedContainer(astoclNestedContainer.getArguments().get(0));
 			typeReference.setStringRepresentation(typeReference.getStringRepresentation() + "<" + argumentReferenceType.getStringRepresentation() + " >");
 			ActualTypeArgument actualTypeArgument = new ActualTypeArgument(argumentReferenceType);
 			actualTypeArguments.add(actualTypeArgument);
@@ -337,18 +346,10 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		}
 	}
 
-	@Override
-	public void visit(final ASTOCLForallExpr astForAllExpr) {
-		if (astForAllExpr.oCLCollectionVarDeclarationIsPresent()) {
-			ASTOCLInExpr inExpr = astForAllExpr.getOCLCollectionVarDeclaration().get().getOCLInExpr().get();
-			handleInExpr(astForAllExpr, inExpr);
-		}
-	}
-
 	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, String typeName, ASTNode astNode) {
 		CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.getFirstCreatedScope());
 		if (!typeReference.existsReferencedSymbol()) {
-			//Log.error("The variable type does not exist: " + typeName, astNode.get_SourcePositionStart());
+			Log.error("The variable type does not exist: " + typeName, astNode.get_SourcePositionStart());
 		}
 		final OCLVariableDeclarationSymbol varDeclSymbol = new OCLVariableDeclarationSymbol(name, typeReference);
 		// Todo cross check with expression?

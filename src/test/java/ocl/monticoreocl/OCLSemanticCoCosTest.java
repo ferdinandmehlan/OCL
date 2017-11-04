@@ -62,7 +62,7 @@ public class OCLSemanticCoCosTest {
     @Test
     public void testSymboltable() throws RecognitionException, IOException {
 
-        ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"), Paths.get("src/test/resources/example/symbolTableTestFiles"));
+        ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
         OCLLanguage oclLanguage = new OCLLanguage();
         CD4AnalysisLanguage cd4AnalysisLanguage = new CD4AnalysisLanguage();
         ModelingLanguageFamily modelingLanguageFamily = new ModelingLanguageFamily();
@@ -70,25 +70,13 @@ public class OCLSemanticCoCosTest {
         modelingLanguageFamily.addModelingLanguage(cd4AnalysisLanguage);
         GlobalScope globalScope = new GlobalScope(modelPath, modelingLanguageFamily);
 
-/*
-        ResolvingConfiguration resolvingConfiguration = new ResolvingConfiguration();
 
-        CD4AnalysisSymbolTableCreator cd4AnalysisSymbolTableCreator = cd4AnalysisLanguage.getSymbolTableCreator(resolvingConfiguration, globalScope).get();
-        Optional<ASTCDCompilationUnit> astCDCompilationUnit = cd4AnalysisLanguage.getModelLoader().loadModel("de.monticore.montiarc.symboltable.MontiArc", modelPath);
-        astCDCompilationUnit.get().accept(cd4AnalysisSymbolTableCreator);
 
-        CDTypeSymbol  typeSymbol = globalScope.<CDTypeSymbol>resolve("de.monticore.montiarc.symboltable.MontiArc.Cmp", CDTypeSymbol.KIND).orElse(null);
 
-        OCLSymbolTableCreator oclSymbolTableCreator = oclLanguage.getSymbolTableCreator(resolvingConfiguration, globalScope).get();
-        Optional<ASTCompilationUnit> astOCLCompilationUnit = oclLanguage.getModelLoader().loadModel("test15", modelPath);
+
+        OCLSymbolTableCreator oclSymbolTableCreator = oclLanguage.getSymbolTableCreator(new ResolvingConfiguration(), globalScope).get();
+        Optional<ASTCompilationUnit> astOCLCompilationUnit = oclLanguage.getModelLoader().loadModel("example.symbolTableTestFiles.test15", modelPath);
         astOCLCompilationUnit.get().accept(oclSymbolTableCreator);
-
-*/
-
-
-         globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/example/symbolTableTestFiles");
-        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("test15", OCLFileSymbol.KIND).orElse(null);
-        assertNotNull(oclFileSymbol);
 
     }
 }
