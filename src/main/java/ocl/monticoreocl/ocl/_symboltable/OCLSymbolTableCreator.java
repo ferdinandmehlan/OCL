@@ -337,11 +337,17 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 	private void addActualArguments(ASTOCLNestedContainer astoclNestedContainer, CDTypeSymbolReference typeReference) {
 		if (astoclNestedContainer.getArguments().size() > 0) {
+			String stringRepresentation = typeReference.getStringRepresentation() + "<";
 			List<ActualTypeArgument> actualTypeArguments = new ArrayList<>();
-			CDTypeSymbolReference argumentReferenceType = getTypeSymbolReferenceFromNestedContainer(astoclNestedContainer.getArguments().get(0));
-			typeReference.setStringRepresentation(typeReference.getStringRepresentation() + "<" + argumentReferenceType.getStringRepresentation() + ">");
-			ActualTypeArgument actualTypeArgument = new ActualTypeArgument(argumentReferenceType);
-			actualTypeArguments.add(actualTypeArgument);
+			for (ASTOCLNestedContainer container: astoclNestedContainer.getArguments()) {
+				CDTypeSymbolReference argumentReferenceType = getTypeSymbolReferenceFromNestedContainer(container);
+				ActualTypeArgument actualTypeArgument = new ActualTypeArgument(argumentReferenceType);
+				actualTypeArguments.add(actualTypeArgument);
+				stringRepresentation += ", " + argumentReferenceType.getStringRepresentation();
+			}
+			stringRepresentation += ">";
+			stringRepresentation = stringRepresentation.replace("<, ", "<");
+			typeReference.setStringRepresentation(stringRepresentation);
 			typeReference.setActualTypeArguments(actualTypeArguments);
 		}
 	}

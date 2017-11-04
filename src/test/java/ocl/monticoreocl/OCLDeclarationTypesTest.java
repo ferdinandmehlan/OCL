@@ -80,11 +80,14 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         assertNotNull(declVarSymbol2);
         assertEquals("List", declVarSymbol2.getVarTypeName());
         assertEquals("List<Port>", declVarSymbol2.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol2.getType().getActualTypeArguments().size());
+        assertEquals("Port", declVarSymbol2.getType().getActualTypeArguments().get(0).getType().toString());
 
         OCLVariableDeclarationSymbol declVarSymbol3 = oclInvariantSymbol.getOCLVariableDecl("ports2").orElse(null);
         assertNotNull(declVarSymbol3);
         assertEquals("List", declVarSymbol3.getVarTypeName());
         assertEquals("List<List<Port>>", declVarSymbol3.getType().getStringRepresentation());
+
 
         OCLVariableDeclarationSymbol declVarSymbol4 = oclInvariantSymbol.getOCLVariableDecl("port1").orElse(null);
         assertNotNull(declVarSymbol4);
