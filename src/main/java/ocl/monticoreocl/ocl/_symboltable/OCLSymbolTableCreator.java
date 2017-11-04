@@ -339,7 +339,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		if (astoclNestedContainer.getArguments().size() > 0) {
 			List<ActualTypeArgument> actualTypeArguments = new ArrayList<>();
 			CDTypeSymbolReference argumentReferenceType = getTypeSymbolReferenceFromNestedContainer(astoclNestedContainer.getArguments().get(0));
-			typeReference.setStringRepresentation(typeReference.getStringRepresentation() + "<" + argumentReferenceType.getStringRepresentation() + " >");
+			typeReference.setStringRepresentation(typeReference.getStringRepresentation() + "<" + argumentReferenceType.getStringRepresentation() + ">");
 			ActualTypeArgument actualTypeArgument = new ActualTypeArgument(argumentReferenceType);
 			actualTypeArguments.add(actualTypeArgument);
 			typeReference.setActualTypeArguments(actualTypeArguments);

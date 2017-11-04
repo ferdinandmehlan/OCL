@@ -22,33 +22,35 @@ package ocl.monticoreocl;
 
 import de.monticore.ModelingLanguageFamily;
 import de.monticore.io.paths.ModelPath;
-import de.monticore.symboltable.GlobalScope;
-import de.monticore.symboltable.ResolvingConfiguration;
-import de.monticore.symboltable.SymbolKind;
+import de.monticore.symboltable.*;
 import de.monticore.umlcd4a.CD4AnalysisLanguage;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDCompilationUnit;
 import de.monticore.umlcd4a.cd4analysis._parser.CD4AnalysisParser;
 import de.monticore.umlcd4a.symboltable.CD4AnalysisSymbolTableCreator;
 import de.monticore.umlcd4a.symboltable.CDTypeSymbol;
 import ocl.monticoreocl.ocl._ast.ASTCompilationUnit;
+import ocl.monticoreocl.ocl._cocos.OCLCoCoChecker;
+import ocl.monticoreocl.ocl._cocos.OCLCoCos;
 import ocl.monticoreocl.ocl._parser.OCLParser;
-import ocl.monticoreocl.ocl._symboltable.OCLFileSymbol;
-import ocl.monticoreocl.ocl._symboltable.OCLLanguage;
-import ocl.monticoreocl.ocl._symboltable.OCLSymbolTableCreator;
+import ocl.monticoreocl.ocl._symboltable.*;
 import org.antlr.v4.runtime.RecognitionException;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-public class OCLSemanticCoCosTest {
+public class OCLDeclarationTypesTest extends AbstractOCLTest {
+
+    @Override
+    protected OCLCoCoChecker getChecker() {
+        return OCLCoCos.createChecker();
+    }
 
     @Test
     public void testCDModelCnC() throws IOException{
@@ -60,23 +62,44 @@ public class OCLSemanticCoCosTest {
     }
 
     @Test
-    public void testSymboltable() throws RecognitionException, IOException {
+    public void testTypesPresent() {
 
-        ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
-        OCLLanguage oclLanguage = new OCLLanguage();
-        CD4AnalysisLanguage cd4AnalysisLanguage = new CD4AnalysisLanguage();
-        ModelingLanguageFamily modelingLanguageFamily = new ModelingLanguageFamily();
-        modelingLanguageFamily.addModelingLanguage(oclLanguage);
-        modelingLanguageFamily.addModelingLanguage(cd4AnalysisLanguage);
-        GlobalScope globalScope = new GlobalScope(modelPath, modelingLanguageFamily);
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
 
+        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test15", OCLFileSymbol.KIND).orElse(null);
+        assertNotNull(oclFileSymbol);
+        assertEquals(2, globalScope.getSubScopes().size());
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test15").orElse(null);
+        assertNotNull(oclInvariantSymbol);
 
+        OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("cmp").orElse(null);
+        assertNotNull(declVarSymbol);
+        assertEquals("Cmp", declVarSymbol.getVarTypeName());
 
+        OCLVariableDeclarationSymbol declVarSymbol2 = oclInvariantSymbol.getOCLVariableDecl("ports").orElse(null);
+        assertNotNull(declVarSymbol2);
+        assertEquals("List", declVarSymbol2.getVarTypeName());
+        assertEquals("List<Port>", declVarSymbol2.getType().getStringRepresentation());
 
+        OCLVariableDeclarationSymbol declVarSymbol3 = oclInvariantSymbol.getOCLVariableDecl("ports2").orElse(null);
+        assertNotNull(declVarSymbol3);
+        assertEquals("List", declVarSymbol3.getVarTypeName());
+        assertEquals("List<List<Port>>", declVarSymbol3.getType().getStringRepresentation());
 
-        OCLSymbolTableCreator oclSymbolTableCreator = oclLanguage.getSymbolTableCreator(new ResolvingConfiguration(), globalScope).get();
-        Optional<ASTCompilationUnit> astOCLCompilationUnit = oclLanguage.getModelLoader().loadModel("example.symbolTableTestFiles.test15", modelPath);
-        astOCLCompilationUnit.get().accept(oclSymbolTableCreator);
+        OCLVariableDeclarationSymbol declVarSymbol4 = oclInvariantSymbol.getOCLVariableDecl("port1").orElse(null);
+        assertNotNull(declVarSymbol4);
+        assertEquals("Port", declVarSymbol4.getVarTypeName());
+        assertEquals("Port", declVarSymbol4.getType().getStringRepresentation());
 
+        OCLVariableDeclarationSymbol declVarSymbol5 = oclInvariantSymbol.getOCLVariableDecl("i").orElse(null);
+        assertNotNull(declVarSymbol5);
+        assertEquals("int", declVarSymbol5.getVarTypeName());
+        assertEquals("int", declVarSymbol5.getType().getStringRepresentation());
+
+        OCLVariableDeclarationSymbol declVarSymbol6 = oclInvariantSymbol.getOCLVariableDecl("p2").orElse(null);
+        assertNotNull(declVarSymbol6);
+        assertEquals("Port", declVarSymbol6.getVarTypeName());
+        assertEquals("Port", declVarSymbol6.getType().getStringRepresentation());
     }
+
 }

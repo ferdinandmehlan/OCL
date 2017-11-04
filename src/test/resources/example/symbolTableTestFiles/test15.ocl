@@ -1,15 +1,17 @@
+package example.symbolTableTestFiles;
 
+import de.monticore.montiarc.symboltable.MontiArc.*;
 
 ocl test15 {
   context Cmp cmp inv test15:
     let
-        List<Port> pl = cmp.ports;
-        Port p1 = pl.get(0);
+        List<Port> ports = cmp.ports;
+        List<List<Port> > ports2 = List{ports};
+        Port port1 = ports.get(0);
         int i = 0;
-        Auction var = null;
-        int a = i;
     in
-        forall Port.ort p2 in pl : forall p3 in pl: true;
+        forall Port p2 in ports :
+                true;
 }
 
 
