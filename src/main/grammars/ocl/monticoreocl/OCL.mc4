@@ -402,7 +402,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
  	 /** ASTOCLExpression produces expressions that are used in OCL.
         This rule is used for parsing only.
     */
-    interface OCLExpression;
+    interface OCLExpression extends OCLComprehensionItem;
 
     /** ASTOCLIfThenElseExpr defines an if-clause in ocl style. It differs from
         Java5: if ... then ... else .... /!\ else is NOT optional.
@@ -414,7 +414,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
                    Else-expression (executed if condition is false).
     */
 
-     OCLIfThenElseExpr implements OCLExpression, OCLComprehensionItem =
+     OCLIfThenElseExpr implements OCLExpression =
         "if" condition:OCLExpression
         "then" thenExpression:OCLExpression
         "else" elseExpression:OCLExpression
@@ -433,7 +433,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute elseExpression
                    If variable has not given type else-expr will be executed.
     */
-     OCLTypeIfExpr implements OCLExpression, OCLComprehensionItem =
+     OCLTypeIfExpr implements OCLExpression =
         "typeif" unknownType:Name "instanceof" (Type | OCLNestedContainer )
         "then" thenExpression:OCLExpression
         "else" elseExpression:OCLExpression
@@ -449,7 +449,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute elseExpression
                    Else expression.
     */
-	OCLConditionalExpr implements OCLExpression, OCLComprehensionItem =
+	OCLConditionalExpr implements OCLExpression =
      	condition:OCLExpression
 		"?" thenExpression:OCLExpression
 		":" elseExpression:OCLExpression
@@ -468,7 +468,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
 
     */
 
-   OCLForallExpr implements OCLExpression, OCLComprehensionItem =
+   OCLForallExpr implements OCLExpression =
         "forall"
          OCLCollectionVarDeclaration?
          OCLNestedContainer?
@@ -492,7 +492,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
 
     */
 
-    OCLExistsExpr implements OCLExpression, OCLComprehensionItem =
+    OCLExistsExpr implements OCLExpression =
         "exists"
         OCLCollectionVarDeclaration?
          OCLNestedContainer?
@@ -509,7 +509,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute OCLExpression
                    A collection defined by an expression.
     */
-    OCLAnyExpr  implements OCLExpression, OCLComprehensionItem =
+    OCLAnyExpr  implements OCLExpression =
         "any" OCLExpression;
 
     /** ASTOCLLetinExpr are used to define local vars or methods. The defined
@@ -519,7 +519,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute OCLExpression
                    An expression where previous declarations are used.
     */
-     OCLLetinExpr implements OCLExpression, OCLComprehensionItem =
+     OCLLetinExpr implements OCLExpression =
         "let" (declarations:OCLDeclaration ";")+
         "in" OCLExpression
         |
@@ -531,7 +531,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute declarations
                    List of variable- or method-declarations.
     */
-     OCLLetDeclaration implements OCLExpression, OCLComprehensionItem =
+     OCLLetDeclaration implements OCLExpression =
         "let" (declarations:OCLDeclaration ";")+;
 
 
@@ -549,7 +549,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute accumulatorValue
                    Right hand of the accumulation as an expression.
     */
-     OCLIterateExpr implements OCLExpression, OCLComprehensionItem =
+     OCLIterateExpr implements OCLExpression =
         "iterate" "{"
         iterationDeclarator:OCLCollectionVarDeclaration ";"
         initDeclarator:OCLDeclaration ":"
@@ -565,7 +565,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of equivalence.
     */
-	OCLEquivalentExpr implements OCLExpression, OCLComprehensionItem <1> =
+	OCLEquivalentExpr implements OCLExpression <1> =
 		left:OCLExpression "<=>" right:OCLExpression
 		;
 
@@ -579,7 +579,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of AND-concatenation.
     */
-	OCLDoubleLogicalAND implements OCLExpression, OCLComprehensionItem <2> =
+	OCLDoubleLogicalAND implements OCLExpression <2> =
 		left:OCLExpression "&&" right:OCLExpression
 		;
 
@@ -592,7 +592,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    A collection.
     */
-	OCLIsin implements OCLExpression, OCLComprehensionItem <3> =
+	OCLIsin implements OCLExpression <3> =
 		left:OCLExpression ( "isin" | "in" ) right:OCLExpression
 		;
 
@@ -604,7 +604,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of implication.
     */
-    OCLImplies implements OCLExpression, OCLComprehensionItem <4> =
+    OCLImplies implements OCLExpression <4> =
     	left:OCLExpression "implies" right:OCLExpression
         ;
 
@@ -617,7 +617,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of comparison.
     */
-    OCLCompare implements OCLExpression, OCLComprehensionItem <5> =
+    OCLCompare implements OCLExpression <5> =
     	left:OCLExpression operator:["<" | "<=" | ">" | ">="] right:OCLExpression
     	;
 
@@ -629,7 +629,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of shift operation.
     */
-	OCLShiftExpr implements OCLExpression, OCLComprehensionItem <6> =
+	OCLShiftExpr implements OCLExpression <6> =
 		left:OCLExpression operator:["<<" | ">>" | ">>>"] right:OCLExpression
 		;
 
@@ -642,7 +642,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of addition or subtraction.
     */
-	OCLBinaryPlusMinusExpr implements OCLExpression, OCLComprehensionItem <6> =
+	OCLBinaryPlusMinusExpr implements OCLExpression <6> =
 		left:OCLExpression operator:["+" | "-"] right:OCLExpression
 		;
 
@@ -655,7 +655,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of multiplication, division or modulo operation.
     */
-	OCLBinaryMultDivModExpr implements OCLExpression, OCLComprehensionItem <7> =
+	OCLBinaryMultDivModExpr implements OCLExpression <7> =
 		left:OCLExpression operator:["*" | "/" | "%"] right:OCLExpression
 	    ;
 
@@ -668,7 +668,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of OR-concatenation.
     */
-	OCLDoubleLogicalORExpr implements OCLExpression, OCLComprehensionItem <8> =
+	OCLDoubleLogicalORExpr implements OCLExpression <8> =
 		left:OCLExpression "||"  right:OCLExpression
 		;
 
@@ -681,7 +681,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of OR-concatenation.
     */
-	OCLSingleLogicalORExpr implements OCLExpression, OCLComprehensionItem <9> =
+	OCLSingleLogicalORExpr implements OCLExpression <9> =
 		left:OCLExpression "|" right:OCLExpression
 		;
 
@@ -693,7 +693,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of XOR-concatenation.
     */
-	OCLLogicalXORExpr implements OCLExpression, OCLComprehensionItem <10> =
+	OCLLogicalXORExpr implements OCLExpression <10> =
 		left:OCLExpression "^" right:OCLExpression
 		;
 
@@ -706,7 +706,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of AND-concatenation.
     */
-	OCLSingleLogicalANDExpr implements OCLExpression, OCLComprehensionItem <11> =
+	OCLSingleLogicalANDExpr implements OCLExpression <11> =
 		left:OCLExpression "&" right:OCLExpression
 		;
 
@@ -720,14 +720,14 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute rightHand
                    RightHand of relation.
     */
-	OCLRelationalExpr implements OCLExpression, OCLComprehensionItem <12> =
+	OCLRelationalExpr implements OCLExpression <12> =
 		left:OCLExpression operator:["==" | "!="] right:OCLExpression
 		;
 
    	/** ASTOCLInstanceofExpr defines an instance-of-type-check, e.g. an
         instance of Integer.
     */
-   	OCLInstanceofExpr implements OCLExpression, OCLComprehensionItem <13> =
+   	OCLInstanceofExpr implements OCLExpression <13> =
    		left:OCLExpression "instanceof" right:OCLExpression
 		;
 
@@ -739,7 +739,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
         @attribute Expression
                    The expression.
     */
-    OCLPrefixExpression implements OCLExpression, OCLComprehensionItem <15> =
+    OCLPrefixExpression implements OCLExpression <15> =
     	operator:["-" | "+" | "~" | "!"] OCLExpression
     	|
     	OCLTypeCastExpression
