@@ -28,6 +28,7 @@ import de.monticore.symboltable.*;
 import de.monticore.symboltable.types.references.ActualTypeArgument;
 import de.monticore.types.TypesPrinter;
 import de.monticore.types.types._ast.*;
+import de.monticore.umlcd4a.symboltable.CDTypeSymbol;
 import de.monticore.umlcd4a.symboltable.references.CDTypeSymbolReference;
 import de.se_rwth.commons.Joiners;
 import ocl.monticoreocl.ocl._ast.*;
@@ -57,18 +58,6 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		ArtifactScope artifactScope = new ArtifactScope(Optional.empty(), compilationUnitPackage, imports);
 		putOnStack(artifactScope);
 
-		// Todo integrate CD scopes
-		/*
-		ModelPath modelPath = new ModelPath(Paths.get("src/test/resources"));
-		CD4AnalysisLanguage cd4AnalysisLanguage = new CD4AnalysisLanguage();
-		ModelingLanguageFamily modelingLanguageFamily = new ModelingLanguageFamily();
-		modelingLanguageFamily.addModelingLanguage(cd4AnalysisLanguage);
-		CD4AnalysisSymbolTableCreator cd4AnalysisSymbolTableCreator =
-				cd4AnalysisLanguage.getSymbolTableCreator(new ResolvingConfiguration(), artifactScope).get();
-		Optional<ASTCDCompilationUnit> astCDCompilationUnit =
-				cd4AnalysisLanguage.getModelLoader().loadModel("de.monticore.montiarc.symboltable.MontiArc", modelPath);
-		astCDCompilationUnit.get().accept(cd4AnalysisSymbolTableCreator);
-		*/
 	}
 
 	@Override
@@ -285,8 +274,8 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		} else if (astVariableDeclaration.typeIsPresent()) { // int myVar = ..
 			handleVarType(astVariableDeclaration);
 		} else { // myVar = ..
-			// Todo get type from expression
-			addVarDeclSymbol(astVariableDeclaration.getVarName().get(), "DefaultClass", astVariableDeclaration);
+			handleTypeNotPresent(astVariableDeclaration);
+
 		}
 	}
 
@@ -318,6 +307,12 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		// Todo: cross-check with expression?
 	}
 
+	protected void handleTypeNotPresent(ASTOCLVariableDeclaration astVariableDeclaration) {
+		ASTOCLExpression oclExpr = astVariableDeclaration.getOCLExpression().get();
+		CDTypeSymbolReference typeReference = getTypeFromExpression(oclExpr);
+		String name = astVariableDeclaration.getVarName().get();
+		addVarDeclSymbol(name, typeReference, astVariableDeclaration);
+	}
 
 	/*
 	 *  ********** Helper Methods **********
@@ -383,9 +378,14 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		return typeReference;
 	}
 
-	private CDTypeSymbolReference getReturnTypeFromExpression(ASTOCLNode node) {
-		OCLExpressionTypeInferingVisitor exprVisitor = new OCLExpressionTypeInferingVisitor(this.getFirstCreatedScope());
+	private CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node) {
+		OCLExpressionTypeInferingVisitor exprVisitor = new OCLExpressionTypeInferingVisitor(this);
 		node.accept(exprVisitor);
-		return exprVisitor.getReturnTypeReference();
+		CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
+		if (typeReference==null) {
+			Log.error("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
+			typeReference = new CDTypeSymbolReference("DefaultClass", this.getFirstCreatedScope());
+		}
+		return typeReference;
 	}
 }

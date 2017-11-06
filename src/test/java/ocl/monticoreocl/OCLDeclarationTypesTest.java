@@ -44,7 +44,6 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         return OCLCoCos.createChecker();
     }
 
-    @Ignore
     @Test
     public void testCDModelCnC() throws IOException{
         CD4AnalysisParser parser = new CD4AnalysisParser();
@@ -54,7 +53,6 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         assertTrue(root.isPresent());
     }
 
-    @Ignore
     @Test
     public void testTypesPresent() {
 
@@ -98,4 +96,35 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         assertEquals("Port", declVarSymbol6.getType().getStringRepresentation());
     }
 
+
+    @Test
+    public void testTypesNotPresent() {
+
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
+
+        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test16", OCLFileSymbol.KIND).orElse(null);
+        assertNotNull(oclFileSymbol);
+        assertEquals(3, globalScope.getSubScopes().size());
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test15").orElse(null);
+        assertNotNull(oclInvariantSymbol);
+
+        OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("numberUnit").orElse(null);
+        assertNotNull(declVarSymbol);
+        assertEquals("Amount", declVarSymbol.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol2 = oclInvariantSymbol.getOCLVariableDecl("number").orElse(null);
+        assertNotNull(declVarSymbol2);
+        assertEquals("Double", declVarSymbol2.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol3 = oclInvariantSymbol.getOCLVariableDecl("cmp2").orElse(null);
+        assertNotNull(declVarSymbol3);
+        assertEquals("Cmp", declVarSymbol3.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol4 = oclInvariantSymbol.getOCLVariableDecl("ports").orElse(null);
+        assertNotNull(declVarSymbol4);
+        assertEquals("List", declVarSymbol4.getVarTypeName());
+        assertEquals("List<Port>", declVarSymbol4.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol4.getType().getActualTypeArguments().size());
+        assertEquals("Port", declVarSymbol4.getType().getActualTypeArguments().get(0).getType().toString());
+    }
 }

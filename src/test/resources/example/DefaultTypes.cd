@@ -7,8 +7,12 @@ classdiagram DefaultTypes {
   public class List {}
   public class Set {}
   public class Collection {}
+  public class Optional {}
 
   public class Boolean {}
   public class Integer {}
+  public class Double {}
+
+  public class Amount {}
 
 }

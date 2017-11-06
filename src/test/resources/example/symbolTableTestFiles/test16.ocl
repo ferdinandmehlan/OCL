@@ -3,15 +3,15 @@ package example.symbolTableTestFiles;
 import de.monticore.montiarc.symboltable.MontiArc.*;
 import example.DefaultTypes.*;
 
-ocl test15 {
+ocl test16 {
   context Cmp cmp inv test15:
     let
-        List<Port> ports = cmp.ports;
-        List<List<Port> > ports2 = List{ports};
-        Port port1 = ports.get(0);
-        int i = 0;
+        numberUnit = 0 W;
+        number = 0.4;
+        cmp2 = cmp;
+        ports = cmp.ports;
     in
-        forall Port p2 in ports :
+        forall p2 in ports :
                 true;
 }
 
