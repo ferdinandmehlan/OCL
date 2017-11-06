@@ -1,0 +1,14 @@
+package example;
+
+classdiagram DefaultTypes {
+
+  public class DefaultClass {}
+
+  public class List {}
+  public class Set {}
+  public class Collection {}
+
+  public class Boolean {}
+  public class Integer {}
+
+}

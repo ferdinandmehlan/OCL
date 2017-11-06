@@ -1,3 +1,5 @@
+import example.DefaultTypes.*;
+
 ocl invalidParameterDeclarationName {
   context boolean Person.changeCompany(String Name)
   let 
