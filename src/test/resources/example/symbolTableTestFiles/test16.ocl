@@ -10,8 +10,10 @@ ocl test16 {
         number = 0.4;
         cmp2 = cmp;
         ports = cmp.ports;
+        ports2 = List{Port p | p in ports};
+        ports3 = List{p2 | p2 in ports};
     in
-        forall p2 in ports :
+        forall p3 in ports :
                 true;
 }
 

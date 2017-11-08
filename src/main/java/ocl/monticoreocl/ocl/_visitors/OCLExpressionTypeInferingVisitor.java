@@ -65,9 +65,10 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
     private CDTypeSymbolReference createTypeRef(String typeName, ASTNode node) {
         CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.scope);
         typeReference.setStringRepresentation(typeName);
+        /*
         if (!typeReference.existsReferencedSymbol()) {
             Log.error("The variable type does not exist: " + typeName, node.get_SourcePositionStart());
-        }
+        }*/
 
         return typeReference;
     }
@@ -125,6 +126,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         }
     }
 
+    // Recursivly trace back the concatination types
     protected CDTypeSymbolReference handleConcatNames(LinkedList<String> names, CDTypeSymbol type, ASTOCLConcatenation node) {
         CDTypeSymbolReference typeReference = createTypeRef(type.getName(), node);;
         if(names.size() > 0) {
@@ -146,6 +148,23 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         return typeReference;
     }
 
+    @Override
+    public void traverse(ASTOCLComprehensionPrimary node) {
+        String typeName = "";
+        int container = node.getContainer();
+        if(container == 20) {
+            typeName += "Set";
+        } else if(container == 12) {
+            typeName += "List";
+        } else if(container == 1 || container == 0) {
+            typeName += "Collection";
+        }
+
+        returnTypeRef = createTypeRef(typeName, node);
+
+        CDTypeSymbolReference innerType = getTypeFromExpression(node.getExpression().get());
+        addActualArgument(returnTypeRef, innerType);
+    }
 
 
     /*
@@ -163,6 +182,22 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         typeReferenceOuter.setStringRepresentation(stringRepresentation);
         typeReferenceOuter.setActualTypeArguments(actualTypeArguments);
     }
+
+    private CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node) {
+        return getTypeFromExpression(node, this.symTabCreator);
+    }
+
+    public static CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node, OCLSymbolTableCreator symTabCreator) {
+        OCLExpressionTypeInferingVisitor exprVisitor = new OCLExpressionTypeInferingVisitor(symTabCreator);
+        node.accept(exprVisitor);
+        CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
+        if (typeReference==null) {
+            Log.warn("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
+            typeReference = new CDTypeSymbolReference("DefaultClass", exprVisitor.scope);
+        }
+        return typeReference;
+    }
+
 
     // Todo push this function to cd4analysis
     private Optional<CDAssociationSymbol> getAssociation(CDTypeSymbol ref, String name) {

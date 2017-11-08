@@ -383,7 +383,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
 
     OCLInExpr = OCLInWithType | OCLInWithOutType ;
 
-    OCLInWithType = (Type | className:Name)
+    OCLInWithType = (className:Name | Type)
           			varName:Name
           			("in" expression:OCLExpression)?
           			(",")?

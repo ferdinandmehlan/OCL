@@ -60,7 +60,7 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
 
         final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test15", OCLFileSymbol.KIND).orElse(null);
         assertNotNull(oclFileSymbol);
-        assertEquals(3, globalScope.getSubScopes().size());
+        assertEquals(1, globalScope.getSubScopes().size());
         OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test15").orElse(null);
         assertNotNull(oclInvariantSymbol);
 
@@ -126,5 +126,20 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         assertEquals("List<Port>", declVarSymbol4.getType().getStringRepresentation());
         assertEquals(1, declVarSymbol4.getType().getActualTypeArguments().size());
         assertEquals("Port", declVarSymbol4.getType().getActualTypeArguments().get(0).getType().toString());
+/*
+        OCLVariableDeclarationSymbol declVarSymbol5 = oclInvariantSymbol.getOCLVariableDecl("ports2").orElse(null);
+        assertNotNull(declVarSymbol5);
+        assertEquals("List", declVarSymbol5.getVarTypeName());
+        assertEquals("List<Port>", declVarSymbol5.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol5.getType().getActualTypeArguments().size());
+        assertEquals("Port", declVarSymbol5.getType().getActualTypeArguments().get(0).getType().toString());
+
+        OCLVariableDeclarationSymbol declVarSymbol6 = oclInvariantSymbol.getOCLVariableDecl("ports3").orElse(null);
+        assertNotNull(declVarSymbol6);
+        assertEquals("List", declVarSymbol6.getVarTypeName());
+        assertEquals("List<Port>", declVarSymbol6.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol6.getType().getActualTypeArguments().size());
+        assertEquals("Port", declVarSymbol6.getType().getActualTypeArguments().get(0).getType().toString());
+        */
     }
 }

@@ -8,4 +8,7 @@ classdiagram AuctionCD {
   public class AllData {
   }
 
+  public class Company {
+  }
+
 }

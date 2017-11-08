@@ -253,11 +253,17 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		}
 	}
 
+
 	protected void handleInExpr(ASTOCLNode astNode, ASTOCLInExpr inExpr) {
 		if (inExpr.oCLInWithTypeIsPresent()) {
 			ASTOCLInWithType inWithType = inExpr.getOCLInWithType().get();
 			String name = inWithType.getVarName();
-			String typeName = TypesPrinter.printType(inWithType.getType().get());
+			String typeName ;
+			if(inWithType.classNameIsPresent()) {
+				typeName = inWithType.getClassName().get();
+			} else { //Type is present
+				typeName = TypesPrinter.printType(inWithType.getType().get());
+			}
 			addVarDeclSymbol(name, typeName, astNode);
 			// Todo: cross-check with expression?
 		} else if (inExpr.oCLInWithOutTypeIsPresent()) {
@@ -299,20 +305,20 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		String typeName = TypesPrinter.printType(astType);
 		String name = astVariableDeclaration.getVarName().get();
 
-		CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.getFirstCreatedScope());
-		typeReference.setStringRepresentation(typeName);
+		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, astVariableDeclaration);
 		typeReference.setAstNode(astType);
-		OCLVariableDeclarationSymbol varDeclSymbol = new OCLVariableDeclarationSymbol(name, typeReference);
-		addToScopeAndLinkWithNode(varDeclSymbol, astVariableDeclaration);
+		OCLVariableDeclarationSymbol varDeclSymbol = addVarDeclSymbol(name, typeReference, astVariableDeclaration);
 		// Todo: cross-check with expression?
 	}
 
 	protected void handleTypeNotPresent(ASTOCLVariableDeclaration astVariableDeclaration) {
 		ASTOCLExpression oclExpr = astVariableDeclaration.getOCLExpression().get();
-		CDTypeSymbolReference typeReference = getTypeFromExpression(oclExpr);
+		CDTypeSymbolReference typeReference = OCLExpressionTypeInferingVisitor.getTypeFromExpression(oclExpr, this);
 		String name = astVariableDeclaration.getVarName().get();
 		addVarDeclSymbol(name, typeReference, astVariableDeclaration);
 	}
+
+
 
 	/*
 	 *  ********** Helper Methods **********
@@ -372,20 +378,11 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	private CDTypeSymbolReference addTypeSymbolRef(String typeName, ASTNode node){
 		CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.getFirstCreatedScope());
 		typeReference.setStringRepresentation(typeName);
+		/*
 		if (!typeReference.existsReferencedSymbol()) {
 			Log.error("The variable type does not exist: " + typeName, node.get_SourcePositionStart());
-		}
+		}*/
 		return typeReference;
 	}
 
-	private CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node) {
-		OCLExpressionTypeInferingVisitor exprVisitor = new OCLExpressionTypeInferingVisitor(this);
-		node.accept(exprVisitor);
-		CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
-		if (typeReference==null) {
-			Log.error("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
-			typeReference = new CDTypeSymbolReference("DefaultClass", this.getFirstCreatedScope());
-		}
-		return typeReference;
-	}
 }
