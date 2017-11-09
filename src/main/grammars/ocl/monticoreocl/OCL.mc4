@@ -149,7 +149,7 @@ grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
 
 
 	OCLContextDefinition =
-		className:QualifiedName (Name ("in" expression:OCLExpression)?)? (",")?
+		(Type | className:QualifiedName)? (Name ("in" expression:OCLExpression)?)? (",")?
 		;
 
 	/** ASTOCLPreStatement represents a list of pre-statements subsumed to a

@@ -179,13 +179,21 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 	protected void setClassName(final OCLInvariantSymbol invSymbol, final ASTOCLInvariant astInvariant) {
 		if (astInvariant.oCLClassContextIsPresent()) {
-			invSymbol.setClassN(astInvariant.getOCLClassContext().get().getContextDefinitions().get(0).getClassName().toString());
+			ASTOCLContextDefinition astContext = astInvariant.getOCLClassContext().get().getContextDefinitions(0);
+			if(astContext.classNameIsPresent()) {
+				invSymbol.setClassN(astContext.getClassName().get().toString());
+			} else {
+				invSymbol.setClassN(TypesPrinter.printType(astContext.getType().get()));
+			}
 		}
 	}
 
 	protected void setClassObject(final OCLInvariantSymbol invSymbol, final ASTOCLInvariant astInvariant) {
 		if (astInvariant.oCLClassContextIsPresent()) {
-			invSymbol.setClassO(astInvariant.getOCLClassContext().get().getContextDefinitions().get(0).getName().get());
+			ASTOCLContextDefinition astContext = astInvariant.getOCLClassContext().get().getContextDefinitions(0);
+			if(astContext.nameIsPresent()) {
+				invSymbol.setClassO(astContext.getName().get().toString());
+			}
 		}
 	}
 
@@ -232,9 +240,16 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 	@Override
 	public void visit(final ASTOCLContextDefinition astContext) {
-		String name = astContext.getName().get();
-		String typeName = astContext.getClassName().toString();
-		addVarDeclSymbol(name, typeName, astContext);
+		if(astContext.nameIsPresent()) {
+			String name = astContext.getName().get();
+			if (astContext.typeIsPresent()) {
+				ASTType astType = astContext.getType().get();
+				addVarDeclSymbol(name, astType, astContext);
+			} else if (astContext.classNameIsPresent()) {
+				String typeName = astContext.getClassName().get().toString();
+				addVarDeclSymbol(name, typeName, astContext);
+			}
+		}
 	}
 
 	@Override
