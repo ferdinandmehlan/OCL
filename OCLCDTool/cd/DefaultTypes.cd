@@ -1,0 +1,23 @@
+package cd;
+
+classdiagram DefaultTypes {
+
+  public class DefaultClass {}
+  public class ClassName {}
+  public class Class {}
+  public class VariableClass {}
+
+  public class List {}
+  public class Set {}
+  public class Collection {}
+  public class Optional {}
+
+  public class Boolean {}
+  public class Integer {}
+  public class Double {}
+  public class Float {}
+  public class Character {}
+
+  public class Amount {}
+
+}

@@ -83,27 +83,6 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         return typeReference;
     }
 
-    private String mapPrimitiveType(String type) {
-        switch (type) {
-            case "int":
-                type = "Integer";
-                break;
-            case "double":
-                type = "Double";
-                break;
-            case "float":
-                type = "Float";
-                break;
-            case "char":
-                type = "Character";
-                break;
-            case "bool":
-                type = "Boolean";
-                break;
-        }
-        return type;
-    }
-
     @Override
     public void traverse(final ASTOCLVariableDeclaration node) {
         symTabCreator.visit(node);
@@ -159,7 +138,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
 
     // Recursivly trace back the concatination types
     protected CDTypeSymbolReference handleConcatNames(LinkedList<String> names, CDTypeSymbol type, ASTOCLConcatenation node) {
-        CDTypeSymbolReference typeReference = createTypeRef(type.getName(), node);;
+        CDTypeSymbolReference typeReference = createTypeRef(type.getName(), node);
         if(names.size() > 0) {
             String name = names.pop();
             CDAssociationSymbol associationSymbol = getAssociation(type, name).get();
