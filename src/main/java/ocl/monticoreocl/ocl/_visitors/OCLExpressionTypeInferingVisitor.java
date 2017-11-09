@@ -141,19 +141,22 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         CDTypeSymbolReference typeReference = createTypeRef(type.getName(), node);
         if(names.size() > 0) {
             String name = names.pop();
-            CDAssociationSymbol associationSymbol = getAssociation(type, name).get();
-            type = associationSymbol.getTargetType();
-            Cardinality cardinality = associationSymbol.getTargetCardinality();
-            if (cardinality.isMultiple()) {
-                //Todo  check if List/Set/collection
-                typeReference = createTypeRef("List", node);
-                addActualArgument(typeReference, handleConcatNames(names, type, node));
-            } else if (!cardinality.isDefault()) {
-                typeReference = createTypeRef("Optional", node);
-                addActualArgument(typeReference, handleConcatNames(names, type, node));
-            } else {
-                typeReference = handleConcatNames(names, type, node);
+            Optional<CDAssociationSymbol> associationSymbol = type.getAssociation(name);
+            if (associationSymbol.isPresent()) {
+                type = associationSymbol.get().getTargetType();
+                Cardinality cardinality = associationSymbol.get().getTargetCardinality();
+                if (cardinality.isMultiple()) {
+                    //Todo  check if List/Set/collection
+                    typeReference = createTypeRef("List", node);
+                    addActualArgument(typeReference, handleConcatNames(names, type, node));
+                } else if (!cardinality.isDefault()) {
+                    typeReference = createTypeRef("Optional", node);
+                    addActualArgument(typeReference, handleConcatNames(names, type, node));
+                } else {
+                    typeReference = handleConcatNames(names, type, node);
+                }
             }
+            //Todo try attribute
         }
         return typeReference;
     }
@@ -195,17 +198,6 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
 
     private CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node) {
         return getTypeFromExpression(node, this.symTabCreator);
-    }
-
-
-
-
-    // Todo push this function to cd4analysis
-    private Optional<CDAssociationSymbol> getAssociation(CDTypeSymbol ref, String name) {
-        // no check for reference required
-        return ref.getAssociations().stream()
-                .filter(a -> a.getName().equals(name))
-                .findFirst();
     }
 
 }
