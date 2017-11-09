@@ -301,13 +301,9 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	}
 
 	protected void handleVarType(ASTOCLVariableDeclaration astVariableDeclaration) {
-		ASTType astType = astVariableDeclaration.getType().get();
-		String typeName = TypesPrinter.printType(astType);
 		String name = astVariableDeclaration.getVarName().get();
-
-		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, astVariableDeclaration);
-		typeReference.setAstNode(astType);
-		OCLVariableDeclarationSymbol varDeclSymbol = addVarDeclSymbol(name, typeReference, astVariableDeclaration);
+		ASTType astType = astVariableDeclaration.getType().get();
+		addVarDeclSymbol(name, astType, astVariableDeclaration);
 		// Todo: cross-check with expression?
 	}
 
@@ -364,10 +360,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		}
 	}
 
-	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, String typeName, ASTNode node) {
-		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, node);
-		return addVarDeclSymbol(name, typeReference, node);
-	}
+
 
 	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, CDTypeSymbolReference typeReference, ASTNode node){
 		OCLVariableDeclarationSymbol varDeclSymbol = new OCLVariableDeclarationSymbol(name, typeReference);
@@ -375,14 +368,48 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		return varDeclSymbol;
 	}
 
-	private CDTypeSymbolReference addTypeSymbolRef(String typeName, ASTNode node){
+	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, String typeName, ASTNode node) {
+		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, node);
+		return addVarDeclSymbol(name, typeReference, node);
+	}
+
+	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, ASTType astType, ASTNode node) {
+		String typeName = TypesPrinter.printType(astType);
+		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, node);
+		typeReference.setAstNode(astType);
+		return addVarDeclSymbol(name, typeReference, node);
+	}
+
+	private CDTypeSymbolReference addTypeSymbolRef(String typeString, ASTNode node){
+		String typeName = mapPrimitiveType(typeString);
 		CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.getFirstCreatedScope());
-		typeReference.setStringRepresentation(typeName);
-		/*
+		typeReference.setStringRepresentation(typeString);
+
 		if (!typeReference.existsReferencedSymbol()) {
 			Log.error("The variable type does not exist: " + typeName, node.get_SourcePositionStart());
-		}*/
+		}
 		return typeReference;
+	}
+
+	private String mapPrimitiveType(String type) {
+		switch (type) {
+			case "int":
+				type = "Integer";
+				break;
+			case "double":
+				type = "Double";
+				break;
+			case "float":
+				type = "Float";
+				break;
+			case "char":
+				type = "Character";
+				break;
+			case "bool":
+				type = "Boolean";
+				break;
+		}
+		return type;
 	}
 
 }

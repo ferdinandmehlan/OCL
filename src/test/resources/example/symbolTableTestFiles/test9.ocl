@@ -1,3 +1,8 @@
+package example.symbolTableTestFiles;
+
+import example.CDs.AuctionCD.*;
+import example.CDs.DefaultTypes.*;
+
 ocl test9 {
    context Student st inv Voraussetzung:
     let

@@ -60,7 +60,7 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
 
         final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test15", OCLFileSymbol.KIND).orElse(null);
         assertNotNull(oclFileSymbol);
-        assertEquals(1, globalScope.getSubScopes().size());
+        assertEquals(3, globalScope.getSubScopes().size());
         OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test15").orElse(null);
         assertNotNull(oclInvariantSymbol);
 
@@ -87,7 +87,7 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
 
         OCLVariableDeclarationSymbol declVarSymbol5 = oclInvariantSymbol.getOCLVariableDecl("i").orElse(null);
         assertNotNull(declVarSymbol5);
-        assertEquals("int", declVarSymbol5.getVarTypeName());
+        assertEquals("Integer", declVarSymbol5.getVarTypeName());
         assertEquals("int", declVarSymbol5.getType().getStringRepresentation());
 
         OCLVariableDeclarationSymbol declVarSymbol6 = oclInvariantSymbol.getOCLVariableDecl("p2").orElse(null);

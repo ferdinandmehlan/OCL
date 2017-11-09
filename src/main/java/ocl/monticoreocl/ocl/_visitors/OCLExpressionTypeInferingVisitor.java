@@ -61,16 +61,47 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         return returnTypeRef;
     }
 
+    public static CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node, OCLSymbolTableCreator symTabCreator) {
+        OCLExpressionTypeInferingVisitor exprVisitor = new OCLExpressionTypeInferingVisitor(symTabCreator);
+        node.accept(exprVisitor);
+        CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
+        if (typeReference==null) {
+            Log.warn("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
+            typeReference = new CDTypeSymbolReference("DefaultClass", exprVisitor.scope);
+        }
+        return typeReference;
+    }
 
     private CDTypeSymbolReference createTypeRef(String typeName, ASTNode node) {
         CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.scope);
         typeReference.setStringRepresentation(typeName);
-        /*
+
         if (!typeReference.existsReferencedSymbol()) {
             Log.error("The variable type does not exist: " + typeName, node.get_SourcePositionStart());
-        }*/
+        }
 
         return typeReference;
+    }
+
+    private String mapPrimitiveType(String type) {
+        switch (type) {
+            case "int":
+                type = "Integer";
+                break;
+            case "double":
+                type = "Double";
+                break;
+            case "float":
+                type = "Float";
+                break;
+            case "char":
+                type = "Character";
+                break;
+            case "bool":
+                type = "Boolean";
+                break;
+        }
+        return type;
     }
 
     @Override
@@ -187,16 +218,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         return getTypeFromExpression(node, this.symTabCreator);
     }
 
-    public static CDTypeSymbolReference getTypeFromExpression(ASTOCLNode node, OCLSymbolTableCreator symTabCreator) {
-        OCLExpressionTypeInferingVisitor exprVisitor = new OCLExpressionTypeInferingVisitor(symTabCreator);
-        node.accept(exprVisitor);
-        CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
-        if (typeReference==null) {
-            Log.warn("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
-            typeReference = new CDTypeSymbolReference("DefaultClass", exprVisitor.scope);
-        }
-        return typeReference;
-    }
+
 
 
     // Todo push this function to cd4analysis

@@ -1,0 +1,31 @@
+package example.CDs;
+
+classdiagram AuctionCD {
+
+  public class Auction {
+  }
+
+  public class Message {
+  }
+
+  public class Person {
+  }
+
+  public class Student {
+  }
+
+  public class Betreuer {
+  }
+
+  public class Name {
+  }
+
+  public class AllData {
+  }
+
+  public class Company {
+  }
+
+
+
+}
