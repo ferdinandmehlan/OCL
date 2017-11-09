@@ -1,4 +1,4 @@
-import example.AuctionCD.*;
+import example.CDs.AuctionCD.*;
 
 ocl Association1 {
   context AllData _ad, Auction a inv Test :

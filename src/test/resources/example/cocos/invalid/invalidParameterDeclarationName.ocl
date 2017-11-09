@@ -1,5 +1,5 @@
-import example.DefaultTypes.*;
-import example.AuctionCD.*;
+import example.CDs.DefaultTypes.*;
+import example.CDs.AuctionCD.*;
 
 ocl invalidParameterDeclarationName {
   context boolean Person.changeCompany(String Name)

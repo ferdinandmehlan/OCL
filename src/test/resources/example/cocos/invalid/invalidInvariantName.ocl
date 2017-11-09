@@ -1,4 +1,4 @@
-import example.AuctionCD.*;
+import example.CDs.AuctionCD.*;
 
 ocl invalidInvariantName {
   context AllData _ad, Auction a inv nameInv :

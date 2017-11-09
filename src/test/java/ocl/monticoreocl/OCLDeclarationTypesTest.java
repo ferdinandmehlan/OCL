@@ -47,7 +47,7 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
     @Test
     public void testCDModelCnC() throws IOException{
         CD4AnalysisParser parser = new CD4AnalysisParser();
-        Path model = Paths.get("src/test/resources/de/monticore/montiarc/symboltable/MontiArc.cd");
+        Path model = Paths.get("src/test/resources/example/CDs/MontiArc.cd");
         Optional<ASTCDCompilationUnit> root = parser.parseCDCompilationUnit(model.toString());
         assertFalse(parser.hasErrors());
         assertTrue(root.isPresent());

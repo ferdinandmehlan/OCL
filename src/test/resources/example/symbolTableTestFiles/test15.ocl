@@ -1,7 +1,7 @@
 package example.symbolTableTestFiles;
 
-import de.monticore.montiarc.symboltable.MontiArc.*;
-import example.DefaultTypes.*;
+import example.CDs.MontiArc.*;
+import example.CDs.DefaultTypes.*;
 
 ocl test15 {
   context Cmp cmp inv test15:
