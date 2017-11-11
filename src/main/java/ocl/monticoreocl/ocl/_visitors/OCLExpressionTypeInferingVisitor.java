@@ -118,10 +118,10 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         if(nameDecl.isPresent()) {
             names.pop();
             CDTypeSymbolReference typeRef = nameDecl.get().getType();
-            returnTypeRef = handleConcatNames(names, typeRef, node);
+            returnTypeRef = handleNames(names, typeRef, node);
         } else if (thisDecl.isPresent()) {
             CDTypeSymbolReference typeRef = thisDecl.get().getType();
-            returnTypeRef = handleConcatNames(names, typeRef, node);
+            returnTypeRef = handleNames(names, typeRef, node);
         } else {
             Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
         }
@@ -129,6 +129,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
 
     @Override
     public void traverse(ASTOCLQualifiedPrimary node) {
+        CDTypeSymbolReference typeRef = null;
         Optional<OCLVariableDeclarationSymbol> varDecl = Optional.empty();
         LinkedList<String> names = new LinkedList<String>(node.getQualifications());
 
@@ -147,14 +148,19 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         }
 
         if(varDecl.isPresent()){
-            CDTypeSymbolReference typeRef = varDecl.get().getType();
-            returnTypeRef = handleQualificationNames(names, typeRef, node);
+            CDTypeSymbolReference nameTypeRef = varDecl.get().getType();
+            typeRef = handleNames(names, nameTypeRef, node);
             // Todo check method argument (postfixQualification)
         } else {
             Log.error("Could not resolve name, this or super!!", node.get_SourcePositionStart());
         }
-    }
 
+        if(node.oCLQualifiedPrimaryIsPresent()) {
+            typeRef = handleAdditionalQualifiedPrimaries(node.getOCLQualifiedPrimary().get(), typeRef);
+        }
+
+        returnTypeRef = typeRef;
+    }
 
 
     /*
@@ -227,7 +233,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
     }
 
     // Recursivly trace back the concatenation types
-    protected CDTypeSymbolReference handleConcatNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTOCLConcatenation node) {
+    private CDTypeSymbolReference handleNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTNode node) {
         CDTypeSymbolReference newType = previousType;
         if (names.size() > 0) {
             String name = names.pop();
@@ -247,7 +253,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
                 Log.error("Could not resolve name: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
             }
 
-            newType = handleConcatNames(names,newType, node);
+            newType = handleNames(names,newType, node);
         }
         return newType;
     }
@@ -274,35 +280,14 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         return newType;
     }
 
-    // Recursivly trace back the qualification types
-    protected CDTypeSymbolReference handleQualificationNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTOCLQualifiedPrimary node) {
-        CDTypeSymbolReference newType = previousType;
-        if (names.size() > 1) {
-            String name = names.pop();
-            Scope elementsScope = previousType.getAllKindElements();
 
-            Optional<CDFieldSymbol> fieldSymbol = elementsScope.<CDFieldSymbol>resolve(name, CDFieldSymbol.KIND);
-            Optional<CDAssociationSymbol> associationSymbol = elementsScope.<CDAssociationSymbol>resolve(name, CDAssociationSymbol.KIND);
-            Optional<CDMethodSymbol> methodSymbol = elementsScope.<CDMethodSymbol>resolve(name, CDMethodSymbol.KIND);
+    private CDTypeSymbolReference handleAdditionalQualifiedPrimaries(ASTOCLQualifiedPrimary node, CDTypeSymbolReference previousType) {
+        Optional<OCLVariableDeclarationSymbol> varDecl = Optional.empty();
+        LinkedList<String> names = new LinkedList<String>(node.getQualifications());
+        names.push(node.getPrefixIdentifier().get());
 
-            if(fieldSymbol.isPresent()) { // Try name as field
-                newType = createTypeRef(fieldSymbol.get().getType().getName(), node);
-            } else if (associationSymbol.isPresent()) { // Try name as association
-                newType = handleAssociationSymbol(node, associationSymbol);
-            } else if (methodSymbol.isPresent()) { // Try name as method
-                newType = createTypeRef(methodSymbol.get().getReturnType().getName(), node);
-            } else {
-                Log.error("Could not resolve name: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
-            }
-            newType = handleQualificationNames(names,newType, node);
-        } else if (names.size() == 1) {
-            String name = names.pop();
-            Scope elementsScope = previousType.getAllKindElements();
-            Optional<CDMethodSymbol> methodSymbol = elementsScope.<CDMethodSymbol>resolve(name, CDMethodSymbol.KIND);
-            if (methodSymbol.isPresent()) { // Try name as method
-                newType = createTypeRef(methodSymbol.get().getReturnType().getName(), node);
-            }
-        }
-        return newType;
+        return handleNames(names, previousType, node);
     }
+
+
 }

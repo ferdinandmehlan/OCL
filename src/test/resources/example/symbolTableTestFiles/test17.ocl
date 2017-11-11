@@ -8,7 +8,7 @@ ocl test17 {
     let
         s = ports.size;
         p = ports;
-        b = this.ports.containsAll(p);
+        b = this.ports.asList.containsAll(p);
         b2 = ports.containsAll(p);
     in
         s > 0;

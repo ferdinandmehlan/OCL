@@ -12,6 +12,7 @@ classdiagram DefaultTypes {
     boolean contains(Collection c);
     int size();
     boolean isEmpty();
+    List asList();
   }
   public class List extends Collection {}
   public class Set extends Collection {}
