@@ -8,8 +8,10 @@ classdiagram DefaultTypes {
   public class VariableClass {}
 
   public class Collection {
-    int size;
-    boolean isEmpty;
+    boolean containsAll(Collection c);
+    boolean contains(Collection c);
+    int size();
+    boolean isEmpty();
   }
   public class List extends Collection {}
   public class Set extends Collection {}

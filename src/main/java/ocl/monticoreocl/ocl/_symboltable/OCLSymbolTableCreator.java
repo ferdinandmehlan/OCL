@@ -248,7 +248,11 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 				addVarDeclSymbol("this", astType, astContext);
 			} else if (astContext.classNameIsPresent()) {
 				String typeName = astContext.getClassName().get().toString();
-				addVarDeclSymbol("this", typeName, astContext);
+				OCLVariableDeclarationSymbol varDecl = addVarDeclSymbol("this", typeName, astContext);
+				Optional<CDTypeSymbolReference> superTypeRef = varDecl.getType().getSuperClass();
+				if(superTypeRef.isPresent()) {
+					addVarDeclSymbol("super", superTypeRef.get(), astContext);
+				}
 			}
 		}
 	}

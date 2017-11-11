@@ -20,11 +20,13 @@
 package ocl.monticoreocl.ocl._visitors;
 
 import de.monticore.ast.ASTNode;
+import de.monticore.mcexpressions._ast.ASTExpression;
 import de.monticore.symboltable.Scope;
 import de.monticore.symboltable.types.references.ActualTypeArgument;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCardinality;
 import de.monticore.umlcd4a.symboltable.*;
 import de.monticore.umlcd4a.symboltable.references.CDTypeSymbolReference;
+import de.monticore.utils.Link;
 import de.se_rwth.commons.logging.Log;
 import ocl.monticoreocl.ocl._ast.*;
 import ocl.monticoreocl.ocl._symboltable.OCLSymbolTableCreator;
@@ -62,7 +64,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         node.accept(exprVisitor);
         CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
         if (typeReference==null) {
-            Log.warn("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
+            Log.error("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
             typeReference = new CDTypeSymbolReference("DefaultClass", exprVisitor.scope);
         }
         return typeReference;
@@ -107,7 +109,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
 
     @Override
     public void traverse(ASTOCLConcatenation node) {
-        LinkedList<String> names = new LinkedList(node.getNames());
+        LinkedList<String> names = new LinkedList<String>(node.getNames());
         String firstName = node.getNames().get(0);
 
         // Try and look if name or this was declared as variable
@@ -125,53 +127,35 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         }
     }
 
-    // Recursivly trace back the concatenation types
-    protected CDTypeSymbolReference handleConcatNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTOCLConcatenation node) {
-        CDTypeSymbolReference newType = previousType;
-        if (names.size() > 0) {
-            String name = names.pop();
-            Scope elementsScope = previousType.getAllKindElements();
+    @Override
+    public void traverse(ASTOCLQualifiedPrimary node) {
+        Optional<OCLVariableDeclarationSymbol> varDecl = Optional.empty();
+        LinkedList<String> names = new LinkedList<String>(node.getQualifications());
 
-            Optional<CDFieldSymbol> fieldSymbol = elementsScope.<CDFieldSymbol>resolve(name, CDFieldSymbol.KIND);
-            Optional<CDAssociationSymbol> associationSymbol = elementsScope.<CDAssociationSymbol>resolve(name, CDAssociationSymbol.KIND);
-            Optional<CDMethodSymbol> methodSymbol = elementsScope.<CDMethodSymbol>resolve(name, CDMethodSymbol.KIND);
-
-            if(fieldSymbol.isPresent()) { // Try name as field
-                newType = createTypeRef(fieldSymbol.get().getType().getName(), node);
-            } else if (associationSymbol.isPresent()) { // Try name as association
-                newType = handleAssociationSymbol(node, associationSymbol);
-            } else if (methodSymbol.isPresent()) { // Try name as method
-                Log.error("Method symbols not supported yet");
-            } else {
-                Log.error("Could not resolve name: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
+        if(node.prefixIdentifierIsPresent()) {
+            varDecl = scope.resolve(node.getPrefixIdentifier().get(), OCLVariableDeclarationSymbol.KIND);
+            if(!varDecl.isPresent()) {
+                varDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
+                names.push(node.getPrefixIdentifier().get());
             }
-
-            newType = handleConcatNames(names,newType, node);
+        } else if (node.isThis()) {
+            varDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
+        } else if (node.isSuper()) {
+            varDecl = scope.resolve("super", OCLVariableDeclarationSymbol.KIND);
+        } else if (node.isRes()) {
+            Log.error("Cannot infer type from result!", node.get_SourcePositionStart());
         }
-        return newType;
-    }
 
-    private CDTypeSymbolReference handleAssociationSymbol(ASTOCLConcatenation node, Optional<CDAssociationSymbol> associationSymbol) {
-        CDTypeSymbolReference newType;
-        CDTypeSymbolReference targetType = (CDTypeSymbolReference) associationSymbol.get().getTargetType();
-        Cardinality cardinality = associationSymbol.get().getTargetCardinality();
-        List<Stereotype> stereotypes = associationSymbol.get().getStereotypes();
-
-        if (cardinality.isMultiple()) {
-            if(stereotypes.stream().filter(s -> s.getName().equals("ordered")).count() > 0) {
-                newType = createTypeRef("List", node);
-            } else {
-                newType = createTypeRef("Set", node);
-            }
-            addActualArgument(newType, targetType);
-        } else if (!cardinality.isDefault()) {
-            newType = createTypeRef("Optional", node);
-            addActualArgument(newType, targetType);
+        if(varDecl.isPresent()){
+            CDTypeSymbolReference typeRef = varDecl.get().getType();
+            returnTypeRef = handleQualificationNames(names, typeRef, node);
+            // Todo check method argument (postfixQualification)
         } else {
-            newType = targetType;
+            Log.error("Could not resolve name, this or super!!", node.get_SourcePositionStart());
         }
-        return newType;
     }
+
+
 
     /*
     @Override
@@ -240,5 +224,85 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
                 break;
         }
         return type;
+    }
+
+    // Recursivly trace back the concatenation types
+    protected CDTypeSymbolReference handleConcatNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTOCLConcatenation node) {
+        CDTypeSymbolReference newType = previousType;
+        if (names.size() > 0) {
+            String name = names.pop();
+            Scope elementsScope = previousType.getAllKindElements();
+
+            Optional<CDFieldSymbol> fieldSymbol = elementsScope.<CDFieldSymbol>resolve(name, CDFieldSymbol.KIND);
+            Optional<CDAssociationSymbol> associationSymbol = elementsScope.<CDAssociationSymbol>resolve(name, CDAssociationSymbol.KIND);
+            Optional<CDMethodSymbol> methodSymbol = elementsScope.<CDMethodSymbol>resolve(name, CDMethodSymbol.KIND);
+
+            if(fieldSymbol.isPresent()) { // Try name as field
+                newType = createTypeRef(fieldSymbol.get().getType().getName(), node);
+            } else if (associationSymbol.isPresent()) { // Try name as association
+                newType = handleAssociationSymbol(node, associationSymbol);
+            } else if (methodSymbol.isPresent()) { // Try name as method
+                newType = createTypeRef(methodSymbol.get().getReturnType().getName(), node);
+            } else {
+                Log.error("Could not resolve name: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
+            }
+
+            newType = handleConcatNames(names,newType, node);
+        }
+        return newType;
+    }
+
+    private CDTypeSymbolReference handleAssociationSymbol(ASTNode node, Optional<CDAssociationSymbol> associationSymbol) {
+        CDTypeSymbolReference newType;
+        CDTypeSymbolReference targetType = (CDTypeSymbolReference) associationSymbol.get().getTargetType();
+        Cardinality cardinality = associationSymbol.get().getTargetCardinality();
+        List<Stereotype> stereotypes = associationSymbol.get().getStereotypes();
+
+        if (cardinality.isMultiple()) {
+            if(stereotypes.stream().filter(s -> s.getName().equals("ordered")).count() > 0) {
+                newType = createTypeRef("List", node);
+            } else {
+                newType = createTypeRef("Set", node);
+            }
+            addActualArgument(newType, targetType);
+        } else if (!cardinality.isDefault()) {
+            newType = createTypeRef("Optional", node);
+            addActualArgument(newType, targetType);
+        } else {
+            newType = targetType;
+        }
+        return newType;
+    }
+
+    // Recursivly trace back the qualification types
+    protected CDTypeSymbolReference handleQualificationNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTOCLQualifiedPrimary node) {
+        CDTypeSymbolReference newType = previousType;
+        if (names.size() > 1) {
+            String name = names.pop();
+            Scope elementsScope = previousType.getAllKindElements();
+
+            Optional<CDFieldSymbol> fieldSymbol = elementsScope.<CDFieldSymbol>resolve(name, CDFieldSymbol.KIND);
+            Optional<CDAssociationSymbol> associationSymbol = elementsScope.<CDAssociationSymbol>resolve(name, CDAssociationSymbol.KIND);
+            Optional<CDMethodSymbol> methodSymbol = elementsScope.<CDMethodSymbol>resolve(name, CDMethodSymbol.KIND);
+
+            if(fieldSymbol.isPresent()) { // Try name as field
+                newType = createTypeRef(fieldSymbol.get().getType().getName(), node);
+            } else if (associationSymbol.isPresent()) { // Try name as association
+                newType = handleAssociationSymbol(node, associationSymbol);
+            } else if (methodSymbol.isPresent()) { // Try name as method
+                newType = createTypeRef(methodSymbol.get().getReturnType().getName(), node);
+            } else {
+                Log.error("Could not resolve name: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
+            }
+            newType = handleQualificationNames(names,newType, node);
+        } else if (names.size() == 1) {
+            String name = names.pop();
+            Scope elementsScope = previousType.getAllKindElements();
+            Optional<CDMethodSymbol> methodSymbol = elementsScope.<CDMethodSymbol>resolve(name, CDMethodSymbol.KIND);
+            if (methodSymbol.isPresent()) { // Try name as method
+                newType = createTypeRef(methodSymbol.get().getReturnType().getName(), node);
+            }
+        }
+        return newType;
     }
 }
