@@ -4,7 +4,7 @@ import example.CDs.MontiArc.*;
 import example.CDs.DefaultTypes.*;
 
 ocl test16 {
-  context Cmp cmp inv test15:
+  context Cmp cmp inv test16:
     let
         numberUnit = 0 W;
         number = 0.4;

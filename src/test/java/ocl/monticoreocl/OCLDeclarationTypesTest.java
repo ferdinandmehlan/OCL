@@ -23,6 +23,7 @@ package ocl.monticoreocl;
 import de.monticore.symboltable.*;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDCompilationUnit;
 import de.monticore.umlcd4a.cd4analysis._parser.CD4AnalysisParser;
+import de.monticore.umlcd4a.symboltable.*;
 import ocl.monticoreocl.ocl._cocos.OCLCoCoChecker;
 import ocl.monticoreocl.ocl._cocos.OCLCoCos;
 import ocl.monticoreocl.ocl._symboltable.*;
@@ -105,7 +106,7 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test16", OCLFileSymbol.KIND).orElse(null);
         assertNotNull(oclFileSymbol);
         assertEquals(3, globalScope.getSubScopes().size());
-        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test15").orElse(null);
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test16").orElse(null);
         assertNotNull(oclInvariantSymbol);
 
         OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("numberUnit").orElse(null);
@@ -141,5 +142,45 @@ public class OCLDeclarationTypesTest extends AbstractOCLTest {
         assertEquals(1, declVarSymbol6.getType().getActualTypeArguments().size());
         assertEquals("Port", declVarSymbol6.getType().getActualTypeArguments().get(0).getType().toString());
         */
+    }
+
+    @Test
+    public void testTypesNotPresent2() {
+
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
+
+        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test17", OCLFileSymbol.KIND).orElse(null);
+        assertNotNull(oclFileSymbol);
+        assertEquals(3, globalScope.getSubScopes().size());
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test17").orElse(null);
+        assertNotNull(oclInvariantSymbol);
+
+        OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("s").orElse(null);
+        assertNotNull(declVarSymbol);
+        assertEquals("Integer", declVarSymbol.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol2 = oclInvariantSymbol.getOCLVariableDecl("p").orElse(null);
+        assertNotNull(declVarSymbol2);
+        assertEquals("List", declVarSymbol2.getVarTypeName());
+        assertEquals("List<Port>", declVarSymbol2.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol2.getType().getActualTypeArguments().size());
+        assertEquals("Port", declVarSymbol2.getType().getActualTypeArguments().get(0).getType().toString());
+    }
+
+    @Test
+    public void newTest() {
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
+
+        CDTypeSymbol s = globalScope.<CDTypeSymbol>resolve("example.ArtifactModel.Event", CDTypeSymbol.KIND).orElse(null);
+        assertNotNull(s);
+
+        Scope s2 = s.getAllKindElements();
+        CDAssociationSymbol sym = s2.<CDAssociationSymbol>resolve("subaction", CDAssociationSymbol.KIND).orElse(null);
+        assertNotNull(sym);
+        CDAssociationSymbol sym2 = s2.<CDAssociationSymbol>resolve("sub", CDAssociationSymbol.KIND).get();
+        assertNotNull(sym2);
+
+
+
     }
 }

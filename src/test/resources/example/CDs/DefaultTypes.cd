@@ -7,9 +7,13 @@ classdiagram DefaultTypes {
   public class Class {}
   public class VariableClass {}
 
-  public class List {}
-  public class Set {}
-  public class Collection {}
+  public class Collection {
+    int size;
+    boolean isEmpty;
+  }
+  public class List extends Collection {}
+  public class Set extends Collection {}
+
   public class Optional {}
 
   public class Boolean {}
@@ -17,6 +21,7 @@ classdiagram DefaultTypes {
   public class Double {}
   public class Float {}
   public class Character {}
+  public class String {}
 
   public class Amount {}
 

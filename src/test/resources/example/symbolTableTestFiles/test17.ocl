@@ -1,0 +1,16 @@
+package example.symbolTableTestFiles;
+
+import example.CDs.MontiArc.*;
+import example.CDs.DefaultTypes.*;
+
+ocl test17 {
+  context Cmp inv test17:
+    let
+        s = ports.size;
+        p = ports;
+        b = ports;
+    in
+        s > 0;
+}
+
+
