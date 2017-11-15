@@ -8,7 +8,6 @@ ocl exampleWithTypes {
     let
         List<Port> ports = cmp.ports;
         List<List<Port> > ports2 = List{ports};
-        Port port1 = ports.get(0);
         int i = 0;
     in
         forall Port p2 in ports :
