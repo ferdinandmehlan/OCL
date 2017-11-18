@@ -4,9 +4,9 @@ import example.CDs.AuctionCD.*;
 ocl validParameterDeclarationName {
   context boolean Person.changeCompany(String name)
   let 
-    oldCo = company;
-    newCos = {co in Company | co.name == name};
-    newCo = any newCos;
+    Company oldCo = company;
+    Collection<Company> newCos = {co in Company | co.name == name};
+    Company newCo = any newCos;
   pre Test: oldCo.name != name && newCos.size == 1;
   post Test: newCo.employees == newCo.employees@pre + 1 && oldCo.employees == oldCo.employees@pre - 1;
 }

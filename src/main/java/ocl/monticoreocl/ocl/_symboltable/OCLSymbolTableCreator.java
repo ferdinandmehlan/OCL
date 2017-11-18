@@ -29,12 +29,14 @@ import de.monticore.symboltable.types.references.ActualTypeArgument;
 import de.monticore.types.TypesPrinter;
 import de.monticore.types.types._ast.*;
 import de.monticore.umlcd4a.symboltable.CDTypeSymbol;
+import de.monticore.umlcd4a.symboltable.CDTypes;
 import de.monticore.umlcd4a.symboltable.references.CDTypeSymbolReference;
 import de.se_rwth.commons.Joiners;
 import ocl.monticoreocl.ocl._ast.*;
 import de.se_rwth.commons.Names;
 import de.se_rwth.commons.logging.Log;
 import ocl.monticoreocl.ocl._visitors.OCLExpressionTypeInferingVisitor;
+import ocl.monticoreocl.ocl._visitors.OCLTypeCheckingVisitor;
 
 public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
@@ -191,14 +193,15 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	protected void setClassObject(final OCLInvariantSymbol invSymbol, final ASTOCLInvariant astInvariant) {
 		if (astInvariant.oCLClassContextIsPresent()) {
 			ASTOCLContextDefinition astContext = astInvariant.getOCLClassContext().get().getContextDefinitions(0);
-			if(astContext.nameIsPresent()) {
-				invSymbol.setClassO(astContext.getName().get().toString());
+			if(!astContext.getVarNames().isEmpty()) {
+				invSymbol.setClassO(astContext.getVarNames().get(0));
 			}
 		}
 	}
 
 	@Override
 	public void endVisit(final ASTOCLInvariant astInvariant) {
+		OCLTypeCheckingVisitor.checkInvariants(astInvariant, currentScope().get());
 		removeCurrentScope();
 	}
 
@@ -241,7 +244,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	@Override
 	public void visit(final ASTOCLClassContext astClassContext) {
 		if (astClassContext.getContextDefinitions().size() == 1 &&
-				!astClassContext.getContextDefinitions(0).nameIsPresent()) {
+				astClassContext.getContextDefinitions(0).getVarNames().isEmpty()) {
 			ASTOCLContextDefinition astContext = astClassContext.getContextDefinitions(0);
 			if (astContext.typeIsPresent()) {
 				ASTType astType = astContext.getType().get();
@@ -259,14 +262,13 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 	@Override
 	public void visit(final ASTOCLContextDefinition astContext) {
-		if(astContext.nameIsPresent()) {
-			String name = astContext.getName().get();
+		if(!astContext.getVarNames().isEmpty()) {
 			if (astContext.typeIsPresent()) {
 				ASTType astType = astContext.getType().get();
-				addVarDeclSymbol(name, astType, astContext);
+				astContext.getVarNames().forEach(name -> addVarDeclSymbol(name, astType, astContext));
 			} else if (astContext.classNameIsPresent()) {
 				String typeName = astContext.getClassName().get().toString();
-				addVarDeclSymbol(name, typeName, astContext);
+				astContext.getVarNames().forEach(name -> addVarDeclSymbol(name, typeName, astContext));
 			}
 		}
 	}
@@ -347,8 +349,6 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		addVarDeclSymbol(name, typeReference, astVariableDeclaration);
 	}
 
-
-
 	/*
 	 *  ********** Helper Methods **********
 	 */
@@ -358,7 +358,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		CDTypeSymbolReference typeReference;
 
 		if (containerOrName.nameIsPresent()) {
-			typeReference = addTypeSymbolRef(containerOrName.getName().get(), astoclNestedContainer);
+			typeReference = createTypeRef(containerOrName.getName().get(), astoclNestedContainer);
 		} else {
 			int container = containerOrName.getContainer();
 			String typeName;
@@ -369,7 +369,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 			} else {    //if(container == 1) {
 				typeName = "Collection";
 			}
-			typeReference = addTypeSymbolRef(typeName, astoclNestedContainer);
+			typeReference = createTypeRef(typeName, astoclNestedContainer);
 			addActualArguments(typeReference, astoclNestedContainer);
 		}
 
@@ -395,31 +395,38 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 
 
+
 	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, CDTypeSymbolReference typeReference, ASTNode node){
-		OCLVariableDeclarationSymbol varDeclSymbol = new OCLVariableDeclarationSymbol(name, typeReference);
-		addToScopeAndLinkWithNode(varDeclSymbol, node);
-		return varDeclSymbol;
+		// Check if an Variable with name already exists
+		Optional<OCLVariableDeclarationSymbol> previousVarDecl = currentScope().get().resolve(name, OCLVariableDeclarationSymbol.KIND);
+		if(previousVarDecl.isPresent())
+			currentScope().get().remove(previousVarDecl.get());
+		// Then overwrite
+		OCLVariableDeclarationSymbol newVarDecl = new OCLVariableDeclarationSymbol(name, typeReference);
+		addToScopeAndLinkWithNode(newVarDecl, node);
+		return newVarDecl;
 	}
 
 	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, String typeName, ASTNode node) {
-		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, node);
+		CDTypeSymbolReference typeReference = createTypeRef(typeName, node);
 		return addVarDeclSymbol(name, typeReference, node);
 	}
 
 	private OCLVariableDeclarationSymbol addVarDeclSymbol(String name, ASTType astType, ASTNode node) {
 		String typeName = TypesPrinter.printType(astType);
-		CDTypeSymbolReference typeReference = addTypeSymbolRef(typeName, node);
+		CDTypeSymbolReference typeReference = createTypeRef(typeName, node);
 		typeReference.setAstNode(astType);
 		return addVarDeclSymbol(name, typeReference, node);
 	}
 
-	private CDTypeSymbolReference addTypeSymbolRef(String typeString, ASTNode node){
-		String typeName = OCLExpressionTypeInferingVisitor.mapPrimitiveType(typeString);
+	private CDTypeSymbolReference createTypeRef(String typeName, ASTNode node) {
+		// map int to Integer , etc.
+		typeName = CDTypes.primitiveToWrapper(typeName);
 		CDTypeSymbolReference typeReference = new CDTypeSymbolReference(typeName, this.getFirstCreatedScope());
-		typeReference.setStringRepresentation(typeString);
-
+		typeReference.setStringRepresentation(typeName);
+		// Check if type was found in CD loaded CD models
 		if (!typeReference.existsReferencedSymbol()) {
-			Log.error("The variable type does not exist: " + typeName, node.get_SourcePositionStart());
+			Log.error("This type could not be found: " + typeName, node.get_SourcePositionStart());
 		}
 		return typeReference;
 	}

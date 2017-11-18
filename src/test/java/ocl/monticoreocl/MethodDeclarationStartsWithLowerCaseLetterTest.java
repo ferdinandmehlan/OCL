@@ -30,6 +30,7 @@ import ocl.monticoreocl.ocl._cocos.OCLCoCos;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.se_rwth.commons.SourcePosition;
@@ -53,6 +54,7 @@ public class MethodDeclarationStartsWithLowerCaseLetterTest extends AbstractOCLT
 	    Log.getFindings().clear();
 	  }
 
+	  @Ignore
 	  @Test
 	  public void testInvalidMethodDeclarationName() {
 	    String modelName = "example.cocos.invalid.invalidMethodDeclarationName";
@@ -65,7 +67,8 @@ public class MethodDeclarationStartsWithLowerCaseLetterTest extends AbstractOCLT
 	        );
 		  testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	  }
-	  
+
+	  @Ignore
 	  @Test
 	  public void testValidMethodDeclarationName() {
 		  

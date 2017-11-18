@@ -21,6 +21,7 @@ package ocl.monticoreocl;
 
 
 import ocl.monticoreocl.ocl.OCLCDTool;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -30,10 +31,10 @@ public class OCLCDToolTest {
     @Test
     public void testTool() {
         String parentpath = "D:\\6.Docs\\Git\\EmbeddedMontiArcProject\\OCL\\src\\test\\resources";
-        String oclModel = "example.symbolTableTestFiles.test16";
+        String oclModel = "example.typeInferringModels.qualifiedPrimaries";
         //String oclModel = "example.OCLArtifactModel";
         String[] args = new String[]{parentpath, oclModel};
         OCLCDTool.main(args);
-
     }
+
 }

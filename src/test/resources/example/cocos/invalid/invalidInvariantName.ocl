@@ -1,4 +1,5 @@
 import example.CDs.AuctionCD.*;
+import example.CDs.DefaultTypes.*;
 
 ocl invalidInvariantName {
   context AllData _ad, Auction a inv nameInv :
