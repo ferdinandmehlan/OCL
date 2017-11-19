@@ -1,0 +1,8 @@
+package example.typeInferringModels;
+
+import example.CDs.AuctionCD.*;
+import example.CDs.DefaultTypes.*;
+
+ocl CDToolFile {
+
+ }

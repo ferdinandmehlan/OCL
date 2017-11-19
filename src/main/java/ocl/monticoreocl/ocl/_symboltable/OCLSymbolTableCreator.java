@@ -237,7 +237,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 
 
-	/*
+	/**
 	 *  ********** VariableDeclarationSymbols **********
 	 */
 
@@ -274,23 +274,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	}
 
 	@Override
-	public void visit(final ASTOCLExistsExpr astoclExistsExpr) {
-		if (astoclExistsExpr.oCLCollectionVarDeclarationIsPresent()) {
-			ASTOCLInExpr inExpr = astoclExistsExpr.getOCLCollectionVarDeclaration().get().getOCLInExpr().get();
-			handleInExpr(astoclExistsExpr, inExpr);
-		}
-	}
-
-	@Override
-	public void visit(final ASTOCLForallExpr astForAllExpr) {
-		if (astForAllExpr.oCLCollectionVarDeclarationIsPresent()) {
-			ASTOCLInExpr inExpr = astForAllExpr.getOCLCollectionVarDeclaration().get().getOCLInExpr().get();
-			handleInExpr(astForAllExpr, inExpr);
-		}
-	}
-
-
-	protected void handleInExpr(ASTOCLNode astNode, ASTOCLInExpr inExpr) {
+	public void endVisit(final ASTOCLInExpr inExpr) {
 		if (inExpr.oCLInWithTypeIsPresent()) {
 			ASTOCLInWithType inWithType = inExpr.getOCLInWithType().get();
 			String name = inWithType.getVarName();
@@ -300,10 +284,12 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 			} else { //Type is present
 				typeName = TypesPrinter.printType(inWithType.getType().get());
 			}
-			addVarDeclSymbol(name, typeName, astNode);
-			// Todo: cross-check with expression?
+			addVarDeclSymbol(name, typeName, inExpr);
 		} else if (inExpr.oCLInWithOutTypeIsPresent()) {
-			// Todo get type from expression
+			ASTOCLInWithOutType inWithOutType = inExpr.getOCLInWithOutType().get();
+			String name = inWithOutType.getName();
+			CDTypeSymbolReference type = OCLExpressionTypeInferingVisitor.getTypeFromExpression(inExpr, currentScope().get());
+			addVarDeclSymbol(name, type, inExpr);
 		}
 	}
 
@@ -349,7 +335,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 		addVarDeclSymbol(name, typeReference, astVariableDeclaration);
 	}
 
-	/*
+	/**
 	 *  ********** Helper Methods **********
 	 */
 

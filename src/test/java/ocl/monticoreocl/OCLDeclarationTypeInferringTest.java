@@ -239,11 +239,58 @@ public class OCLDeclarationTypeInferringTest extends AbstractOCLTest {
         assertEquals("Boolean", declVarSymbol3.getVarTypeName());
     }
 
-    @Ignore
     @Test
-    public void comprehensionsTest() {}
+    public void comprehensionsTest() {
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
 
-    @Ignore
+        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.typeInferringModels.comprehensions", OCLFileSymbol.KIND).orElse(null);
+        assertNotNull(oclFileSymbol);
+        assertEquals(3, globalScope.getSubScopes().size());
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test").orElse(null);
+        assertNotNull(oclInvariantSymbol);
+
+        OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("comp").orElse(null);
+        assertNotNull(declVarSymbol);
+        assertEquals("List", declVarSymbol.getVarTypeName());
+        assertEquals("List<String>", declVarSymbol.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol.getType().getActualTypeArguments().size());
+        assertEquals("String", declVarSymbol.getType().getActualTypeArguments().get(0).getType().toString());
+
+        OCLVariableDeclarationSymbol declVarSymbol2 = oclInvariantSymbol.getOCLVariableDecl("comp2").orElse(null);
+        assertNotNull(declVarSymbol2);
+        assertEquals("Set", declVarSymbol2.getVarTypeName());
+        assertEquals("Set<Integer>", declVarSymbol2.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol2.getType().getActualTypeArguments().size());
+        assertEquals("Integer", declVarSymbol2.getType().getActualTypeArguments().get(0).getType().toString());
+
+        OCLVariableDeclarationSymbol declVarSymbol3 = oclInvariantSymbol.getOCLVariableDecl("comp3").orElse(null);
+        assertNotNull(declVarSymbol3);
+        assertEquals("Collection", declVarSymbol3.getVarTypeName());
+        assertEquals("Collection<Person>", declVarSymbol3.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol3.getType().getActualTypeArguments().size());
+        assertEquals("Person", declVarSymbol3.getType().getActualTypeArguments().get(0).getType().toString());
+
+        OCLVariableDeclarationSymbol declVarSymbol4 = oclInvariantSymbol.getOCLVariableDecl("s").orElse(null);
+        assertNotNull(declVarSymbol4);
+        assertEquals("Integer", declVarSymbol4.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol5 = oclInvariantSymbol.getOCLVariableDecl("comp4").orElse(null);
+        assertNotNull(declVarSymbol5);
+        assertEquals("Collection", declVarSymbol5.getVarTypeName());
+    }
+
     @Test
-    public void parenthesesTest() {}
+    public void parenthesesTest() {
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
+
+        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol>resolve("example.typeInferringModels.parentheses", OCLFileSymbol.KIND).orElse(null);
+        assertNotNull(oclFileSymbol);
+        assertEquals(3, globalScope.getSubScopes().size());
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test").orElse(null);
+        assertNotNull(oclInvariantSymbol);
+
+        OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("name").orElse(null);
+        assertNotNull(declVarSymbol);
+        assertEquals("String", declVarSymbol.getVarTypeName());
+    }
 }

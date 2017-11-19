@@ -7,6 +7,7 @@ classdiagram DefaultTypes {
   public class Class {}
   public class VariableClass {}
 
+  public class Object {}
   public class Collection {
     boolean containsAll(Collection c);
     boolean contains(Collection c);
@@ -41,6 +42,7 @@ classdiagram DefaultTypes {
   public class String {
     boolean contains(String s);
     String replaceAll(String s1, String s2);
+    String replace(String s1, String s2);
     boolean endsWith(String s);
   }
 
