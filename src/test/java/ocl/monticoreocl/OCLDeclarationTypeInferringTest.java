@@ -226,9 +226,6 @@ public class OCLDeclarationTypeInferringTest extends AbstractOCLTest {
         OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("m").orElse(null);
         assertNotNull(declVarSymbol);
         assertEquals("List", declVarSymbol.getVarTypeName());
-        //assertEquals("List<Message>", declVarSymbol.getType().getStringRepresentation());
-        //assertEquals(1, declVarSymbol.getType().getActualTypeArguments().size());
-        //assertEquals("Message", declVarSymbol.getType().getActualTypeArguments().get(0).getType().toString());
 
         OCLVariableDeclarationSymbol declVarSymbol2 = oclInvariantSymbol.getOCLVariableDecl("s").orElse(null);
         assertNotNull(declVarSymbol2);
@@ -237,6 +234,14 @@ public class OCLDeclarationTypeInferringTest extends AbstractOCLTest {
         OCLVariableDeclarationSymbol declVarSymbol3 = oclInvariantSymbol.getOCLVariableDecl("b").orElse(null);
         assertNotNull(declVarSymbol3);
         assertEquals("Boolean", declVarSymbol3.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol4 = oclInvariantSymbol.getOCLVariableDecl("m2").orElse(null);
+        assertNotNull(declVarSymbol4);
+        assertEquals("Message", declVarSymbol4.getVarTypeName());
+
+        OCLVariableDeclarationSymbol declVarSymbol5 = oclInvariantSymbol.getOCLVariableDecl("t").orElse(null);
+        assertNotNull(declVarSymbol5);
+        assertEquals("Time", declVarSymbol5.getVarTypeName());
     }
 
     @Test

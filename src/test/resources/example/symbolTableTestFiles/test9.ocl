@@ -6,7 +6,7 @@ import example.CDs.DefaultTypes.*;
 ocl test9 {
    context Student st inv Voraussetzung:
     let
-      Person p = typeif st instanceof Student then m.student else person;
+      Person p = typeif st instanceof Student then st else Person;
     in
       this;
 }

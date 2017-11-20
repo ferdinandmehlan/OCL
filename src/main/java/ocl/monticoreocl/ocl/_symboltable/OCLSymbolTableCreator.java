@@ -243,8 +243,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 	@Override
 	public void visit(final ASTOCLClassContext astClassContext) {
-		if (astClassContext.getContextDefinitions().size() == 1 &&
-				astClassContext.getContextDefinitions(0).getVarNames().isEmpty()) {
+		if (astClassContext.getContextDefinitions().size() == 1) {
 			ASTOCLContextDefinition astContext = astClassContext.getContextDefinitions(0);
 			if (astContext.typeIsPresent()) {
 				ASTType astType = astContext.getType().get();

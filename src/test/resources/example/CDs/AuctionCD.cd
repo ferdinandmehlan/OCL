@@ -7,6 +7,7 @@ classdiagram AuctionCD {
   public class Time {
     boolean lessThan(Time that);
   }
+  public class Name {}
 
 
   public class Company {
@@ -22,6 +23,7 @@ classdiagram AuctionCD {
 
 
   public class Person {
+    boolean lessThan(Person that);
   }
 
   public class Student extends Person {
@@ -34,7 +36,7 @@ classdiagram AuctionCD {
   association AllData <-> Person [*];
   association participants [*] Auction (auctions) <-> (bidder) Person [*];
   association [*] Person <-> Company [1];
-  association Person <-> Message [*] <<ordered>>;
+  association Person (bidder) <-> Message [*] <<ordered>>;
   association Auction <-> Message [*] <<ordered>>;
 
 

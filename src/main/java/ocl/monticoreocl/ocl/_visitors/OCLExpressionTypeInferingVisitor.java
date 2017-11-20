@@ -153,73 +153,86 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         Optional<OCLVariableDeclarationSymbol> nameDecl = scope.resolve(firstName, OCLVariableDeclarationSymbol.KIND);
         Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
         Optional<CDTypeSymbol> className = scope.resolve(firstName, CDTypeSymbol.KIND);
-        if(returnTypeRef!=null) {
-            returnTypeRef = handleNames(names, returnTypeRef, node);
-        } else if(nameDecl.isPresent()) {
+
+        CDTypeSymbolReference typeRef = null;
+        if(returnTypeRef!=null) { //Previous Type present
+            typeRef = returnTypeRef;
+        } else if(nameDecl.isPresent()) { // firstName as Var defined
             names.pop();
-            CDTypeSymbolReference typeRef = nameDecl.get().getType();
-            returnTypeRef = handleNames(names, typeRef, node);
-        } else if (className.isPresent()) {
+            typeRef = nameDecl.get().getType();
+        } else if (className.isPresent()) { // Class same as Class.allInstances()
             names.pop();
-            CDTypeSymbolReference typeRef = createTypeRef("Set", node);
+            typeRef = createTypeRef("Set", node);
             CDTypeSymbolReference argsTypeRef = createTypeRef(firstName, node);
             addActualArgument(typeRef, argsTypeRef);
-            returnTypeRef = handleNames(names, typeRef, node);
-        } else if (thisDecl.isPresent()) {
-            CDTypeSymbolReference typeRef = thisDecl.get().getType();
-            returnTypeRef = handleNames(names, typeRef, node);
+        } else if (thisDecl.isPresent()) { // implicit this
+            typeRef = thisDecl.get().getType();
         } else {
             Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
         }
+        returnTypeRef = handleNames(names, typeRef, node);
     }
 
     @Override
     public void traverse(ASTOCLQualifiedPrimary node) {
+        LinkedList<String> names = new LinkedList<>(node.getQualifications());
         CDTypeSymbolReference typeRef = null;
-        Optional<OCLVariableDeclarationSymbol> varDecl = Optional.empty();
-        LinkedList<String> names = new LinkedList<String>(node.getQualifications());
 
         if(node.prefixIdentifierIsPresent()) {
             String firstName = node.getPrefixIdentifier().get();
-            varDecl = scope.resolve(firstName, OCLVariableDeclarationSymbol.KIND);
+            names.push(firstName);
+            Optional<OCLVariableDeclarationSymbol> nameDecl = scope.resolve(firstName, OCLVariableDeclarationSymbol.KIND);
+            Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
             Optional<CDTypeSymbolReference> className = scope.resolve(firstName, CDTypeSymbolReference.KIND);
 
-            if(returnTypeRef!=null) {
-                names.push(firstName);
-                typeRef = handleNames(names, returnTypeRef, node);
-            } else
-            if(!varDecl.isPresent() && className.isPresent()) {
-                CDTypeSymbolReference nameTypeRef = createTypeRef("Set", node);
+            if(returnTypeRef!=null) { //Previous Type present
+                typeRef = returnTypeRef;
+            } else if(nameDecl.isPresent()) { // firstName as Var defined
+                names.pop();
+                typeRef = nameDecl.get().getType();
+            } else if (className.isPresent()) { // Class same as Class.allInstances()
+                names.pop();
+                typeRef = createTypeRef("Set", node);
                 CDTypeSymbolReference argsTypeRef = createTypeRef(firstName, node);
-                addActualArgument(nameTypeRef, argsTypeRef);
-                typeRef = handleNames(names, nameTypeRef, node);
-            } else
-            if(!varDecl.isPresent() && !className.isPresent()) {
-                varDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
-                names.push(firstName);
+                addActualArgument(typeRef, argsTypeRef);
+            } else if (thisDecl.isPresent()) { // implicit this
+                typeRef = thisDecl.get().getType();
+            } else {
+                Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
             }
         } else if (node.isThis()) {
-            varDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
+            Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
+            if (!thisDecl.isPresent()){
+                Log.error("Could not resolve this", node.get_SourcePositionStart());
+            }
+            typeRef = thisDecl.get().getType();
         } else if (node.isSuper()) {
-            varDecl = scope.resolve("super", OCLVariableDeclarationSymbol.KIND);
-        } else if (node.isRes()) {
-            Log.error("Cannot infer type from result!", node.get_SourcePositionStart());
+            Optional<OCLVariableDeclarationSymbol> superDecl = scope.resolve("super", OCLVariableDeclarationSymbol.KIND);
+            if (!superDecl.isPresent()){
+                Log.error("Could not resolve super", node.get_SourcePositionStart());
+            }
+            typeRef = superDecl.get().getType();
+        }
+        returnTypeRef = handleNames(names, typeRef, node);
+
+        // Todo check method argument or ** or @pre (postfixQualification)
+        if (node.postfixQualificationIsPresent() && node.getPostfixQualification().get() instanceof ASTOCLArrayQualification) {
+            node.getPostfixQualification().get().accept(realThis);
         }
 
-        if(varDecl.isPresent()){
-            CDTypeSymbolReference nameTypeRef = varDecl.get().getType();
-            typeRef = handleNames(names, nameTypeRef, node);
-            // Todo check method argument or ** or @pre (postfixQualification)
-        }
-        if(!varDecl.isPresent() && returnTypeRef==null && typeRef==null) {
-            Log.error("Could not resolve name, this or super!", node.get_SourcePositionStart());
-        }
-
+        // process following primaries
         if(node.oCLQualifiedPrimaryIsPresent()) {
-            typeRef = handleAdditionalQualifiedPrimaries(node.getOCLQualifiedPrimary().get(), typeRef);
+           node.getOCLQualifiedPrimary().get().accept(realThis);
         }
+    }
 
-        returnTypeRef = typeRef;
+    @Override
+    public void traverse(ASTOCLArrayQualification node) {
+        List<ActualTypeArgument> arguments = returnTypeRef.getActualTypeArguments();
+        if (arguments.size() == 0) {
+            Log.error("Could not resolve container argument from: " + returnTypeRef, node.get_SourcePositionStart());
+        }
+        returnTypeRef = (CDTypeSymbolReference) arguments.get(0).getType();
     }
 
     @Override
@@ -396,7 +409,6 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
             CDTypeSymbolReference newType = handleName(node, name, elementsScope);
             // Try again and flatten container
             if (newType==null) {
-                //flatten previous type
                 elementsScope = flattenType(previousType).getAllKindElements();
                 newType = handleName(node, name, elementsScope);
                 if(newType== null) {
@@ -416,9 +428,9 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         if (typeName.equals("Optional") && !arguments.isEmpty()) {
             return (CDTypeSymbolReference) arguments.get(0).getType();
         } else if (typeName.equals("Set")) {
-            return (CDTypeSymbolReference) arguments.get(0).getType();
+            //return (CDTypeSymbolReference) arguments.get(0).getType();
         } else if (typeName.equals("List")) {
-            return (CDTypeSymbolReference) arguments.get(0).getType();
+            //return (CDTypeSymbolReference) arguments.get(0).getType();
         }
         return previousType;
     }
@@ -468,14 +480,6 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         return newType;
     }
 
-
-    private CDTypeSymbolReference handleAdditionalQualifiedPrimaries(ASTOCLQualifiedPrimary node, CDTypeSymbolReference previousType) {
-        Optional<OCLVariableDeclarationSymbol> varDecl = Optional.empty();
-        LinkedList<String> names = new LinkedList<String>(node.getQualifications());
-        names.push(node.getPrefixIdentifier().get());
-
-        return handleNames(names, previousType, node);
-    }
 
 
 }
