@@ -147,29 +147,9 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
     @Override
     public void traverse(ASTOCLConcatenation node) {
         LinkedList<String> names = new LinkedList<>(node.getNames());
-        String firstName = node.getNames().get(0);
+        String prefixName = node.getNames().get(0);
 
-        // Try and look if name or this was declared as variable or try as ClassName of CD
-        Optional<OCLVariableDeclarationSymbol> nameDecl = scope.resolve(firstName, OCLVariableDeclarationSymbol.KIND);
-        Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
-        Optional<CDTypeSymbol> className = scope.resolve(firstName, CDTypeSymbol.KIND);
-
-        CDTypeSymbolReference typeRef = null;
-        if(returnTypeRef!=null) { //Previous Type present
-            typeRef = returnTypeRef;
-        } else if(nameDecl.isPresent()) { // firstName as Var defined
-            names.pop();
-            typeRef = nameDecl.get().getType();
-        } else if (className.isPresent()) { // Class same as Class.allInstances()
-            names.pop();
-            typeRef = createTypeRef("Set", node);
-            CDTypeSymbolReference argsTypeRef = createTypeRef(firstName, node);
-            addActualArgument(typeRef, argsTypeRef);
-        } else if (thisDecl.isPresent()) { // implicit this
-            typeRef = thisDecl.get().getType();
-        } else {
-            Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
-        }
+        CDTypeSymbolReference typeRef = handlePrefixName(node, names, prefixName);
         returnTypeRef = handleNames(names, typeRef, node);
     }
 
@@ -179,27 +159,9 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         CDTypeSymbolReference typeRef = null;
 
         if(node.prefixIdentifierIsPresent()) {
-            String firstName = node.getPrefixIdentifier().get();
-            names.push(firstName);
-            Optional<OCLVariableDeclarationSymbol> nameDecl = scope.resolve(firstName, OCLVariableDeclarationSymbol.KIND);
-            Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
-            Optional<CDTypeSymbolReference> className = scope.resolve(firstName, CDTypeSymbolReference.KIND);
-
-            if(returnTypeRef!=null) { //Previous Type present
-                typeRef = returnTypeRef;
-            } else if(nameDecl.isPresent()) { // firstName as Var defined
-                names.pop();
-                typeRef = nameDecl.get().getType();
-            } else if (className.isPresent()) { // Class same as Class.allInstances()
-                names.pop();
-                typeRef = createTypeRef("Set", node);
-                CDTypeSymbolReference argsTypeRef = createTypeRef(firstName, node);
-                addActualArgument(typeRef, argsTypeRef);
-            } else if (thisDecl.isPresent()) { // implicit this
-                typeRef = thisDecl.get().getType();
-            } else {
-                Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
-            }
+            String prefixName = node.getPrefixIdentifier().get();
+            names.push(prefixName);
+            typeRef = handlePrefixName(node, names, prefixName);
         } else if (node.isThis()) {
             Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
             if (!thisDecl.isPresent()){
@@ -378,11 +340,10 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         returnTypeRef = createTypeRef("boolean", node);
     }
 
+
     /**
      *  ********** Helper Methods **********
      */
-
-
 
     private void addActualArgument(CDTypeSymbolReference typeReferenceOuter, CDTypeSymbolReference typeReferenceInner) {
         String stringRepresentation = typeReferenceOuter.getStringRepresentation() + "<";
@@ -394,6 +355,31 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         stringRepresentation +=  typeReferenceInner.getStringRepresentation() + ">";
         typeReferenceOuter.setStringRepresentation(stringRepresentation);
         typeReferenceOuter.setActualTypeArguments(actualTypeArguments);
+    }
+
+    private CDTypeSymbolReference handlePrefixName(ASTOCLNode node, LinkedList<String> names, String firstName) {
+        // Try and look if name or this was declared as variable or try as ClassName of CD
+        Optional<OCLVariableDeclarationSymbol> nameDecl = scope.resolve(firstName, OCLVariableDeclarationSymbol.KIND);
+        Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
+        Optional<CDTypeSymbol> className = scope.resolve(firstName, CDTypeSymbol.KIND);
+
+        CDTypeSymbolReference typeRef = null;
+        if(returnTypeRef!=null) { //Previous Type present
+            typeRef = returnTypeRef;
+        } else if(nameDecl.isPresent()) { // firstName as Var defined
+            names.pop();
+            typeRef = nameDecl.get().getType();
+        } else if (className.isPresent()) { // Class same as Class.allInstances()
+            names.pop();
+            typeRef = createTypeRef("Set", node);
+            CDTypeSymbolReference argsTypeRef = createTypeRef(firstName, node);
+            addActualArgument(typeRef, argsTypeRef);
+        } else if (thisDecl.isPresent()) { // implicit this
+            typeRef = thisDecl.get().getType();
+        } else {
+            Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
+        }
+        return typeRef;
     }
 
     /**
