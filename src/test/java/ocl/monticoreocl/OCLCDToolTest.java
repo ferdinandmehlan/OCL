@@ -24,10 +24,10 @@ import ocl.monticoreocl.ocl.OCLCDTool;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.nio.file.Paths;
 
 public class OCLCDToolTest {
 
+    @Ignore
     @Test
     public void testTool() {
         String parentpath = "D:\\6.Docs\\Git\\EmbeddedMontiArcProject\\OCL\\src\\test\\resources";
