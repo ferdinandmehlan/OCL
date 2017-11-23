@@ -395,28 +395,82 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
             CDTypeSymbolReference newType = handleName(node, name, elementsScope);
             // Try again and flatten container
             if (newType==null) {
-                elementsScope = flattenType(previousType).getAllKindElements();
+                CDTypeSymbolReference flattendType = flattenType(previousType);
+                elementsScope = flattendType.getAllKindElements();
                 newType = handleName(node, name, elementsScope);
-                if(newType== null) {
-                    Log.error("Could not resolve field/method/association: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
+                //Try with inner type
+                if (newType==null && !flattendType.getActualTypeArguments().isEmpty()) {
+                    CDTypeSymbolReference innerType =
+                            (CDTypeSymbolReference) previousType.getActualTypeArguments().get(0).getType();
+                    elementsScope = innerType.getAllKindElements();
+                    innerType = handleName(node, name, elementsScope);
+                    if(innerType!=null) {
+                        newType = createTypeRef(flattendType.getName(), node);
+                        addActualArgument(newType, innerType);
+                        newType = flattenType(newType);
+                    }
                 }
             }
-            return handleNames(names,newType, node);
+
+            if(newType== null) {
+                Log.error("Could not resolve field/method/association: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
+            }
+
+            return handleNames(names, newType, node);
         } else {
             return previousType;
         }
     }
 
-    // Todo flatten Optional<...Optional<X> to X and sets and lists
+    /**
+     * Takes a Type and flattens them according to: http://mbse.se-rwth.de/book1/index.php?c=chapter3-3#x1-560003.3.6
+     */
     private CDTypeSymbolReference flattenType(CDTypeSymbolReference previousType) {
         String typeName = previousType.getName();
         List<ActualTypeArgument> arguments = previousType.getActualTypeArguments();
         if (typeName.equals("Optional") && !arguments.isEmpty()) {
-            return (CDTypeSymbolReference) arguments.get(0).getType();
-        } else if (typeName.equals("Set")) {
-            //return (CDTypeSymbolReference) arguments.get(0).getType();
+            return flattenOptionalorSet(previousType);
+        } else if (typeName.equals("Set") && !arguments.isEmpty()) {
+            return flattenOptionalorSet(previousType);
         } else if (typeName.equals("List")) {
-            //return (CDTypeSymbolReference) arguments.get(0).getType();
+            return flattenList(previousType);
+        }
+        return previousType;
+    }
+
+    /**
+     *  Set<Optional<Optional<Set<Optional<Person>>>>> -> Set<Person>
+     */
+    private CDTypeSymbolReference flattenOptionalorSet(CDTypeSymbolReference previousType) {
+        String typeName = previousType.getName();
+        List<ActualTypeArgument> arguments = previousType.getActualTypeArguments();
+        if (typeName.equals("Set") && !arguments.isEmpty()) {
+            CDTypeSymbolReference innerType = (CDTypeSymbolReference) arguments.get(0).getType();
+            if (innerType.getName().equals("Set"))
+                return flattenOptionalorSet(innerType);
+            if (innerType.getName().equals("Optional") && !innerType.getActualTypeArguments().isEmpty()) {
+                addActualArgument(previousType, (CDTypeSymbolReference)innerType.getActualTypeArguments().get(0).getType());
+                return flattenOptionalorSet(previousType);
+            }
+        }
+        if (typeName.equals("Optional") && !arguments.isEmpty()) {
+            CDTypeSymbolReference innerType = (CDTypeSymbolReference) arguments.get(0).getType();
+            if (innerType.getName().equals("Set") || innerType.getName().equals("Optional"))
+                return flattenOptionalorSet(innerType);
+        }
+        return previousType;
+    }
+
+    /**
+     *  List<List<List<List<Person>>>> -> List<Person>
+     */
+    private CDTypeSymbolReference flattenList(CDTypeSymbolReference previousType) {
+        String typeName = previousType.getName();
+        List<ActualTypeArgument> arguments = previousType.getActualTypeArguments();
+        if (typeName.equals("List") && !arguments.isEmpty()) {
+            CDTypeSymbolReference innerType = (CDTypeSymbolReference) arguments.get(0).getType();
+            if (innerType.getName().equals("List"))
+                return flattenList(innerType);
         }
         return previousType;
     }

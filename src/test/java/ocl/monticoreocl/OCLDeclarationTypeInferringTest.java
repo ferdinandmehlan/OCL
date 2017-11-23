@@ -298,4 +298,36 @@ public class OCLDeclarationTypeInferringTest extends AbstractOCLTest {
         assertNotNull(declVarSymbol);
         assertEquals("String", declVarSymbol.getVarTypeName());
     }
+
+    @Test
+    public void implicitFlatteningTest() {
+        final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
+
+        final OCLFileSymbol oclFileSymbol = globalScope.<OCLFileSymbol> resolve("example.typeInferringModels.implicitFlattening", OCLFileSymbol.KIND).orElse(null);
+        assertNotNull(oclFileSymbol);
+        assertEquals(3, globalScope.getSubScopes().size());
+        OCLInvariantSymbol oclInvariantSymbol = oclFileSymbol.getOCLInvariant("test").orElse(null);
+        assertNotNull(oclInvariantSymbol);
+
+        OCLVariableDeclarationSymbol declVarSymbol = oclInvariantSymbol.getOCLVariableDecl("b").orElse(null);
+        assertNotNull(declVarSymbol);
+        assertEquals("Set", declVarSymbol.getVarTypeName());
+        assertEquals("Set<Person>", declVarSymbol.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol.getType().getActualTypeArguments().size());
+        assertEquals("Person", declVarSymbol.getType().getActualTypeArguments().get(0).getType().toString());
+
+        OCLVariableDeclarationSymbol declVarSymbol2 = oclInvariantSymbol.getOCLVariableDecl("m").orElse(null);
+        assertNotNull(declVarSymbol2);
+        assertEquals("Set", declVarSymbol2.getVarTypeName());
+        assertEquals("Set<List<Message>>", declVarSymbol2.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol2.getType().getActualTypeArguments().size());
+        assertEquals("List", declVarSymbol2.getType().getActualTypeArguments().get(0).getType().toString());
+
+        OCLVariableDeclarationSymbol declVarSymbol3 = oclInvariantSymbol.getOCLVariableDecl("n").orElse(null);
+        assertNotNull(declVarSymbol3);
+        assertEquals("Set", declVarSymbol3.getVarTypeName());
+        assertEquals("Set<String>", declVarSymbol3.getType().getStringRepresentation());
+        assertEquals(1, declVarSymbol3.getType().getActualTypeArguments().size());
+        assertEquals("String", declVarSymbol3.getType().getActualTypeArguments().get(0).getType().toString());
+    }
 }
