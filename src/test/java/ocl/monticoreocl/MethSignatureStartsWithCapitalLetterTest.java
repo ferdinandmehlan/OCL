@@ -25,6 +25,7 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.se_rwth.commons.SourcePosition;
@@ -51,6 +52,7 @@ public class MethSignatureStartsWithCapitalLetterTest extends AbstractOCLTest {
 		Log.getFindings().clear();
 	}
 
+	@Ignore
 	@Test
 	public void testInvalidMethodSignatureName() {
 		String modelName = "example.cocos.invalid.invalidMethSigName";
@@ -61,6 +63,7 @@ public class MethSignatureStartsWithCapitalLetterTest extends AbstractOCLTest {
 		testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	}
 
+	@Ignore
 	@Test
 	public void testValidMethodSignatureName() {
 
