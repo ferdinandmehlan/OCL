@@ -52,14 +52,11 @@ public class ParameterDeclarationNameStartsWithLowerCaseLetterTest extends Abstr
 	  public void setUp() {
 	    Log.getFindings().clear();
 	  }
-	  
-	  private static String MODEL_PATH_VALID = "src/test/resources/example/cocos/valid/";
-	  
-	  private static String MODEL_PATH_INVALID = "src/test/resources/example/cocos/invalid/";
+
 	  
 	  @Test
 	  public void testInvalidParameterDeclarationName() {
-	    String modelName = "invalidParameterDeclarationName.ocl";
+	    String modelName = "example.cocos.invalid.invalidParameterDeclarationName";
 	    String errorCode = "0xOCL03";
 	    
 	    Collection<Finding> expectedErrors = Arrays
@@ -67,7 +64,7 @@ public class ParameterDeclarationNameStartsWithLowerCaseLetterTest extends Abstr
 	       Finding.error(errorCode + " " + "parameter name 'Name' cannot be written in upper-case letters.",
 	        	            new SourcePosition(2, 39))  
 	        );
-	    testModelForErrors(MODEL_PATH_INVALID + modelName, expectedErrors);
+		  testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	  }
 	  
 	  
@@ -75,8 +72,8 @@ public class ParameterDeclarationNameStartsWithLowerCaseLetterTest extends Abstr
 	  @Test
 	  public void testValidParameterDeclarationName() {
 		  
-		  String modelName = "validParameterDeclarationName.ocl";
-		  testModelNoErrors(MODEL_PATH_VALID + modelName);
+		  String modelName = "example.cocos.valid.validParameterDeclarationName";
+		  testModelNoErrors(PARENT_DIR, modelName);
 	  }
 
 }

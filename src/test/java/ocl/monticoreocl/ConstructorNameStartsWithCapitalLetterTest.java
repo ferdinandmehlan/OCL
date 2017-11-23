@@ -51,13 +51,9 @@ public class ConstructorNameStartsWithCapitalLetterTest extends AbstractOCLTest 
 	    Log.getFindings().clear();
 	  }
 	  
-	  private static String MODEL_PATH_VALID = "src/test/resources/example/cocos/valid/";
-	  
-	  private static String MODEL_PATH_INVALID = "src/test/resources/example/cocos/invalid/";
-	  
 	  @Test
 	  public void testInvalidConstructorSignatureName() {
-	    String modelName = "invalidConstructorName.ocl";
+	    String modelName = "example.cocos.invalid.invalidConstructorName";
 	    String errorCode = "0xOCL10";
 	    
 	    Collection<Finding> expectedErrors = Arrays
@@ -65,7 +61,7 @@ public class ConstructorNameStartsWithCapitalLetterTest extends AbstractOCLTest 
 	        Finding.error(errorCode + " constructor name 'auction' after keyword 'new' cannot start in lower-case.",
 	            new SourcePosition(2,10))
 	        );
-	    testModelForErrors(MODEL_PATH_INVALID + modelName, expectedErrors);
+		  testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	  }
 	  
 	  
@@ -73,8 +69,8 @@ public class ConstructorNameStartsWithCapitalLetterTest extends AbstractOCLTest 
 	  @Test
 	  public void testValidConstructorSignatureName() {
 		  
-		  String modelName = "validConstructorName.ocl";
-		  testModelNoErrors(MODEL_PATH_VALID + modelName);
+		  String modelName = "example.cocos.valid.validConstructorName";
+		  testModelNoErrors(PARENT_DIR, modelName);
 	  }
 
 }

@@ -1,4 +1,4 @@
-
+package example.symbolTableTestFiles;
 
 ocl test14 {
   context ComponentInstance b inv test14:

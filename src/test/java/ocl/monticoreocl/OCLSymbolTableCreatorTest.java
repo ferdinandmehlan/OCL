@@ -56,12 +56,12 @@ public class OCLSymbolTableCreatorTest {
 
 	@Test
 	public void test() {
-		final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/example/symbolTableTestFiles");
+		final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
 
 		// 1st case:
 		// methodSignature - statement without any parameters but with the rest
 		// of the production content
-		final OCLFileSymbol OCLFileSymbol1 = globalScope.<OCLFileSymbol> resolve("test1", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol1 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test1", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol1);
 		assertEquals(1, globalScope.getSubScopes().size());
 		final ArtifactScope artifactScope1 = (ArtifactScope) globalScope.getSubScopes().get(0);
@@ -105,9 +105,9 @@ public class OCLSymbolTableCreatorTest {
 		// 2nd case:
 		// methodSignature - statement with one parameter and also with the rest
 		// of the production content
-		final OCLFileSymbol OCLFileSymbol2 = globalScope.<OCLFileSymbol> resolve("test2", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol2 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test2", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol2);
-		assertEquals(2, globalScope.getSubScopes().size());
+		assertEquals(4, globalScope.getSubScopes().size());
 		final ArtifactScope artifactScope2 = (ArtifactScope) globalScope.getSubScopes().get(0);
 		assertSame(artifactScope2, OCLFileSymbol1.getEnclosingScope());
 		assertEquals(1, artifactScope2.getSubScopes().size());
@@ -156,7 +156,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol2 -> variableDeclarationSymbol1
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol1 = methSigSymbol2.getOCLVariableDecl("oldCo").orElse(null);
 		assertNotNull(variableDeclarationSymbol1);
-		assertEquals("ClassName", variableDeclarationSymbol1.getClassName());
+		assertEquals("ClassName", variableDeclarationSymbol1.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol1
 		assertTrue(variableDeclarationSymbol1.getAstNode().isPresent());
@@ -165,10 +165,11 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(variableDeclarationSymbol1.getEnclosingScope(),
 				variableDeclarationSymbol1.getAstNode().get().getEnclosingScope().get());
 
+
 		// methSigSymbol2 -> variableDeclarationSymbol2
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol2 = methSigSymbol2.getOCLVariableDecl("newCos").orElse(null);
 		assertNotNull(variableDeclarationSymbol2);
-		assertEquals("int", variableDeclarationSymbol2.getType().toString());
+		assertEquals("Integer", variableDeclarationSymbol2.getType().toString());
 
 		// AST assertions of variableDeclarationSymbol2
 		assertTrue(variableDeclarationSymbol2.getAstNode().isPresent());
@@ -176,6 +177,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(variableDeclarationSymbol2, variableDeclarationSymbol2.getAstNode().get().getSymbol().get());
 		assertSame(variableDeclarationSymbol2.getEnclosingScope(),
 				variableDeclarationSymbol2.getAstNode().get().getEnclosingScope().get());
+
 
 		// methSigSymbol2 -> variableDeclarationSymbol3
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol3 = methSigSymbol2.getOCLVariableDecl("newCo").orElse(null);
@@ -202,7 +204,7 @@ public class OCLSymbolTableCreatorTest {
 		assertEquals("int", parameterDeclarationOfMethodDecl2.getType().toString());
 
 		// file with a constructor
-		final OCLFileSymbol constructorSigSymbol1 = globalScope.<OCLFileSymbol> resolve("test3", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol constructorSigSymbol1 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test3", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(constructorSigSymbol1);
 
 		// constructorSigSymbol
@@ -245,7 +247,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(parameterDeclarationSymbol3.getEnclosingScope(),
 				parameterDeclarationSymbol3.getAstNode().get().getEnclosingScope().get());
 
-		final OCLFileSymbol OCLFileSymbol4 = globalScope.<OCLFileSymbol> resolve("test4", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol4 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test4", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol4);
 		final OCLInvariantSymbol invSymbol4 = OCLFileSymbol4.getOCLInvariant("Name").orElse(null);
 		assertNotNull(invSymbol4);
@@ -262,7 +264,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(invSymbol4, invSymbol4.getAstNode().get().getSymbol().get());
 		assertSame(invSymbol4.getEnclosingScope(), invSymbol4.getAstNode().get().getEnclosingScope().get());
 
-		final OCLFileSymbol OCLFileSymbol5 = globalScope.<OCLFileSymbol> resolve("test5", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol5 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test5", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol5);
 
 		// methodSignatureSymbol5
@@ -306,7 +308,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol5 -> variableDeclarationSymbol4
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol4 = methSigSymbol5.getOCLVariableDecl("oldUniName").orElse(null);
 		assertNotNull(variableDeclarationSymbol4);
-		assertEquals("Name", variableDeclarationSymbol4.getClassName());
+		assertEquals("Name", variableDeclarationSymbol4.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol4
 		assertTrue(variableDeclarationSymbol4.getAstNode().isPresent());
@@ -318,7 +320,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol5 -> variableDeclarationSymbol5
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol5 = methSigSymbol5.getOCLVariableDecl("newUniName").orElse(null);
 		assertNotNull(variableDeclarationSymbol5);
-		assertEquals("Name", variableDeclarationSymbol5.getClassName());
+		assertEquals("Name", variableDeclarationSymbol5.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol5
 		assertTrue(variableDeclarationSymbol5.getAstNode().isPresent());
@@ -327,7 +329,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(variableDeclarationSymbol5.getEnclosingScope(),
 				variableDeclarationSymbol5.getAstNode().get().getEnclosingScope().get());
 
-		final OCLFileSymbol OCLFileSymbol6 = globalScope.<OCLFileSymbol> resolve("test6", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol6 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test6", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol6);
 
 		final OCLInvariantSymbol invSymbol6 = OCLFileSymbol6.getOCLInvariant("Test6").orElse(null);
@@ -345,7 +347,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(invSymbol6, invSymbol6.getAstNode().get().getSymbol().get());
 		assertSame(invSymbol6.getEnclosingScope(), invSymbol6.getAstNode().get().getEnclosingScope().get());
 
-		final OCLFileSymbol OCLFileSymbol8 = globalScope.<OCLFileSymbol> resolve("test8", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol8 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test8", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol8);
 
 		// methSigSymbol6
@@ -413,7 +415,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(parameterDeclarationOfMethodDecl4.getEnclosingScope(),
 				parameterDeclarationOfMethodDecl4.getAstNode().get().getEnclosingScope().get());
 
-		final OCLFileSymbol OCLFileSymbol13 = globalScope.<OCLFileSymbol> resolve("test13", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol13 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test13", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol13);
 
 		// methSigSymbol7
@@ -497,7 +499,7 @@ public class OCLSymbolTableCreatorTest {
 		// methSigSymbol7 -> variableDeclarationSymbol6
 		final OCLVariableDeclarationSymbol variableDeclarationSymbol6 = methSigSymbol7.getOCLVariableDecl("helpVariable").orElse(null);
 		assertNotNull(variableDeclarationSymbol6);
-		assertEquals("VariableClass", variableDeclarationSymbol6.getClassName());
+		assertEquals("VariableClass", variableDeclarationSymbol6.getVarTypeName());
 
 		// AST assertions of variableDeclarationSymbol6
 		assertTrue(variableDeclarationSymbol6.getAstNode().isPresent());
@@ -507,7 +509,7 @@ public class OCLSymbolTableCreatorTest {
 				variableDeclarationSymbol6.getAstNode().get().getEnclosingScope().get());
 
 		// OCLFileSymbol7
-		final OCLFileSymbol OCLFileSymbol7 = globalScope.<OCLFileSymbol> resolve("test7", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol7 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test7", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol7);
 
 		// OCLFileSymbol7 -> constructorSigSymbol2
@@ -551,7 +553,7 @@ public class OCLSymbolTableCreatorTest {
 				parameterDeclarationSymbol7.getAstNode().get().getEnclosingScope().get());
 
 		// OCLFileSymbol12
-		final OCLFileSymbol OCLFileSymbol12 = globalScope.<OCLFileSymbol> resolve("test12", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol12 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test12", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol12);
 
 		// OCLFileSymbol12 -> constructorSigSymbol3
@@ -608,7 +610,7 @@ public class OCLSymbolTableCreatorTest {
 				parameterDeclarationSymbol10.getAstNode().get().getEnclosingScope().get());
 
 		// OCLFileSymbol9
-		final OCLFileSymbol OCLFileSymbol9 = globalScope.<OCLFileSymbol> resolve("test9", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol9 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test9", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol9);
 
 		// invSymbol5
@@ -638,7 +640,7 @@ public class OCLSymbolTableCreatorTest {
 		assertSame(varDeclSymbol3.getEnclosingScope(), varDeclSymbol3.getAstNode().get().getEnclosingScope().get());
 
 		// OCLFileSymbol10
-		final OCLFileSymbol OCLFileSymbol10 = globalScope.<OCLFileSymbol> resolve("test10", OCLFileSymbol.KIND).orElse(null);
+		final OCLFileSymbol OCLFileSymbol10 = globalScope.<OCLFileSymbol> resolve("example.symbolTableTestFiles.test10", OCLFileSymbol.KIND).orElse(null);
 		assertNotNull(OCLFileSymbol10);
 
 		// invSymbol7

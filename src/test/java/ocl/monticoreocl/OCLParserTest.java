@@ -40,11 +40,12 @@ public class OCLParserTest {
 
 
 	private void test(Path model) throws RecognitionException, IOException {
+		Log.debug("Parsing model: " + model.toString(), "OCLParserTest");
 		OCLParser parser = new OCLParser();
 		Optional<ASTCompilationUnit> cdDef = parser.parse(model.toString());
 		assertFalse(parser.hasErrors());
 		assertTrue(cdDef.isPresent());
-		Log.debug(cdDef.toString(), "OCLParserTest");
+		//Log.debug(cdDef.toString(), "OCLParserTest");
 	}
 
 	@Test
@@ -234,6 +235,13 @@ public class OCLParserTest {
 	@Test
 	public void testLet4() throws RecognitionException, IOException {
 		Path model = Paths.get("src/test/resources/example/validGrammarModels/let4.ocl");
+		test(model);
+	}
+
+
+	@Test
+	public void testLet5() throws RecognitionException, IOException {
+		Path model = Paths.get("src/test/resources/example/validGrammarModels/let5.ocl");
 		test(model);
 	}
 

@@ -1,3 +1,8 @@
+package example.symbolTableTestFiles;
+
+import example.CDs.AuctionCD.*;
+import example.CDs.DefaultTypes.*;
+
 ocl test13 {
   context double Arbeit.testing(boolean b) 
   let

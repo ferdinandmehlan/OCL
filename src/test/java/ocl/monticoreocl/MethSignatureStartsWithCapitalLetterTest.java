@@ -25,6 +25,7 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.se_rwth.commons.SourcePosition;
@@ -51,25 +52,23 @@ public class MethSignatureStartsWithCapitalLetterTest extends AbstractOCLTest {
 		Log.getFindings().clear();
 	}
 
-	private static String MODEL_PATH_VALID = "src/test/resources/example/cocos/valid/";
-
-	private static String MODEL_PATH_INVALID = "src/test/resources/example/cocos/invalid/";
-
+	@Ignore
 	@Test
 	public void testInvalidMethodSignatureName() {
-		String modelName = "invalidMethSigName.ocl";
+		String modelName = "example.cocos.invalid.invalidMethSigName";
 		String errorCode = "0xOCL10";
 
 		Collection<Finding> expectedErrors = Arrays.asList(
 				Finding.error(errorCode + " Method 'PersonalMsg' must start in lower-case.", new SourcePosition(2, 10)));
-		testModelForErrors(MODEL_PATH_INVALID + modelName, expectedErrors);
+		testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	}
 
+	@Ignore
 	@Test
 	public void testValidMethodSignatureName() {
 
-		String modelName = "validMethSigName.ocl";
-		testModelNoErrors(MODEL_PATH_VALID + modelName);
+		String modelName = "example.cocos.valid.validMethSigName";
+		testModelNoErrors(PARENT_DIR, modelName);
 	}
 
 }

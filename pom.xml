@@ -29,17 +29,18 @@
 
   <groupId>de.monticore.lang</groupId>
   <artifactId>ocl</artifactId>
-  <version>0.0.7-SNAPSHOT</version>
+  <version>0.0.8-SNAPSHOT</version>
 
   <!-- == PROJECT DEPENDENCIES ============================================= -->
 
   <properties>
 
     <!-- .. SE-Libraries .................................................. -->
-    <monticore.version>4.5.3-SNAPSHOT</monticore.version>
+    <monticore.version>4.5.4-SNAPSHOT</monticore.version>
     <se-commons.version>1.7.7</se-commons.version>
-    <mc.grammars.assembly.version>0.0.6-SNAPSHOT</mc.grammars.assembly.version>
-    <SIUnit.version>0.0.3-SNAPSHOT</SIUnit.version>
+    <mc.grammars.assembly.version>0.0.6</mc.grammars.assembly.version>
+    <SIUnit.version>0.0.5</SIUnit.version>
+    <cd4analysis.version>1.3.11-SNAPSHOT-roleFix</cd4analysis.version>
 
     <!-- .. Libraries .................................................. -->
     <guava.version>18.0</guava.version>
@@ -47,7 +48,7 @@
     <logback.version>1.1.2</logback.version>
 
     <!-- .. Plugins ....................................................... -->
-    <monticore.plugin>4.5.3-SNAPSHOT</monticore.plugin>
+    <monticore.plugin>4.5.4-SNAPSHOT</monticore.plugin>
     <assembly.plugin>2.5.4</assembly.plugin>
     <compiler.plugin>3.3</compiler.plugin>
     <source.plugin>2.4</source.plugin>
@@ -79,6 +80,12 @@
     </dependency>
 
     <!-- MontiCore Dependencies -->
+    <dependency>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>cd4analysis</artifactId>
+      <version>${cd4analysis.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>de.monticore</groupId>
       <artifactId>monticore-runtime</artifactId>
@@ -343,6 +350,32 @@
                     <aggregate>true</aggregate>
                 </configuration>
 </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>ocl.monticoreocl.ocl.OCLCDTool</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>assemble-all</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

@@ -1,3 +1,8 @@
+package example.symbolTableTestFiles;
+
+import example.CDs.AuctionCD.*;
+import example.CDs.DefaultTypes.*;
+
 ocl test2 {
   context boolean Person.changeCompany(int gehalt) throws RecognitionException
   let 

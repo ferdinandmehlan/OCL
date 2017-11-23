@@ -53,14 +53,10 @@ public class PostStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 	  public void setUp() {
 	    Log.getFindings().clear();
 	  }
-	  
-	  private static String MODEL_PATH_VALID = "src/test/resources/example/cocos/valid/";
-	  
-	  private static String MODEL_PATH_INVALID = "src/test/resources/example/cocos/invalid/";
-	  
+
 	  @Test
 	  public void testInvalidPostStatementName() {
-	    String modelName = "invalidPostStatementName.ocl";
+	    String modelName = "example.cocos.invalid.invalidPostStatementName";
 	    String errorCode = "0xOCL03";
 	    
 	    Collection<Finding> expectedErrors = Arrays
@@ -70,7 +66,7 @@ public class PostStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 	        Finding.error(errorCode + " " + "post condition name 'ias2' must start in upper-case.",
 	            new SourcePosition(4, 2))
 	        );
-	    testModelForErrors(MODEL_PATH_INVALID + modelName, expectedErrors);
+		  testModelForErrors(PARENT_DIR, modelName, expectedErrors);
 	  }
 	  
 	  
@@ -78,8 +74,8 @@ public class PostStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 	  @Test
 	  public void testValidPostStatementName() {
 		  
-		  String modelName = "validPostStatementName.ocl";
-		  testModelNoErrors(MODEL_PATH_VALID + modelName);
+		  String modelName = "example.cocos.valid.validPostStatementName";
+		  testModelNoErrors(PARENT_DIR, modelName);
 	  }
 
 }
