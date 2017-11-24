@@ -52,7 +52,7 @@ public class ConstructorNameStartsWithCapitalLetterTest extends AbstractOCLTest 
 	  }
 	  
 	  @Test
-	  public void testInvalidConstructorSignatureName() {
+	  public void invalidConstructorSignatureNameTest() {
 	    String modelName = "example.cocos.invalid.invalidConstructorName";
 	    String errorCode = "0xOCL10";
 	    
@@ -67,7 +67,7 @@ public class ConstructorNameStartsWithCapitalLetterTest extends AbstractOCLTest 
 	  
 	  
 	  @Test
-	  public void testValidConstructorSignatureName() {
+	  public void validConstructorSignatureNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validConstructorName";
 		  testModelNoErrors(PARENT_DIR, modelName);

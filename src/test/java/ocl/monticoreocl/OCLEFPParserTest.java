@@ -45,44 +45,44 @@ public class OCLEFPParserTest {
     }
 
     @Test
-    public void ruleInstTrace() throws RecognitionException, IOException {
+    public void ruleInstTraceTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/ruleInstTrace.ocl");
         test(model);
     }
 
     @Test
-    public void ruleInstEncryption() throws RecognitionException, IOException {
+    public void ruleInstEncryptionTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/ruleInstEncryption.ocl");
         test(model);
     }
 
     @Test
-    public void ruleInstAuthentication() throws RecognitionException, IOException {
+    public void ruleInstAuthenticationTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/ruleInstAuthentication.ocl");
         test(model);
     }
 
     @Test
-    public void ruleInstCertificates() throws RecognitionException, IOException {
+    public void ruleInstCertificatesTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/ruleInstCertificates.ocl");
         test(model);
     }
 
     @Ignore
     @Test
-    public void ruleCompEncryption() throws RecognitionException, IOException {
+    public void ruleCompEncryptionTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/ruleCompEncryption.ocl");
         test(model);
     }
 
     @Test
-    public void rulePortEnergy() throws RecognitionException, IOException {
+    public void rulePortEnergyTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/rulePortEnergy.ocl");
         test(model);
     }
 
     @Test
-    public void ruleWCETSingleCore() throws RecognitionException, IOException {
+    public void ruleWCETSingleCoreTest() throws RecognitionException, IOException {
         Path model = Paths.get("src/test/resources/example/validEFPConstraints/ruleWCETSingleCore.ocl");
         test(model);
     }

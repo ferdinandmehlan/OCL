@@ -51,7 +51,7 @@ public class FileNameStartsWithLowerCaseLetterTest extends AbstractOCLTest {
 	  }
 
 	  @Test
-	  public void testInvalidFileName() {
+	  public void invalidFileNameTest() {
 	    String modelName = "example.cocos.invalid.invalidFileName";
 	    String errorCode = "0xAUT02";
 	    
@@ -64,7 +64,7 @@ public class FileNameStartsWithLowerCaseLetterTest extends AbstractOCLTest {
 	  }
 	  
 	  @Test
-	  public void testValidFileName() {
+	  public void validFileNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validFileName";
 		  testModelNoErrors(PARENT_DIR, modelName);

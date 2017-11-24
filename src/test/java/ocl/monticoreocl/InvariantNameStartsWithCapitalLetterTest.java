@@ -51,7 +51,7 @@ public class InvariantNameStartsWithCapitalLetterTest extends AbstractOCLTest{
 	    Log.getFindings().clear();
 	  }
 	  @Test
-	  public void testInvalidInvariantName() {
+	  public void invalidInvariantNameTest() {
 	    String modelName = "example.cocos.invalid.invalidInvariantName";
 	    String errorCode = "0xOCL02";
 	    
@@ -66,7 +66,7 @@ public class InvariantNameStartsWithCapitalLetterTest extends AbstractOCLTest{
 	  
 	  
 	  @Test
-	  public void testValidInvariantName() {
+	  public void validInvariantNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validInvariantName";
 		  testModelNoErrors(PARENT_DIR, modelName);

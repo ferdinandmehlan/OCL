@@ -38,7 +38,7 @@ import ocl.monticoreocl.ocl._parser.OCLParser;
 public class OCLTestInvalidModels {
 
 	@Test
-	public void testAssociation1() throws RecognitionException, IOException {
+	public void association1Test() throws RecognitionException, IOException {
 		//TODO: missing file?
 		/*
 		Path model = Paths.get("src/test/resources/example/invalidGrammarModels/association1.ocl");

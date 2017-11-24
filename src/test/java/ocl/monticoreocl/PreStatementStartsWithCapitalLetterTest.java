@@ -55,7 +55,7 @@ public class PreStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 
 	  
 	  @Test
-	  public void testInvalidMethodSignatureName() {
+	  public void invalidMethodSignatureNameTest() {
 	    String modelName = "example.cocos.invalid.invalidPreStatementName";
 	    String errorCode = "0xOCL03";
 	    
@@ -72,7 +72,7 @@ public class PreStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 	  
 	  
 	  @Test
-	  public void testValidMethodSignatureName() {
+	  public void validMethodSignatureNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validPreStatementName";
 		  testModelNoErrors(PARENT_DIR, modelName);

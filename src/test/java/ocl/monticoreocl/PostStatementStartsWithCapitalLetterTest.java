@@ -55,7 +55,7 @@ public class PostStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 	  }
 
 	  @Test
-	  public void testInvalidPostStatementName() {
+	  public void invalidPostStatementNameTest() {
 	    String modelName = "example.cocos.invalid.invalidPostStatementName";
 	    String errorCode = "0xOCL03";
 	    
@@ -72,7 +72,7 @@ public class PostStatementStartsWithCapitalLetterTest extends AbstractOCLTest {
 	  
 	  
 	  @Test
-	  public void testValidPostStatementName() {
+	  public void validPostStatementNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validPostStatementName";
 		  testModelNoErrors(PARENT_DIR, modelName);

@@ -56,7 +56,7 @@ public class MethodDeclarationStartsWithLowerCaseLetterTest extends AbstractOCLT
 
 	  @Ignore
 	  @Test
-	  public void testInvalidMethodDeclarationName() {
+	  public void invalidMethodDeclarationNameTest() {
 	    String modelName = "example.cocos.invalid.invalidMethodDeclarationName";
 	    String errorCode = "0xOCL06";
 	    
@@ -70,7 +70,7 @@ public class MethodDeclarationStartsWithLowerCaseLetterTest extends AbstractOCLT
 
 	  @Ignore
 	  @Test
-	  public void testValidMethodDeclarationName() {
+	  public void validMethodDeclarationNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validMethodDeclarationName";
 		  testModelNoErrors(PARENT_DIR, modelName);

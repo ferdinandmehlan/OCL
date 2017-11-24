@@ -384,7 +384,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
 
     /**
      * Takes a chain of names and recursivly traces back the return type: Class.field.association.method().
-     * E.g. Auction.members.size() -> int
+     * E.g. Auction.members.size() -> Set<int>
      * Implicit flattening is used: E.g a type of List<List<Person>>> is also looked at as List<Person>
      */
     private CDTypeSymbolReference handleNames(LinkedList<String> names, CDTypeSymbolReference previousType, ASTNode node) {

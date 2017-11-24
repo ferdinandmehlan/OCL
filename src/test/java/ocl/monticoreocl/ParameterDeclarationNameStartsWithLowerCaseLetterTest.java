@@ -55,7 +55,7 @@ public class ParameterDeclarationNameStartsWithLowerCaseLetterTest extends Abstr
 
 	  
 	  @Test
-	  public void testInvalidParameterDeclarationName() {
+	  public void invalidParameterDeclarationNameTest() {
 	    String modelName = "example.cocos.invalid.invalidParameterDeclarationName";
 	    String errorCode = "0xOCL03";
 	    
@@ -70,7 +70,7 @@ public class ParameterDeclarationNameStartsWithLowerCaseLetterTest extends Abstr
 	  
 	  
 	  @Test
-	  public void testValidParameterDeclarationName() {
+	  public void validParameterDeclarationNameTest() {
 		  
 		  String modelName = "example.cocos.valid.validParameterDeclarationName";
 		  testModelNoErrors(PARENT_DIR, modelName);

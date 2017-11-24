@@ -29,7 +29,7 @@ public class OCLCDToolTest {
 
     @Ignore
     @Test
-    public void testTool() {
+    public void cdToolTest() {
         String parentpath = "D:\\6.Docs\\Git\\EmbeddedMontiArcProject\\OCL\\src\\test\\resources";
         String oclModel = "example.typeInferringModels.CDToolFile";
         //String oclModel = "example.OCLArtifactModel";

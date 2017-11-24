@@ -54,7 +54,7 @@ public class MethSignatureStartsWithCapitalLetterTest extends AbstractOCLTest {
 
 	@Ignore
 	@Test
-	public void testInvalidMethodSignatureName() {
+	public void invalidMethodSignatureNameTest() {
 		String modelName = "example.cocos.invalid.invalidMethSigName";
 		String errorCode = "0xOCL10";
 
@@ -65,7 +65,7 @@ public class MethSignatureStartsWithCapitalLetterTest extends AbstractOCLTest {
 
 	@Ignore
 	@Test
-	public void testValidMethodSignatureName() {
+	public void validMethodSignatureNameTest() {
 
 		String modelName = "example.cocos.valid.validMethSigName";
 		testModelNoErrors(PARENT_DIR, modelName);
