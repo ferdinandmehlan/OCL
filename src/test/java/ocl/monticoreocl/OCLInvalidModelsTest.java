@@ -35,7 +35,7 @@ import ocl.monticoreocl.ocl._ast.ASTCompilationUnit;
 import ocl.monticoreocl.ocl._ast.ASTOCLInvariant;
 import ocl.monticoreocl.ocl._parser.OCLParser;
 
-public class OCLTestInvalidModels {
+public class OCLInvalidModelsTest {
 
 	@Test
 	public void association1Test() throws RecognitionException, IOException {
