@@ -20,6 +20,7 @@
 package ocl.monticoreocl;
 
 
+import de.se_rwth.commons.logging.Log;
 import ocl.monticoreocl.ocl.OCLCDTool;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,14 +28,17 @@ import org.junit.Test;
 
 public class OCLCDToolTest {
 
-    @Ignore
     @Test
     public void cdToolTest() {
         String parentpath = "D:\\6.Docs\\Git\\EmbeddedMontiArcProject\\OCL\\src\\test\\resources";
         String oclModel = "example.typeInferringModels.CDToolFile";
         //String oclModel = "example.OCLArtifactModel";
-        String[] args = new String[]{parentpath, oclModel};
-        OCLCDTool.main(args);
+        String[] args = new String[]{"-path", parentpath, "-ocl", oclModel};
+        try {
+            OCLCDTool.main(args);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+        }
     }
 
 }

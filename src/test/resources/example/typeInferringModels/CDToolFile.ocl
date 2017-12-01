@@ -4,5 +4,9 @@ import example.CDs.AuctionCD.*;
 import example.CDs.DefaultTypes.*;
 
 ocl CDToolFile {
-
- }
+  context Auction a inv test:
+    let
+        p = a.participants;
+    in
+        p.size > 0;
+}

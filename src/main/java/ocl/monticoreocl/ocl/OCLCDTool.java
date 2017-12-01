@@ -32,6 +32,8 @@ import ocl.monticoreocl.ocl._symboltable.OCLLanguage;
 import ocl.monticoreocl.ocl._symboltable.OCLSymbolTableCreator;
 import org.antlr.v4.runtime.RecognitionException;
 
+import org.apache.commons.cli.*;
+
 import java.nio.file.Paths;
 import java.util.Optional;
 
@@ -39,26 +41,41 @@ public class OCLCDTool {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
-        if (args.length!=2) {
-            System.out.println("How to use:");
-            System.out.println("input 2 variables");
-            System.out.println("1: Parent directory as absolute path to the projects folder");
-            System.out.println("2: Qualified name to ocl");
-            System.out.println("Example:");
-            System.out.println("java -jar OCLCDTool \"C:\\path\\to\\my\\project\\\"" +
-                    " \"ocl.Example1\"");
+        Options options = new Options();
+
+        Option path = new Option("path", "project-path", true, "absolute path to project: C:\\path\\to\\my\\project");
+        path.setRequired(true);
+        options.addOption(path);
+/*
+        Option cd = new Option("cd", "classdiagram", true, "input classdiagram as qualified name: de.monticore.myCd");
+        cd.setRequired(true);
+        options.addOption(cd);
+*/
+        Option ocl = new Option("ocl", "ocl-file", true, "input ocl-file as qualified name: de.monticoreocl.myConstraint");
+        ocl.setRequired(true);
+        options.addOption(ocl);
+
+        CommandLineParser parser = new BasicParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine cmd;
+
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            formatter.printHelp("java -jar OCLCDTool", options);
+            System.exit(1);
             return;
         }
 
-        String parentDir = args[0];
+        String parentDir = cmd.getOptionValue("path");
         System.out.println("ParentDir loaded as: " + parentDir);
-        String oclModel = args[1];
+        String oclModel = cmd.getOptionValue("ocl");
         System.out.println("OCL loaded as: " + oclModel);
 
         loadModel(parentDir, oclModel);
-
         System.out.println("OCL Model loaded successfully!");
     }
 
