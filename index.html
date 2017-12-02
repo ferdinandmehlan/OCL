@@ -17,13 +17,12 @@
     </textarea>
 </body>
 <script>
-  cheerpjInit();
-  cheerpjCreateDisplay(800,600);
-
   function check(){
+      cheerpjInit();
+      cheerpjCreateDisplay(800,600);
       var oclString = document.getElementById('ocl');
       var cdString = document.getElementById('cd');
-      cheerpjRunMain("OCLCDTool", "/app/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-ocl", oclString, "-cd", cdString);
+      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-ocl", oclString, "-cd", cdString);
   }
  </script>
 </html>
