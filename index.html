@@ -6,8 +6,21 @@
     <script src="https://cjrtnc.leaningtech.com/loader.js"></script>
 </head>
 <body>
-    <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">
-    </textarea>
+    <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">package ocl;
+
+import cd.MontiArc.*;
+import cd.DefaultTypes.*;
+
+ocl exampleWithTypes {
+  context Cmp cmp inv:
+    let
+        List<Port> ports = cmp.ports;
+        List<List<Port> > ports2 = List{ports};
+        int i = 0;
+    in
+        forall Port p2 in ports :
+                true;
+}</textarea>
     <br />
     <textarea id ='cd' rows="8" cols="50" placeholder="CD code here">package cd;
 
