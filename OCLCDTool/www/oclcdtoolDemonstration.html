@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>OCL CD Tool Demonstration</title>
+    <script src="https://cjrtnc.leaningtech.com/loader.js"></script>
+</head>
+<body>
+    <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">
+    </textarea>
+    <br />
+    <textarea id ='cd' rows="8" cols="50" placeholder="CD code here">
+    </textarea>
+    <br />
+    <button onclick="check();" href="javascript:;">Check</button>
+</body>
+<script>
+  cheerpjInit();
+  cheerpjCreateDisplay(800,600);
+
+  function check(){
+      var oclString = document.getElementById('ocl');
+      var cdString = document.getElementById('cd');
+      cheerpjRunMain("OCLCDTool", "/app/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-ocl", oclString, "-cd", cdString);
+  }
+ </script>
+</html>
+
