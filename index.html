@@ -8,7 +8,7 @@
 <body>
     <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">package ocl;
 
-import cd.classdiagramm1.*;
+import classdiagramm1.*;
 
 ocl constraint1 {
   context Cmp cmp inv:
@@ -93,13 +93,13 @@ classdiagram classdiagramm1 {
   cheerpjInit();
   cheerpjCreateDisplay(800,600);
   function check(){
-      var oclString = document.getElementById('ocl');
-      var cdString = document.getElementById('cd');
+      var oclString = document.getElementById('ocl').value;
+      var cdString = document.getElementById('cd').value;
 
-      cheerpjAddStringFile("/str/ocl/constraint1.ocl", oclString);
-      cheerpjAddStringFile("/str/cd/classdiagramm1.cd", cdString);
+      cheerpjAddStringFile("/str/constraint1.ocl", oclString);
+      cheerpjAddStringFile("/str/classdiagramm1.cd", cdString);
 
-      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-cd", cdString, "-ocl", oclString);
+      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-path", "/str/", "-ocl", "constraint1");
   }
  </script>
 </body>
