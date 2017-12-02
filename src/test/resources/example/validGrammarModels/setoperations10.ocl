@@ -1,4 +1,0 @@
-ocl setoperations10 {
-  context Company co inv:
-    co.name == "BAD" implies co.person.auctions == {};
-}

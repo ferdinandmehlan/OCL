@@ -1,4 +1,0 @@
-ocl quantifiers9 {
-  inv:
-    (exists x in Set{}: expr) <=> false;
-}

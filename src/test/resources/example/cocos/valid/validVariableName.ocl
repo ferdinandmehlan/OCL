@@ -1,8 +1,0 @@
-ocl validVariableName {
-  context boolean Person.changeCompany(String name)
-  let 
-    oldCo = company;
-  pre Test : true;
-  post Test: false;
-  
-}

@@ -1,4 +1,0 @@
-ocl transitiveclosure1 {
-  context Person inv Transitiv:
-    ancestors == parents.addAll(parents.ancestors);
-}

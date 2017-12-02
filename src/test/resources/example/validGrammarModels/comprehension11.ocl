@@ -1,4 +1,0 @@
-ocl comprehension11 {
-  inv:
-    List{a | a in Set{1, 2}} == Set{a | a in Set{1, 2}}.asList;
-}

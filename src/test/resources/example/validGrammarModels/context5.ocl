@@ -1,4 +1,0 @@
-ocl context5 {
-  context Auction a inv:
-    a isin a.bidder.auctions;
-}

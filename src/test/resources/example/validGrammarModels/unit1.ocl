@@ -1,4 +1,0 @@
-ocl unit1 {
-    inv:
-        2000 ms == 2 s;
-}

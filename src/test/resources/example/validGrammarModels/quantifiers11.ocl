@@ -1,5 +1,0 @@
-ocl quantifiers11 {
-  inv:
-    exists int x: x * x > 5;
-    forall int x: x != 5;
-}

@@ -1,4 +1,0 @@
-ocl quantifiers14 {
-  inv ListQuantor:
-    forall List<Person> lp: lp.size != 5;
-}

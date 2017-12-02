@@ -1,5 +1,0 @@
-ocl validPostStatementName {
-  context boolean BidMessage.isAuctionsSpecific()
-  pre IAS1 : true;
-  post IAS2 : result == true;
-}

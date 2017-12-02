@@ -1,9 +1,0 @@
-ocl invalidParameterType {
-  context boolean Person.changeCompany(UnknownType name)
-  let 
-   Min = a.startTime.lessThan(a.closingTime)
-              ? a.startTime : a.closingTime; 
-  pre Test : true;
-  post Test : false;
-  
-}

@@ -1,5 +1,0 @@
-ocl invalidPrePost {
-  context boolean BidMessage.isAuctionsSpecific()
-  pre ias1 : true;
-  post ias2 : result == true;
-}

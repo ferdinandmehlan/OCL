@@ -1,7 +1,0 @@
-ocl comprehension12 {
-  inv:
-    let
-      Set<Auction> sa = Set{a | a in Auction, Time.now().lessThan(a.startTime)};
-    in
-      this;
-}

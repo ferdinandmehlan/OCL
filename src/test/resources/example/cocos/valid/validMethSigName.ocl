@@ -1,5 +1,0 @@
-ocl validMethSigName {
-  context boolean Person.personalMsg()
-  pre Test: true;
-  post Test: result == List{m in p.message | !m.isAuctionSpecific()};
-}

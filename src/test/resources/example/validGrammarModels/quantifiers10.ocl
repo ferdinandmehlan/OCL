@@ -1,4 +1,0 @@
-ocl quantifiers10 {
-  inv:
-    forall A a: a != null;
-}

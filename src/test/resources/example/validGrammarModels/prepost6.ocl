@@ -1,5 +1,0 @@
-ocl prepost6 {
-  context void Person.addMessage(Message m)
-  pre: m.time >= messageList.last.time;
-  post: messageList == messageList@pre.add(m);
-}
