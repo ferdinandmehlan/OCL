@@ -41,4 +41,33 @@ public class OCLCDToolTest {
         }
     }
 
+    @Test
+    public void cdTool2Test() {
+        String oclModel =
+                "\"package example.typeInferringModels;\n" +
+                "ocl CDToolFile {\n" +
+                "  context Auction a inv test:\n" +
+                "      a.participants.size > 0;\n" +
+                "}\"";
+        String cdModel =
+                "\"package example.CDs;\n" +
+                        "classdiagram AuctionCD {\n" +
+                        "    public class Auction {}\n" +
+                        "    public class Person {}\n" +
+                        "    public class Collection {\n" +
+                        "      int size();\n" +
+                        "    }\n" +
+                        "    public class Set extends Collection {}\n  " +
+                        "    public class Boolean {}\n" +
+                        "    public class Integer {}" +
+                        "    association participants [*] Auction (auctions) <-> (bidder) Person [*];\n" +
+                        "}\"";
+        String[] args = new String[]{"-ocl", oclModel, "-cd", cdModel};
+        try {
+            OCLCDTool.main(args);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+        }
+    }
+
 }
