@@ -8,10 +8,9 @@
 <body>
     <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">package ocl;
 
-import cd.MontiArc.*;
-import cd.DefaultTypes.*;
+import cd.classdiagramm1.*;
 
-ocl exampleWithTypes {
+ocl constraint1 {
   context Cmp cmp inv:
     let
         List<Port> ports = cmp.ports;
@@ -24,7 +23,7 @@ ocl exampleWithTypes {
     <br />
     <textarea id ='cd' rows="8" cols="50" placeholder="CD code here">package cd;
 
-classdiagram MontiArc {
+classdiagram classdiagramm1 {
 
   public class CTDef {
     String cType;
@@ -96,7 +95,11 @@ classdiagram MontiArc {
   function check(){
       var oclString = document.getElementById('ocl');
       var cdString = document.getElementById('cd');
-      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-ocl", oclString, "-cd", cdString);
+
+      cheerpjAddStringFile("/str/ocl/constraint1.ocl", oclString);
+      cheerpjAddStringFile("/str/cd/classdiagramm1.cd", cdString);
+
+      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.8-SNAPSHOT-jar-with-dependencies.jar", "-path", "/str/", "-ocl", "ocl.constraint1");
   }
  </script>
 </body>
