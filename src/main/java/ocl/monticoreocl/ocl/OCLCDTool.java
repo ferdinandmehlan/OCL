@@ -86,8 +86,10 @@ public class OCLCDTool {
                 printHelp(options);
             }
             System.out.println("OCL Model loaded successfully!");
-        } catch (Exception e) {
+        } catch (Error e) {
             e.printStackTrace();
+        } catch (Exception e2) {
+            e2.printStackTrace();
         }
 
 
