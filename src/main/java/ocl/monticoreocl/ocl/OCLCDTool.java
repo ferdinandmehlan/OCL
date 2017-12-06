@@ -41,11 +41,15 @@ import org.apache.commons.cli.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class OCLCDTool {
 
     public static void main(String[] args) throws Exception{
+        System.out.println("Loading OCL Model!!");
+        try {
 
         Options options = new Options();
 
@@ -74,15 +78,19 @@ public class OCLCDTool {
         String oclModel = cmd.getOptionValue("ocl");
         String cdModel = cmd.getOptionValue("cd");
 
-        if (cmd.hasOption("path") && cmd.hasOption("ocl") && isQualifiedName(oclModel)) {
-            loadOclModel(parentDir, oclModel);
-        } else if (cmd.hasOption("ocl") && cmd.hasOption("cd") && !isQualifiedName(oclModel) && !isQualifiedName(cdModel)) {
-            loadOclFromString(oclModel, cdModel);
-        } else {
-            printHelp(options);
+            if (cmd.hasOption("path") && cmd.hasOption("ocl") && isQualifiedName(oclModel)) {
+                loadOclModel(parentDir, oclModel);
+            } else if (cmd.hasOption("ocl") && cmd.hasOption("cd") && !isQualifiedName(oclModel) && !isQualifiedName(cdModel)) {
+                loadOclFromString(oclModel, cdModel);
+            } else {
+                printHelp(options);
+            }
+            System.out.println("OCL Model loaded successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        System.out.println("OCL Model loaded successfully!");
+
     }
 
     protected static ASTCompilationUnit loadOclFromString (String oclModel, String cdModel) {
