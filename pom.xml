@@ -105,6 +105,14 @@
     </dependency>
 
     <dependency>
+      <groupId>de.monticore</groupId>
+      <artifactId>monticore-grammar</artifactId>
+      <version>${monticore.version}</version>
+      <classifier>${grammars.classifier}</classifier>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>de.monticore.lang</groupId>
       <artifactId>SIUnit</artifactId>
       <version>${SIUnit.version}</version>
