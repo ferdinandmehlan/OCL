@@ -1,0 +1,81 @@
+<!--
+
+    ******************************************************************************
+     MontiCAR Modeling Family, www.se-rwth.de
+     Copyright (c) 2017, Software Engineering Group at RWTH Aachen,
+     All rights reserved.
+
+     This project is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation; either
+     version 3.0 of the License, or (at your option) any later version.
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this project. If not, see <http://www.gnu.org/licenses/>.
+    *******************************************************************************
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <!-- == PROJECT COORDINATES ============================================= -->
+
+  <groupId>streamTest</groupId>
+  <artifactId>streamTest</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+
+
+
+
+  <!-- Deploy Configuration -->
+  <build>
+    <plugins>
+
+      <!-- Other Configuration -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <useIncrementalCompilation>true</useIncrementalCompilation>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+     <!-- Build OCLCDTool -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>2.6</version>
+      <configuration>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+        <archive>
+          <manifest>
+            <mainClass>streamTest.TestStreams</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+      <executions>
+        <execution>
+          <id>assemble-all</id>
+          <phase>package</phase>
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    </plugins>
+  </build>
+
+</project>
