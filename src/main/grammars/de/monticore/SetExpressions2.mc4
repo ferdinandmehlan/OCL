@@ -33,37 +33,46 @@ SUCH DAMAGE.
 
 package de.monticore;
 
-component grammar ShiftExpressions extends de.monticore.ExpressionsBasis {
+component grammar SetExpressions2 extends de.monticore.CommonExpressions {
 
-QualifiedNameExpression implements Expression <290> = 
-	Expression "." Name;
-	
-ThisExpression implements Expression <280> =
-	Expression "." ["this"];
-		
-ArrayExpression implements Expression <250> =
-	Expression "[" indexExpression:Expression "]";
+    IsInExpression implements InfixExpression <190> =
+        leftExpression:Expression
+        operator:"isin"
+        rightExpression:Expression;
 
-interface ShiftExpression;
-// It is not possible to define "<<", ">>" or ">>>".
-// Parsing generic typs like "List<List<String>>" leads to problems.
-		
-LeftShiftExpression implements Expression <160>, ShiftExpression =
-	leftExpression:Expression 
-	shiftOp:"<" "<" {noSpace()}? {_aNode.setShiftOp("<<");}        
-    rightExpression:Expression;
- 
-RightShiftExpression implements Expression <160>, ShiftExpression =
-	leftExpression:Expression 
-	shiftOp:">" ">" {noSpace()}? {_aNode.setShiftOp(">>");}        
-    rightExpression:Expression;
+    SetInExpression implements InfixExpression <190> =
+        leftExpression:Expression
+        operator:"in"
+        rightExpression:Expression;
 
-LogiaclRightShiftExpression implements Expression <160>, ShiftExpression =
-	leftExpression:Expression 
-	shiftOp:">" ">" {noSpace()}? ">" {noSpace()}? {_aNode.setShiftOp(">>>");}        
-    rightExpression:Expression;
-    
-PrimaryThisExpression implements Expression <320>
-	= "this";
+    UnionExpressionInfix implements Expression <180> =
+        leftExpression:Expression
+        "union"
+        rightExpression:Expression;
+
+    IntersectionExpressionInfix implements Expression <180> =
+        leftExpression:Expression
+        "intersect"
+        rightExpression:Expression;
+
+    UnionExpressionPrefix implements Expression <170> =
+        "union"
+	    set:Expression;
+
+    IntersectionExpressionPrefix implements Expression <170> =
+        "intersect"
+        set:Expression;
+
+    SetAndExpression implements Expression <130> =
+        "setand"
+        set:Expression;
+
+    SetOrExpression implements Expression <130> =
+        "setor"
+        set:Expression;
+
+    SetXOrExpression implements Expression <130> =
+        "setxor"
+        set:Expression;
 
 }

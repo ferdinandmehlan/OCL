@@ -27,7 +27,7 @@ public class VariableDeclarationStartsWithLowerCaseLetter implements OCLASTOCLVa
 
 	@Override 
 	public void check(ASTOCLVariableDeclaration astMethodDeclaration){
-		String varName = astMethodDeclaration.getVarName().get();
+		String varName = astMethodDeclaration.getName();
 		boolean startsWithUpperCase = Character.isUpperCase(varName.charAt(0));
 
 		if (startsWithUpperCase) {

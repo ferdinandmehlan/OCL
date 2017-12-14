@@ -34,8 +34,8 @@ SUCH DAMAGE.
 
 package de.monticore;
 
-//component grammar OCLExpressions extends de.monticore.common.Common, de.monticore.CommonExpressions, de.monticore.SetExpressions, de.monticore.ShiftExpressions {
-component grammar OCLExpressions extends de.monticore.common.Common, de.monticore.CommonExpressions {
+component grammar OCLExpressions2 extends de.monticore.common.Common, de.monticore.CommonExpressions,
+                                            de.monticore.SetExpressions2, de.monticore.ShiftExpressions {
 
 external EInExpr;
 external EDeclaration;
@@ -135,6 +135,5 @@ external EDeclaration;
         "}";
 
     TypeCastExpression implements Expression <200> =
-    	"(" Type ")" Expression
-    	;
+    	"(" Type ")" Expression;
 }

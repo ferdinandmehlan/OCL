@@ -85,7 +85,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
      *  ********** traverse methods **********
      */
 
-    @Override
+ /*   @Override
     public void traverse(ASTOCLPrefixExpression node) {
         if(node.getOperator() != 0) { // operator:["-" | "+" | "~" | "!"]
             returnTypeRef = createTypeRef("Boolean", node);
@@ -266,9 +266,9 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         }
     }
 
-    /**
+    *//**
      *  ********** boolean expressions **********
-     */
+     *//*
 
     @Override
     public void traverse(ASTOCLEquivalentExpr node) {
@@ -339,7 +339,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
     public void traverse(ASTOCLInstanceofExpr node) {
         returnTypeRef = createTypeRef("boolean", node);
     }
-
+*/
 
     /**
      *  ********** Helper Methods **********

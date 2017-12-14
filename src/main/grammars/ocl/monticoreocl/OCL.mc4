@@ -19,8 +19,7 @@
 
 package ocl.monticoreocl;
 
-//grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions {
-grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.monticore.SetExpressions, de.monticore.ShiftExpressions {
+grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
 
 	/*========================================================================*/
     /*============================ PRODUCTIONS  ==============================*/
@@ -120,7 +119,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
         The rule is written as follows to avoid matching empty strings
     */
 	OCLContextDefinition =
-		Type (varNames:(Name || ",")* ("in" Expression)?)? |
+		"types2sd" Type (varNames:(Name || ",")* ("in" Expression)?)? |
 		varNames:(Name || ",")+ ("in" Expression)
 	    ;
 
@@ -231,7 +230,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
         @attribute Expression
                    Definition as an expression (right hand of the assignment).
      */
-     symbol OCLVariableDeclaration implements OCLDeclaration, OCLComprehensionItem =
+     OCLVariableDeclaration implements OCLDeclaration, OCLComprehensionItem =
         Type?
         Name
         "=" Expression;
@@ -241,24 +240,26 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
 
     /** ASTOCLPrimary defines primaries of OCL.
     */
-    interface OCLPrimary extends Expression;
+    interface OCLPrimary;
 
-    interface OCLLiteral extends OCLPrimary;
+    OCLParenthizedPrimary implements OCLPrimary =
+        "(" Expression | OCLPrimary ")"
+        ("." qualification:OCLPrimary)?;
 
     /** ASTOCLNumberLiteral and NonNumberLiteral are defined here to overwrite and implement numbers from SI grammar
         to support expressions as 7 m/s
     */
-    OCLNonNumberLiteral implements OCLLiteral =
-        value:Literal
-        ;
+    OCLNonNumberPrimary implements OCLPrimary =
+        value:Literal;
 
-    OCLNumberLiteral implements OCLLiteral =
-        value:Number
-        ;
+    OCLNumberPrimary implements OCLPrimary =
+        value:Number;
 
-    OCLParenthizedExpression implements OCLPrimary =
-        "(" Expression ")"
-        ("." qualification:OCLPrimary)?;
+    OCLIsNewPrimary implements OCLPrimary =
+        "isnew" "(" Expression ")";
+
+    OCLDefinedPrimary implements OCLPrimary =
+        "defined" "(" Expression ")";
 
     /** ASTOCLQualifiedPrimary represents qualified identifier.
         @attribute prefixIdentifier
@@ -283,19 +284,21 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
                  prefix@pre
     */
     OCLQualifiedPrimary implements OCLPrimary =
-    (
-        this:["this"]
-        |
-        super:["super"]
-        |
-        res:["result"]
-        |
-        prefixIdentifier:Name
-    )
+        (
+            this:["this"]
+            |
+            super:["super"]
+            |
+            res:["result"]
+            |
+            prefixIdentifier:Name
+        )
+
         ("." qualifications:Name)*
         postfixQualification:OCLQualification?
         ("." OCLQualifiedPrimary)?
         ;
+
 
     /** ASTOCLQualification defines qualification postfixes of a qualified
         primary. A qualification is one of the three kinds:
@@ -321,7 +324,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
         "(" (Expression || "," )* ")"
         ;
 
-    /** ASTOCLPostfixQualification represents a ATpre or ** qualification.
+    /** ASTOCLPostfixQualification represents a ATpre qualification.
         @attribute OCLQualification
                    Optional qualification.
     */
@@ -329,7 +332,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
         atpre:["@pre"]
         OCLQualification?;
 
-    /** ASTOCLPostfixQualification represents a ATpre or ** qualification.
+    /** ASTOCLPostfixQualification represents a ** qualification.
         @attribute OCLQualification
                    Optional qualification.
     */
@@ -337,21 +340,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions, de.m
         transitive:["**"]
         OCLQualification?;
 
-    /** ASTOCLIsnewPrimary represents isnew-function.
-        @attribute Expression
-                   Argument of isnew-operation.
-    */
-    OCLIsNewPrimary implements OCLPrimary =
-        "isnew" "(" Expression ")";
-
-    /** ASTOCLDefinedPrimary represents defined-function.
-        @attribute Expression
-                   Argument of defined-operation.
-    */
-    OCLDefinedPrimary implements OCLPrimary =
-        "defined" "(" Expression ")";
-
-    /*============================= OCL Cvhomprehensions =============================*/
+    /*============================= OCL Comprehensions =============================*/
 
     /** ASTOCLComprehensionPrimary represents comprehensions.
         @attribute Type

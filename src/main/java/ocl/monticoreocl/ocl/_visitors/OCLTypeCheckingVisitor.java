@@ -45,15 +45,15 @@ public class OCLTypeCheckingVisitor implements OCLVisitor{
     public static void checkInvariants(ASTOCLInvariant node, MutableScope scope) {
         OCLTypeCheckingVisitor checkingVisitor = new OCLTypeCheckingVisitor(scope);
 
-        for(ASTOCLExpression expr : node.getStatements()){
+/*        for(ASTOCLExpression expr : node.getStatements()){
             expr.accept(checkingVisitor);
             if(!checkingVisitor.isTypeCorrect()) {
                 Log.warn("Something went wrong in this Invariant", expr.get_SourcePositionStart());
             }
-        }
+        }*/
     }
 
-    @Override
+ /*   @Override
     public void traverse(ASTOCLIsin node){
         Log.warn("Todo: implement type checking for isIn nodes.");
     }
@@ -77,4 +77,4 @@ public class OCLTypeCheckingVisitor implements OCLVisitor{
     public void traverse(ASTOCLQualifiedPrimary node){
         OCLExpressionTypeInferingVisitor.getTypeFromExpression(node, scope);
     }
-}
+*/}

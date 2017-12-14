@@ -29,7 +29,7 @@ public class MethodDeclarationStartsWithLowerCaseLetter implements OCLASTOCLMeth
 
 	@Override 
 	public void check(ASTOCLMethodDeclaration astMethodDeclaration){
-		String methName = astMethodDeclaration.getName().get();
+		String methName = astMethodDeclaration.getName();
 		boolean startsWithUpperCase = Character.isUpperCase(methName.charAt(0));
 
 		if (startsWithUpperCase) {
