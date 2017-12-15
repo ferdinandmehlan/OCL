@@ -26,7 +26,7 @@ classdiagram AuctionCD {
   association participants [*] Auction (auctions) <-> (bidder) Person [*]; 
 }</textarea>
     <br />
-    <button onclick="check();" href="javascript:;">Check</button>
+    <button id='button' onclick="check();" href="javascript:;">Check</button>
      (MontiCore-Runtime translated by <img src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png" height="25px">)
     <br />
     <textarea id ='console' rows="8" cols="50" placeholder="console tool output"></textarea>
@@ -34,12 +34,12 @@ classdiagram AuctionCD {
 <script>
   cheerpjInit();
   function check(){
-      document.getElementById("console").disabled = true; 
+      document.getElementById("button").disabled = true; 
       var oclString = document.getElementById('ocl').value;
       var cdString = document.getElementById('cd').value;
       
       cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-small.jar", "-ocl", oclString, "-cd", cdString);
-      document.getElementById("console").disabled = false; 
+      document.getElementById("button").disabled = false; 
 
   }
  </script>
