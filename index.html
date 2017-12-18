@@ -34,12 +34,10 @@ classdiagram AuctionCD {
 <script>
   cheerpjInit();
   function check(){
-      document.getElementById("button").disabled = true; 
       var oclString = document.getElementById('ocl').value;
       var cdString = document.getElementById('cd').value;
       
-      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-small.jar", "-ocl", oclString, "-cd", cdString);
-      document.getElementById("button").disabled = false; 
+      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-small2.jar", "-ocl", oclString, "-cd", cdString);
 
   }
  </script>
