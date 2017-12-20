@@ -119,9 +119,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
         The rule is written as follows to avoid matching empty strings
     */
 	OCLContextDefinition =
-		Type (varNames:(Name || ",")* ("in" Expression)?)? |
-		varNames:(Name || ",")+ ("in" Expression)
-	    ;
+		Type | InExpr;
 
 	/** ASTOCLPreStatement represents a list of pre-statements subsumed to a
         pre-condition.
@@ -215,7 +213,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
                    Method definition as an expression (right hand of the
                    assignment).
     */
-    symbol OCLMethodDeclaration implements OCLDeclaration, OCLComprehensionItem =
+    symbol OCLMethodDeclaration implements OCLDeclaration =
         ReturnType?
         Name
         OCLParameters
@@ -230,7 +228,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
         @attribute Expression
                    Definition as an expression (right hand of the assignment).
      */
-     OCLVariableDeclaration implements OCLDeclaration, OCLComprehensionItem =
+     OCLVariableDeclaration implements OCLDeclaration =
         Type?
         Name
         "=" Expression;
@@ -248,91 +246,6 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
     OCLNumberPrimary implements OCLPrimary =
         value:Number;
 
-    /*============================= OCL Comprehensions =============================*/
 
-    /** ASTOCLComprehensionPrimary represents comprehensions.
-        @attribute Type
-                   Optional type of comprehension, e.g. Set, List or Collection.
-        @attribute referenceParamter
-                   Optional reference type of type
-        @attribute expression
-                   Expression of comprehension.
-        @attribute qualification
-                   Optional Qualification.
-    */
-    OCLComprehensionPrimary implements OCLPrimary =
-        (container:["Set" | "List" | "Collection"]
-        ("<" referenceParameter:Type ">")?)?
-        "{" expression:OCLComprehensionExpr? "}"
-        ("." qualification:OCLPrimary)?
-        ;
-
-    /** ASTOCLComprehensionExpr defines comprehension kinds.
-        e.g.:
-            - {x in y | x > 0} (OCLComprehensionVarDeclaratorStyle)
-            - {x * x | x in y} (OCLComprehensionExpressionStyle)
-            - {1..3, x..10, y} (OCLComprehensionEnumerationStyle)
-    */
-    interface OCLComprehensionExpr;
-
-    /** ASTOCLComprehensionVarDeclaratorStyle defines a comprehension with given
-        characteristic.
-        @attribute generator
-                   A collection declaration
-        @attribute comprehensionItems
-                   Characterization of comprehension as a list of
-                   comprehension-items.
-    */
-    OCLComprehensionVarDeclaratorStyle implements OCLComprehensionExpr <10> =
-    	generator:OCLInExpr "|"
-    	(OCLComprehensionItem || ",")+;
-
- 	/** ASTOCLComprehensionExpressionStyle defines a comprehension with given
-        characteristic.
-        @attribute expression
-                   An expression (e.g. "x*x").
-        @attribute comprehensionItems
-                   Characterization of comprehension as a list of
-                   comprehension-items. This can be generators, vardefinitions
-                   or filters. Note that we assume at least one generator
-                   (e.g. x in Y) in here.
-    */
-    OCLComprehensionExpressionStyle implements OCLComprehensionExpr <20> =
-    	Expression "|"
-    	(OCLComprehensionItem || ",")+
-    	;
-
-    /** ASTOCLComprehensionEnumerationStyle is used for an enumeration of
-        comprehension elements. Note that collection items are optional.
-        @attribute collectionItems
-                   Enumerated elements as a list separated by , (comma).
-                   (e.g.: "1..3, x, y..z")
-    */
-    OCLComprehensionEnumerationStyle implements OCLComprehensionExpr <30> =
-    	(OCLCollectionItem || ",")+
-    	;
-
-    /** ASTOCLComprehensionItem defines items of a comprehension.
-    */
-    interface OCLComprehensionItem;
-
-    /** ASTOCLInExpr defines a collection like "int x in y" or "Auction a" as
-        shortform of "Auction a in Auction.allInstances").
-    */
-    EInExpr = OCLInExpr;
-    OCLInExpr implements OCLComprehensionItem =
-		Type?
-		varNames:(Name || ",")+
-		("in" expression:Expression)?
-        ;
-
-    /** ASTOCLCollectionItem is a single comprehension item or a valuation,
-        e.g. {1..5}
-    */
-    OCLCollectionItem =
-        (Expression  ".."  Expression)
-        |
-        Expression
-        ;
 
 }

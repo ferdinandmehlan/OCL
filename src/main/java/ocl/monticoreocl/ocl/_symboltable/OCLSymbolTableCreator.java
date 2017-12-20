@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.monticore.ast.ASTNode;
+import de.monticore.oclexpressions2._ast.ASTInExpr;
 import de.monticore.symboltable.*;
 import de.monticore.symboltable.types.references.ActualTypeArgument;
 import de.monticore.types.TypesPrinter;
@@ -273,7 +274,7 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	}
 
 	@Override
-	public void endVisit(final ASTOCLInExpr inExpr) {
+	public void endVisit(final ASTInExpr inExpr) {
 /*		if (inExpr.oCLInWithTypeIsPresent()) {
 			ASTOCLInWithType inWithType = inExpr.getOCLInWithType().get();
 			String name = inWithType.getVarName();

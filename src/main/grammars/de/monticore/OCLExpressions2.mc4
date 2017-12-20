@@ -37,22 +37,31 @@ package de.monticore;
 component grammar OCLExpressions2 extends de.monticore.common.Common, de.monticore.CommonExpressions,
                                             de.monticore.SetExpressions2, de.monticore.ShiftExpressions {
 
-external EInExpr;
 external EDeclaration;
 
-    ImpliesExpression implements Expression <200> =
+    TypeIfExpr implements Expression <100> =
+        "typeif" condition:Expression
+        "then" thenExpression:Expression
+        "else" elseExpression:Expression;
+
+    IfThenElseExpr implements Expression <100> =
+        "if" condition:Expression
+        "then" thenExpression:Expression
+        "else" elseExpression:Expression;
+
+    ImpliesExpression implements Expression <60> =
         leftExpression:Expression
         "implies"
         rightExpression:Expression;
 
-	SingleLogicalORExpr implements Expression <210> =
+	SingleLogicalORExpr implements Expression <80> =
 		left:Expression
 		"|"
 		right:Expression;
 
     /** ASTForAllExpr defines a quantified expression for collections e.g.
         "forall x in Y : ...".
-        @attribute EInExpr
+        @attribute InExpr
                    List of collection variable declarations, e.g:
                    "forall a in A: ..."
                    "forall a in List <..> : ..."
@@ -61,16 +70,16 @@ external EDeclaration;
                    The body of forall iteration as an expression.
 
     */
-    ForallExpr implements Expression <100> =
+    ForallExpr implements Expression <90> =
         "forall"
-        EInExpr
+        (InExpr || ",")+
         ":"
         Expression
         ;
 
     /** ASTExistsExpr defines a quantified expression for collections e.g.
         "exists x in Y : ...".
-        @attribute EInExpr
+        @attribute InExpr
                    List of collection variable declarations, e.g:
                     "exists a in A: ..."
                     "exists a in List <..> : ..."
@@ -79,9 +88,9 @@ external EDeclaration;
                    The body of exists iteration as an expression.
 
     */
-    ExistsExpr implements Expression <100> =
+    ExistsExpr implements Expression <90> =
         "exists"
-        EInExpr
+        (InExpr || ",")+
         ":"
         Expression
         ;
@@ -91,7 +100,7 @@ external EDeclaration;
         @attribute OCLExpression
                    A collection defined by an expression.
     */
-    AnyExpr implements Expression <90> =
+    AnyExpr implements Expression <100> =
         "any" Expression;
 
     /** ASTOCLLetinExpr are used to define local vars or methods. The defined
@@ -101,7 +110,7 @@ external EDeclaration;
         @attribute OCLExpression
                    An expression where previous declarations are used.
     */
-    LetinExpr implements Expression <120> =
+    LetinExpr implements Expression <100> =
         "let" (declarations:EDeclaration ";")+
         "in" Expression;
 
@@ -110,7 +119,7 @@ external EDeclaration;
         @attribute declarations
                List of variable- or method-declarations.
     */
-    LetDeclaration implements Expression <120> =
+    LetDeclaration implements Expression <100> =
         "let" (declarations:EDeclaration ";")+;
 
     /** ASTOCLIterateExpr is used to iterate collections. It differs from
@@ -127,9 +136,9 @@ external EDeclaration;
         @attribute accumulatorValue
                    Right hand of the accumulation as an expression.
     */
-    IterateExpr implements Expression <110> =
+    IterateExpr implements Expression <100> =
         "iterate" "{"
-        iterationDeclarator:EInExpr ";"
+        iterationDeclarator:InExpr ";"
         initDeclarator:EDeclaration ":"
         accumulatorName:Name "=" accumulatorValue:Expression
         "}";
@@ -137,20 +146,30 @@ external EDeclaration;
     TypeCastExpression implements Expression <200> =
     	"(" Type ")" Expression;
 
-    ParenthizedExpression implements Expression =
+    ParenthizedExpression implements Expression <10> =
         "(" Expression ")"
         ("." qualification:OCLPrimary)?;
+
+    /** ASTInExpr defines a collection like "int x in y" or "Auction a" as
+        shortform of "Auction a in Auction.allInstances").
+    */
+    InExpr implements Expression <50> =
+		Type?
+		varNames:(Name || ",")+
+		("in" Expression)?
+        ;
+
 
     /*============================= OCL PRIMARYS =============================*/
 
     /** ASTOCLPrimary defines primaries of OCL.
     */
-    interface OCLPrimary extends Expression;
+    interface OCLPrimary extends Expression <10>;
 
-    OCLIsNewPrimary implements OCLPrimary =
+    OCLIsNewPrimary implements OCLPrimary <100> =
         "isnew" "(" Expression ")";
 
-    OCLDefinedPrimary implements OCLPrimary =
+    OCLDefinedPrimary implements OCLPrimary <100> =
         "defined" "(" Expression ")";
 
     /** ASTOCLQualifiedPrimary represents qualified identifier.
@@ -166,7 +185,7 @@ external EDeclaration;
                  name**
                  name@pre
     */
-    OCLQualifiedPrimary implements OCLPrimary =
+    OCLQualifiedPrimary implements OCLPrimary <50> =
         (Name || ".")+
         postfixQualification:OCLQualification?
         ("." OCLQualifiedPrimary)?
@@ -178,40 +197,93 @@ external EDeclaration;
         primary. A qualification is one of the three kinds:
             - x[0] (ArrayQualification)
             - x(y) (ArgumentQualification)
-            - x** or xAtpre (PostfixQualification)
+            - x**  (TransitivQualification)
+            - x@pre (AtPreQualification)
     */
     interface OCLQualification;
 
-    /** ASTOCLArrayQualification represents an array qualification.
-        @attribute arguments
-            The array arguments (indices).
-    */
-    OCLArrayQualification implements OCLQualification=
-        ("[" arguments:Expression "]")+
-        ;
+    OCLArrayQualification implements OCLQualification =
+        ("[" arguments:Expression "]")+;
 
-    /** ASTOCLArgumentQualification represents the arguments of a method call.
-        @attribute arguments
-            Arguments of method call.
-    */
     OCLArgumentQualification implements OCLQualification =
-        "(" (Expression || "," )* ")"
+        "(" (Expression || "," )* ")";
+
+    OCLAtPreQualification implements OCLQualification =
+        atpre:["@pre"];
+
+    OCLTransitivQualification implements OCLQualification =
+        transitive:["**"];
+
+
+    /*============================= OCL Comprehensions =============================*/
+
+    /** ASTOCLComprehensionPrimary represents comprehensions.
+        @attribute SimpleReferenceType
+                   Optional type of comprehension, e.g. Set, List or Collection.
+        @attribute expression
+                   Expression of comprehension.
+        @attribute qualification
+                   Optional Qualification.
+    */
+    OCLComprehensionPrimary implements OCLPrimary  <40> =
+        Type?
+        "{" expression:OCLComprehensionExpr? "}"
+        ("." qualification:OCLPrimary)?
         ;
 
-    /** ASTOCLPostfixQualification represents a ATpre qualification.
-        @attribute OCLQualification
-                   Optional qualification.
+    /** ASTOCLComprehensionExpr defines comprehension kinds.
+        e.g.:
+            - {x * x | x in y} (OCLComprehensionExpressionStyle)
+            - {1..3, x..10, y} (OCLComprehensionEnumerationStyle)
     */
-    OCLAtPreQualification implements OCLQualification =
-        atpre:["@pre"]
-        OCLQualification?;
+    interface OCLComprehensionExpr;
 
-    /** ASTOCLPostfixQualification represents a ** qualification.
-        @attribute OCLQualification
-                   Optional qualification.
+ 	/** ASTOCLComprehensionExpressionStyle defines a comprehension with given
+        characteristic.
+        @attribute expression
+                   An expression (e.g. "x*x" or "x in Y").
+        @attribute comprehensionItems
+                   Characterization of comprehension as a list of
+                   comprehension-items. This can be generators, vardefinitions
+                   or filters.
+        Note that we assume at least one generator (e.g. x in Y) in this AST.
     */
-    OCLPostfixQualification implements OCLQualification =
-        transitive:["**"]
-        OCLQualification?;
+    OCLComprehensionExpressionStyle implements OCLComprehensionExpr <20> =
+    	Expression "|"
+    	(ComprehensionItem || ",")+
+    	;
+
+    ComprehensionItem =
+        EDeclaration | Expression;
+
+    /** ASTOCLComprehensionEnumerationStyle is used for an enumeration of
+        comprehension elements. Note that collection items are optional.
+        @attribute collectionItems
+                   Enumerated elements as a list separated by , (comma).
+                   (e.g.: "1..3, x, y..z")
+    */
+    OCLComprehensionEnumerationStyle implements OCLComprehensionExpr <10> =
+    	CollectionItem* (",")?
+    	;
+
+    CollectionItem =
+        (Expression  ".."  Expression)
+        |
+        (Expression ("," Expression)*)
+        ;
+
+
+
+
+//Todo mov3e to commonexpressions
+
+EquivalentExpression implements Expression <10>, InfixExpression =
+    leftExpression:Expression operator:"<=>" rightExpression:Expression;
+
+InstanceOfExpression implements Expression <110> =
+    leftExpression:Expression operator:"instanceof" Type;
+
+
+
 
 }
