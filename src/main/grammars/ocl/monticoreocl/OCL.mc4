@@ -119,7 +119,7 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
         The rule is written as follows to avoid matching empty strings
     */
 	OCLContextDefinition =
-		"types2sd" Type (varNames:(Name || ",")* ("in" Expression)?)? |
+		Type (varNames:(Name || ",")* ("in" Expression)?)? |
 		varNames:(Name || ",")+ ("in" Expression)
 	    ;
 
@@ -238,15 +238,8 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
 
     /*============================= OCL PRIMARYS =============================*/
 
-    /** ASTOCLPrimary defines primaries of OCL.
-    */
-    interface OCLPrimary;
-
-    OCLParenthizedPrimary implements OCLPrimary =
-        "(" Expression | OCLPrimary ")"
-        ("." qualification:OCLPrimary)?;
-
-    /** ASTOCLNumberLiteral and NonNumberLiteral are defined here to overwrite and implement numbers from SI grammar
+    /** ASTOCLNumberLiteral and NonNumberLiteral are defined here to overwrite
+        and implement numbers from SI grammar
         to support expressions as 7 m/s
     */
     OCLNonNumberPrimary implements OCLPrimary =
@@ -254,91 +247,6 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
 
     OCLNumberPrimary implements OCLPrimary =
         value:Number;
-
-    OCLIsNewPrimary implements OCLPrimary =
-        "isnew" "(" Expression ")";
-
-    OCLDefinedPrimary implements OCLPrimary =
-        "defined" "(" Expression ")";
-
-    /** ASTOCLQualifiedPrimary represents qualified identifier.
-        @attribute prefixIdentifier
-                   Value of first part of a qualified identifier. It is null if
-                   we have this, super or result as prefix.
-        @attribute this
-                   Is true if we have a this prefix.
-        @attribute super
-                   Is true if we have a super prefix.
-        @attribute result
-                   Is true if we have a result prefix.
-        @attribute qualifications
-                   List of qualifications of qualified identifier.
-        @attribute postfixQualification
-                   Optional argument-, array- or atpre, **-qualifcation.
-        @attribute OCLQualifiedPrimary
-                   Optional recursive linkage of qualified primary.
-
-        example: prefix.name.name(argument).nextQualifiedPrimary
-                 prefix.name[expr]
-                 prefix**
-                 prefix@pre
-    */
-    OCLQualifiedPrimary implements OCLPrimary =
-        (
-            this:["this"]
-            |
-            super:["super"]
-            |
-            res:["result"]
-            |
-            prefixIdentifier:Name
-        )
-
-        ("." qualifications:Name)*
-        postfixQualification:OCLQualification?
-        ("." OCLQualifiedPrimary)?
-        ;
-
-
-    /** ASTOCLQualification defines qualification postfixes of a qualified
-        primary. A qualification is one of the three kinds:
-            - x[0] (ArrayQualification)
-            - x(y) (ArgumentQualification)
-            - x** or xAtpre (PostfixQualification)
-    */
-    interface OCLQualification;
-
-    /** ASTOCLArrayQualification represents an array qualification.
-        @attribute arguments
-            The array arguments (indices).
-    */
-    OCLArrayQualification implements OCLQualification=
-        ("[" arguments:Expression "]")+
-        ;
-
-    /** ASTOCLArgumentQualification represents the arguments of a method call.
-        @attribute arguments
-            Arguments of method call.
-    */
-    OCLArgumentQualification implements OCLQualification =
-        "(" (Expression || "," )* ")"
-        ;
-
-    /** ASTOCLPostfixQualification represents a ATpre qualification.
-        @attribute OCLQualification
-                   Optional qualification.
-    */
-    OCLAtPreQualification implements OCLQualification =
-        atpre:["@pre"]
-        OCLQualification?;
-
-    /** ASTOCLPostfixQualification represents a ** qualification.
-        @attribute OCLQualification
-                   Optional qualification.
-    */
-    OCLPostfixQualification implements OCLQualification =
-        transitive:["**"]
-        OCLQualification?;
 
     /*============================= OCL Comprehensions =============================*/
 
