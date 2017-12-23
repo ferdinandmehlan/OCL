@@ -40,7 +40,8 @@ classdiagram AuctionCD {
       var cdString = document.getElementById('cd').value;
       
       cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies.jar", "-ocl", oclString, "-cd", cdString);
-
+      allert("done");
+      document.getElementById("button").disabled = false; 
   }
  </script>
 </body>
