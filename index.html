@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>OCL CD Tool Demonstration</title>
-    <script src="https://cheerpjunstable.leaningtech.com/loader.js"></script>
+    <script src="cheerpj/loader.js"></script>
 </head>
 <body>
     <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">package example.typeInferringModels;
@@ -39,7 +39,7 @@ classdiagram AuctionCD {
       var cdString = document.getElementById('cd').value;
       
       cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString);
-      allert("done");
+      alert("done");
       document.getElementById("button").disabled = false; 
   }
  </script>
