@@ -1,19 +1,25 @@
 (function() {
     var button = document.getElementById("button");
-    var console = document.getElementById("console");
+
+    function onThen() {
+        button.classList.remove("disabled");
+    }
+
+    function onOCLReadFile(data) {
+        var oclString = data.payload[0];
+
+        function onCD4AReadFile(data) {
+            var cdString = data.payload[0];
+
+            cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
+        }
+
+        CD4A.readFile(onCD4AReadFile);
+    }
 
     function onClick(event) {
-        if(button.disabled) return;
-
-        button.disabled = true;
-        console.value = "";
-
-        var oclString = document.getElementById('ocl').value;
-        var cdString = document.getElementById('cd').value;
-
-        cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString);
-
-        button.disabled = false;
+        button.classList.add("disabled");
+        OCL.readFile(onOCLReadFile);
     }
 
     cheerpjInit();

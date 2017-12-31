@@ -1,10 +1,28 @@
-(function() {
+var OCL = (function() {
     var PATH = "/ocl/Demo.ocl";
 
     var port = Port("OCL");
     var iframe = document.getElementById("ide-ocl");
     var textarea = document.getElementById("ocl");
 
+
+    function readFile(callback) {
+        port.sendTo("api.ide", {
+            plugin: "fs",
+            method: "readFile",
+            arguments: [PATH]
+        }, function(data) {
+            if(data.payload[0]) {
+                console.error("An error occurred while reading the OCL file!");
+            } else {
+                port.sendTo("api.ide", {
+                    reference: data.payload[1],
+                    method: "{{raw}}",
+                    arguments: []
+                }, callback);
+            }
+        });
+    }
 
     function writeFile() {
         port.sendTo("api.ide", {
@@ -71,4 +89,6 @@
     }
 
     port.on("online", onOnline);
+
+    return { readFile: readFile };
 })();

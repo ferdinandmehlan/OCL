@@ -62,7 +62,13 @@ iframe {
     cursor:pointer;
 }
 
-#button:disabled:hover {
+#button.disabled {
+    opacity:0.3;
+    border:none;
+    box-shadow:none;
+}
+
+#button.disabled:hover {
     cursor:default !important;
     background-color:transparent !important;
 }

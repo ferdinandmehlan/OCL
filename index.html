@@ -9,51 +9,51 @@
         <!-- Scripts -->
         <script src="https://cheerpjunstable.leaningtech.com/loader.js"></script>
         <!--<script src="cheerpj/loader.js"></script>-->
-        <script src="http://localhost:8080/static/plugins/se.rwth.api.switch/port.js"></script>
+        <script src="https://ide.embeddedmontiarc.com/static/plugins/se.rwth.api.switch/port.js"></script>
     </head>
     <body>
         <!-- Hidden Information -->
         <div id="meta-container">
             <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
-                package example.typeInferringModels;
+package example.typeInferringModels;
 
-                ocl CDToolFile {
-                    context Auction a inv test:
-                        a.participants.size > 0;
-                }
+ocl CDToolFile {
+    context Auction a inv test:
+        a.participants.size > 0;
+}
             </textarea>
             <textarea id="cd" rows="8" cols="50" placeholder="CD code here">
-                package example.CDs;
+package example.CDs;
 
-                classdiagram AuctionCD {
-                    public class Auction {}
-                    public class Person {}
-                    public class Collection {
-                        int size();
-                    }
-                    public class Set extends Collection {}
-                    public class Boolean {}
-                    public class Integer {}
+classdiagram AuctionCD {
+    public class Auction {}
+    public class Person {}
+    public class Collection {
+        int size();
+    }
+    public class Set extends Collection {}
+    public class Boolean {}
+    public class Integer {}
 
-                    association participants [*] Auction (auctions) <-> (bidder) Person [*];
-                }
+    association participants [*] Auction (auctions) <-> (bidder) Person [*];
+}
             </textarea>
         </div>
 
         <!-- Left Column -->
         <div class="column">
-            <iframe id="ide-cd" src="http://localhost:8080/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+            <iframe id="ide-cd" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
         </div>
 
         <!-- Right Column -->
         <div class="column">
-            <iframe id="ide-ocl" src="http://localhost:8080/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+            <iframe id="ide-ocl" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
         </div>
 
         <!-- Bottom Row -->
         <div id="bottom-container">
-            <img id="button" src="resources/media/images/Execute.svg" onclick="check();"/>
-            <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output"></textarea>
+            <img id="button" src="resources/media/images/Execute.svg"/>
+            <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output" readonly></textarea>
         </div>
 
         <!-- Logos -->
@@ -63,8 +63,8 @@
         </div>
 
         <!-- Scripts -->
-        <script src="resources/js/cheerpj.js"></script>
         <script src="resources/js/cd4a.js"></script>
         <script src="resources/js/ocl.js"></script>
+        <script src="resources/js/cheerpj.js"></script>
     </body>
 </html>

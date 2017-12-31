@@ -1,10 +1,28 @@
-(function() {
+var CD4A = (function() {
     var PATH = "/cd/Demo.cd";
 
     var port = Port("CD4A");
     var iframe = document.getElementById("ide-cd");
     var textarea = document.getElementById("cd");
 
+
+    function readFile(callback) {
+        port.sendTo("api.ide", {
+            plugin: "fs",
+            method: "readFile",
+            arguments: [PATH]
+        }, function(data) {
+            if(data.payload[0]) {
+                console.error("An error occurred while reading the CD4A file!");
+            } else {
+                port.sendTo("api.ide", {
+                    reference: data.payload[1],
+                    method: "{{raw}}",
+                    arguments: []
+                }, callback);
+            }
+        });
+    }
 
     function writeFile() {
         port.sendTo("api.ide", {
@@ -71,4 +89,6 @@
     }
 
     port.on("online", onOnline);
+
+    return { readFile: readFile };
 })();
