@@ -26,14 +26,14 @@ ocl CDToolFile {
 package example.CDs;
 
 classdiagram AuctionCD {
-    public class Auction {}
-    public class Person {}
+    public class Auction;
+    public class Person;
     public class Collection {
         int size();
     }
-    public class Set extends Collection {}
-    public class Boolean {}
-    public class Integer {}
+    public class Set extends Collection;
+    public class Boolean;
+    public class Integer;
 
     association participants [*] Auction (auctions) <-> (bidder) Person [*];
 }
