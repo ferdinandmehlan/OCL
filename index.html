@@ -1,49 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>OCL CD Tool Demonstration</title>
-    <script src="https://cheerpjunstable.leaningtech.com/loader.js"></script> 
-<!--    <script src="cheerpj/loader.js"></script> --> 
-</head>
-<body>
-    <textarea id ='ocl' rows="8" cols="50" placeholder="OCL code here">package example.typeInferringModels;
-  
+    <head>
+        <meta charset="utf-8">
+        <title>OCL CD Tool Demonstration</title>
+        <!-- Stylesheets -->
+        <link href="resources/css/index.css" type="text/css" rel="stylesheet"/>
+
+        <!-- Scripts -->
+        <script src="https://cheerpjunstable.leaningtech.com/loader.js"></script>
+        <!--<script src="cheerpj/loader.js"></script>-->
+        <script src="https://ide.embeddedmontiarc.com/static/plugins/se.rwth.api.switch/port.js"></script>
+    </head>
+    <body>
+        <!-- Hidden Information -->
+        <div id="meta-container">
+            <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
+package example.typeInferringModels;
+
 ocl CDToolFile {
-  context Auction a inv test: 
-    a.participants.size > 0; 
-}</textarea>
- <br />
- <textarea id ='cd' rows="8" cols="50" placeholder="CD code here">package example.CDs;
+    context Auction a inv test:
+        a.participants.size > 0;
+}
+            </textarea>
+            <textarea id="cd" rows="8" cols="50" placeholder="CD code here">
+package example.CDs;
+
 classdiagram AuctionCD {
-  public class Auction {}
-  public class Person {}
-  public class Collection {
-    int size();
-  }
-  public class Set extends Collection {}
-  public class Boolean {}
-  public class Integer {}
-  association participants [*] Auction (auctions) <-> (bidder) Person [*]; 
-}</textarea>
-    <br />
-    <button id="button" onclick="check();" href="javascript:;">Check</button>
-     (MontiCore-Runtime translated by <img src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png" height="25px">)
-    <br />
-    <textarea id ='console' rows="8" cols="50" placeholder="console tool output"></textarea>
+    public class Auction {}
+    public class Person {}
+    public class Collection {
+        int size();
+    }
+    public class Set extends Collection {}
+    public class Boolean {}
+    public class Integer {}
 
-<script>
-  cheerpjInit();
-  function check(){
-      document.getElementById("button").disabled = true; 
-      var oclString = document.getElementById('ocl').value;
-      var cdString = document.getElementById('cd').value;
-      
-      cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-0.0.9-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString);
+    association participants [*] Auction (auctions) <-> (bidder) Person [*];
+}
+            </textarea>
+        </div>
 
-      document.getElementById("button").disabled = false; 
-  }
- </script>
-</body>
+        <!-- Left Column -->
+        <div class="column">
+            <iframe id="ide-cd" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+        </div>
+
+        <!-- Right Column -->
+        <div class="column">
+            <iframe id="ide-ocl" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+        </div>
+
+        <!-- Bottom Row -->
+        <div id="bottom-container">
+            <img id="button" src="resources/media/images/Execute.svg"/>
+            <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output" readonly></textarea>
+        </div>
+
+        <!-- Logos -->
+        <div id="logos-container">
+            <a href="http://www.monticore.org/" target="_blank"><img src="resources/media/images/MontiCoreLogo.png"/></a>
+            <a href="https://www.leaningtech.com/cheerpj/" target="_blank"><img src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png"/></a>
+        </div>
+
+        <!-- Scripts -->
+        <script src="resources/js/cd4a.js"></script>
+        <script src="resources/js/ocl.js"></script>
+        <script src="resources/js/cheerpj.js"></script>
+    </body>
 </html>
-
