@@ -36,10 +36,10 @@
   <properties>
 
     <!-- .. SE-Libraries .................................................. -->
-    <monticore.version>4.5.4-SNAPSHOT</monticore.version>
+    <monticore.version>4.5.5-SNAPSHOT</monticore.version>
     <se-commons.version>1.7.7</se-commons.version>
     <mc.grammars.assembly.version>0.0.6</mc.grammars.assembly.version>
-    <SIUnit.version>0.0.5</SIUnit.version>
+    <NumberUnit.version>0.0.10-SNAPSHOT</NumberUnit.version>
     <cd4analysis.version>1.3.12-SNAPSHOT</cd4analysis.version>
 
     <!-- .. Libraries .................................................. -->
@@ -48,7 +48,7 @@
     <logback.version>1.1.2</logback.version>
 
     <!-- .. Plugins ....................................................... -->
-    <monticore.plugin>4.5.4-SNAPSHOT</monticore.plugin>
+    <monticore.plugin>4.5.5-SNAPSHOT</monticore.plugin>
     <assembly.plugin>2.5.4</assembly.plugin>
     <compiler.plugin>3.3</compiler.plugin>
     <source.plugin>2.4</source.plugin>
@@ -114,14 +114,14 @@
 
     <dependency>
       <groupId>de.monticore.lang</groupId>
-      <artifactId>SIUnit</artifactId>
-      <version>${SIUnit.version}</version>
+      <artifactId>NumberUnit</artifactId>
+      <version>${NumberUnit.version}</version>
     </dependency>
 
     <dependency>
       <groupId>de.monticore.lang</groupId>
-      <artifactId>SIUnit</artifactId>
-      <version>${SIUnit.version}</version>
+      <artifactId>NumberUnit</artifactId>
+      <version>${NumberUnit.version}</version>
       <classifier>${grammars.classifier}</classifier>
       <scope>provided</scope>
     </dependency>
