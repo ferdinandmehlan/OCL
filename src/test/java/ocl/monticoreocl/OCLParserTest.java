@@ -623,12 +623,14 @@ public class OCLParserTest {
 		test(model);
 	}
 
+	@Ignore
 	@Test
 	public void taggedValues1Test() throws RecognitionException, IOException {
 		Path model = Paths.get("src/test/resources/example/validGrammarModels/taggedvalues1.ocl");
 		test(model);
 	}
 
+	@Ignore
 	@Test
 	public void taggedValues2Test() throws RecognitionException, IOException {
 		Path model = Paths.get("src/test/resources/example/validGrammarModels/taggedvalues2.ocl");

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.monticore.ast.ASTNode;
-import de.monticore.oclexpressions2._ast.ASTInExpr;
+import de.monticore.oclexpressions._ast.ASTInExpr;
 import de.monticore.symboltable.*;
 import de.monticore.symboltable.types.references.ActualTypeArgument;
 import de.monticore.types.TypesPrinter;
@@ -160,10 +160,10 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 	public void visit(final ASTOCLInvariant astInvariant) {
 		String invName = "invariantName";
 		if (astInvariant.nameIsPresent()) {
-			invName = astInvariant.getName().get();
+			invName = astInvariant.getName();
 		}
 		final OCLInvariantSymbol invSymbol = new OCLInvariantSymbol(invName);
-		final ASTOCLClassContext astClassContext = astInvariant.getOCLClassContext().orElse(OCLMill.oCLClassContextBuilder().build());
+		final ASTOCLClassContext astClassContext = astInvariant.getOCLClassContext();
 
 		setClassName(invSymbol, astInvariant);
 		setClassObject(invSymbol, astInvariant);
@@ -226,13 +226,13 @@ public class OCLSymbolTableCreator extends OCLSymbolTableCreatorTOP {
 
 	@Override
 	public void visit(final ASTOCLPreStatement astPreStatement) {
-		final OCLPreStatementSymbol preSymbol = new OCLPreStatementSymbol(astPreStatement.getName().get());
+		final OCLPreStatementSymbol preSymbol = new OCLPreStatementSymbol(astPreStatement.getName());
 		addToScopeAndLinkWithNode(preSymbol, astPreStatement);
 	}
 
 	@Override
 	public void visit(final ASTOCLPostStatement astPostStatement) {
-		final OCLPostStatementSymbol postSymbol = new OCLPostStatementSymbol(astPostStatement.getName().get());
+		final OCLPostStatementSymbol postSymbol = new OCLPostStatementSymbol(astPostStatement.getName());
 		addToScopeAndLinkWithNode(postSymbol, astPostStatement);
 	}
 

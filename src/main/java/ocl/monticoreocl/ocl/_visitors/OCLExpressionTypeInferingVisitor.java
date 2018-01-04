@@ -33,8 +33,6 @@ import de.se_rwth.commons.logging.Log;
 import ocl.monticoreocl.ocl._ast.*;
 import ocl.monticoreocl.ocl._symboltable.OCLVariableDeclarationSymbol;
 import ocl.monticoreocl.ocl._visitor.OCLVisitor;
-import siunit.monticoresiunit.si._ast.ASTNumber;
-import siunit.monticoresiunit.si._ast.ASTUnitNumber;
 
 import java.util.*;
 

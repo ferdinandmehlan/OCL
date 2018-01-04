@@ -19,7 +19,7 @@
 
 package ocl.monticoreocl;
 
-grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
+grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions {
 
 	/*========================================================================*/
     /*============================ PRODUCTIONS  ==============================*/
@@ -240,12 +240,10 @@ grammar OCL extends siunit.monticoresiunit.SI, de.monticore.OCLExpressions2 {
         and implement numbers from SI grammar
         to support expressions as 7 m/s
     */
-    OCLNonNumberPrimary implements OCLPrimary =
+    OCLNonNumberPrimary implements OCLPrimary <1000> =
         value:Literal;
 
-    OCLNumberPrimary implements OCLPrimary =
+    OCLNumberPrimary implements OCLPrimary <1000> =
         value:Number;
-
-
 
 }
