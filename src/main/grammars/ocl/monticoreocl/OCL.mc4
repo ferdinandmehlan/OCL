@@ -19,7 +19,7 @@
 
 package ocl.monticoreocl;
 
-grammar OCL extends de.monticore.common.Common, siunit.monticoresiunit.SI {
+grammar OCL extends de.monticore.common.Common, de.monticore.lang.NumberUnit {
 
 	/*========================================================================*/
     /*============================ PRODUCTIONS  ==============================*/
