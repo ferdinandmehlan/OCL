@@ -6,4 +6,7 @@
 
 # OCL
 
-A DSL parsing OCL expressions
+A DSL parsing OCL expressions.
+
+**Interactive OCLFiddle**: https://embeddedmontiarc.github.io/OCL/
+(needs about 2 minutes to load; works on Chrome 63+ and Firefox 57+ on Windows, Linux and Mac)
