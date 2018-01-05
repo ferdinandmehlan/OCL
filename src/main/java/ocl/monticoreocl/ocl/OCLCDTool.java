@@ -22,10 +22,7 @@ package ocl.monticoreocl.ocl;
 
 import de.monticore.ModelingLanguageFamily;
 import de.monticore.io.paths.ModelPath;
-import de.monticore.symboltable.GlobalScope;
-import de.monticore.symboltable.MutableScope;
-import de.monticore.symboltable.ResolvingConfiguration;
-import de.monticore.symboltable.Scope;
+import de.monticore.symboltable.*;
 import de.monticore.umlcd4a.CD4AnalysisLanguage;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDCompilationUnit;
 import de.monticore.umlcd4a.symboltable.CD4AnalysisSymbolTableCreator;
@@ -98,6 +95,7 @@ public class OCLCDTool {
     protected static ASTCompilationUnit loadOclFromString (String oclModel, String cdModel) {
         final OCLLanguage ocllang = new OCLLanguage();
         final CD4AnalysisLanguage cd4AnalysisLang = new CD4AnalysisLanguage();
+
 
         LogConfig.init();
         try {

@@ -244,6 +244,7 @@ public class OCLDeclarationTypeInferringTest extends AbstractOCLTest {
         assertEquals("Time", declVarSymbol5.getVarTypeName());
     }
 
+    @Ignore
     @Test
     public void comprehensionsTest() {
         final GlobalScope globalScope = OCLGlobalScopeTestFactory.create("src/test/resources/");
