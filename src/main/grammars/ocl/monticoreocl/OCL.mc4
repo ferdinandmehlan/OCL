@@ -243,10 +243,10 @@ grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions {
         and implement numbers from SI grammar
         to support expressions as 7 m/s
     */
-    OCLNonNumberPrimary implements OCLPrimary <1000> =
+    OCLNonNumberPrimary implements OCLPrimary <0> =
         value:Literal;
 
-    OCLNumberPrimary implements OCLPrimary <1000> =
+    OCLNumberPrimary implements OCLPrimary <0> =
         value:Number;
 
 }
