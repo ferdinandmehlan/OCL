@@ -5,16 +5,14 @@
         buttonExecute.classList.remove("disabled");
     }
 
-    function onOCLReadFile(data) {
-        var oclString = data.payload[0];
-
-        function onCD4AReadFile(data) {
-            var cdString = data.payload[0];
- 
-            cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-1.0.0-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
+    function onOCLReadFile(error, oclString) {
+        function onCD4AReadFile(error, cdString) {
+            if(error) console.error("An error occurred while reading the CD4A file!");
+            else cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-1.0.0-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
         }
 
-        CD.readFile(onCD4AReadFile);
+        if(error) console.error("An error occurred while reading the OCL file!");
+        else CD.readFile(onCD4AReadFile);
     }
 
     function onClick(event) {
