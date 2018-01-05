@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>OCL CD Tool Demonstration</title>
+        <title>OCLFiddle</title>
         <!-- Stylesheets -->
         <link href="resources/css/index.css" type="text/css" rel="stylesheet"/>
 
@@ -40,38 +40,74 @@ classdiagram AuctionCD {
             </textarea>
         </div>
 
-        <!-- Left Column -->
-        <div class="column">
+        <!-- First Row, Left Column -->
+        <div class="row-one-column">
             <iframe id="ide-cd" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
         </div>
 
-        <!-- Right Column -->
-        <div class="column">
+        <!-- First Row, Right Column -->
+        <div class="row-one-column">
             <iframe id="ide-ocl" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+        </div>
+
+        <!-- Second Row, Left Column -->
+        <div class="row-two-column left-column">
+            <span class="button-smaller"><img title="Reset" id="button-reset-cd" class="button" src="resources/media/images/Reset.svg"/></span>
+        </div>
+
+        <!-- Second Row, Middle Column -->
+        <div class="row-two-column middle-column">
+            <img id="button-execute" class="button" src="resources/media/images/Execute.svg"/>
+        </div>
+
+        <!-- Second Row, Right Column -->
+        <div class="row-two-column right-column">
+            <span class="button-smaller"><img title="Reset" id="button-reset-ocl" class="button" src="resources/media/images/Reset.svg"/></span>
         </div>
 
         <!-- Bottom Row -->
         <div id="bottom-container">
-            <img id="button" src="resources/media/images/Execute.svg"/>
+            <img id="button-clear" class="button" src="resources/media/images/Trashbin.svg"/>
             <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output" readonly></textarea>
         </div>
 
         <!-- Logos -->
         <div id="logos-container">
-          <div style="width: 700px;height: 55px;overflow: hidden;display: inline-block;">
-          <div style="float: left;text-align: right;">
             <a href="http://www.monticore.org/" target="_blank"><img src="resources/media/images/MontiCoreLogo.png"></a>
             <a href="https://www.leaningtech.com/cheerpj/" target="_blank"><img src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png"></a>
-          </div>
-          <div style="color: gray;width: 50px;height: 50px;float: left;font-size: small;">Credits:</div>
-          <div style="color: gray;width: 300px;height: 50px;float: left;font-size: small;text-align: left;">
-             Jean-Marc Ronck (Online Ide)<br>Ferdinand Mehlan (OCL)<br>Michael von Wenckstern (Organisator, Fiddle Idea)<br>Bernhard Rumpe (Chair Owner, MontiCore)</div>
-          </div>
+            <img id="img-credits" title="Credits" src="resources/media/images/Information.svg"/>
        </div>
 
+        <!-- Credits -->
+        <div id="credits-overlay">
+            <div id="credits-container">
+                <ul>
+                    <li>
+                        <span class="credits-icon"><img src="https://github.com/ferdinandmehlan.png"/></span>
+                        <span class="credits-text">Ferdinand Mehlan<br/>OCL</span>
+                    </li>
+                    <li>
+                        <span class="credits-icon"><img src="https://github.com/0xJMR.png"/></span>
+                        <span class="credits-text">Jean-Marc Ronck<br/>Online IDE</span>
+                    </li>
+                    <li>
+                        <span class="credits-icon"><img src="https://github.com/vonwenckstern.png"/></span>
+                        <span class="credits-text">Michael von Wenckstern<br/>Coordinator, Fiddle Idea</span>
+                    </li>
+                    <li>
+                        <span class="credits-icon"><img src="https://github.com/rumpe.png"/></span>
+                        <span class="credits-text">Bernhard Rumpe<br/>Owner of the Chair of Software Engineering</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <!-- Scripts -->
-        <script src="resources/js/cd4a.js"></script>
+        <script src="resources/js/common.js"></script>
+        <script src="resources/js/cd.js"></script>
         <script src="resources/js/ocl.js"></script>
         <script src="resources/js/cheerpj.js"></script>
+        <script src="resources/js/credits.js"></script>
+        <script src="resources/js/clear.js"></script>
     </body>
 </html>
