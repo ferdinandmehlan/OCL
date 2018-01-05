@@ -58,7 +58,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         node.accept(exprVisitor);
         CDTypeSymbolReference typeReference = exprVisitor.getReturnTypeReference();
         if (typeReference==null) {
-            Log.error("The variable type could not be resolved from the expression", node.get_SourcePositionStart());
+            Log.error("0xB0001 The variable type could not be resolved from the expression at: " + node.get_SourcePositionStart());
             return new CDTypeSymbolReference("DefaultClass", exprVisitor.scope);
         } else {
             return typeReference;
@@ -76,7 +76,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         typeReference.setStringRepresentation(typeName);
         // Check if type was found in CD loaded CD models
         if (!typeReference.existsReferencedSymbol()) {
-            Log.error("This type could not be found: " + typeName, node.get_SourcePositionStart());
+            Log.error("0xB0002 This type could not be found: " + typeName + " at " + node.get_SourcePositionStart());
         }
         return typeReference;
     }
@@ -165,13 +165,13 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         } else if (node.isThis()) {
             Optional<OCLVariableDeclarationSymbol> thisDecl = scope.resolve("this", OCLVariableDeclarationSymbol.KIND);
             if (!thisDecl.isPresent()){
-                Log.error("Could not resolve this", node.get_SourcePositionStart());
+                Log.error("0xB0003 Could not resolve this at: " + node.get_SourcePositionStart());
             }
             typeRef = thisDecl.get().getType();
         } else if (node.isSuper()) {
             Optional<OCLVariableDeclarationSymbol> superDecl = scope.resolve("super", OCLVariableDeclarationSymbol.KIND);
             if (!superDecl.isPresent()){
-                Log.error("Could not resolve super", node.get_SourcePositionStart());
+                Log.error("0xB0004 Could not resolve super at: "+ node.get_SourcePositionStart());
             }
             typeRef = superDecl.get().getType();
         }
@@ -192,7 +192,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
     public void traverse(ASTOCLArrayQualification node) {
         List<ActualTypeArgument> arguments = returnTypeRef.getActualTypeArguments();
         if (arguments.size() == 0) {
-            Log.error("Could not resolve container argument from: " + returnTypeRef, node.get_SourcePositionStart());
+            Log.error("0xB0006 Could not resolve container argument from: " + returnTypeRef + " at: " + node.get_SourcePositionStart());
         }
         returnTypeRef = (CDTypeSymbolReference) arguments.get(0).getType();
     }
@@ -259,8 +259,8 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
                 containerType = getTypeFromExpression(inWithOutType.getExpression().get(), scope);
             }
             if (containerType.getActualTypeArguments().size() == 0) {
-                Log.error("Could not resolve type from InExpression, " + inWithOutType.getName() +
-                        " in " + containerType, node.get_SourcePositionStart());
+                Log.error("0xB0007 Could not resolve type from InExpression, " + inWithOutType.getName() +
+                        " in " + containerType + " at " + node.get_SourcePositionStart());
             }
             returnTypeRef = (CDTypeSymbolReference) containerType.getActualTypeArguments().get(0).getType();
         }
@@ -377,7 +377,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
         } else if (thisDecl.isPresent()) { // implicit this
             typeRef = thisDecl.get().getType();
         } else {
-            Log.error("Could not resolve name or type: " + firstName, node.get_SourcePositionStart());
+            Log.error("0xB0008 Could not resolve name or type: " + firstName + " at " + node.get_SourcePositionStart());
         }
         return typeRef;
     }
@@ -413,7 +413,7 @@ public class OCLExpressionTypeInferingVisitor implements OCLVisitor {
             }
 
             if(newType== null) {
-                Log.error("Could not resolve field/method/association: " + name + " on " + previousType.getName(), node.get_SourcePositionStart());
+                Log.error("0xB0009 Could not resolve field/method/association: " + name + " on " + previousType.getName() +" at "+ node.get_SourcePositionStart());
             }
 
             return handleNames(names, newType, node);
