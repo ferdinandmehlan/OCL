@@ -48,6 +48,8 @@ grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions {
         fileName:Name "{"
         OCLConstraint*
         "}"
+        |
+        OCLConstraint*
         ;
 
 
@@ -101,6 +103,7 @@ grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions {
         "inv" Name?
         OCLParameters?
          ":"
+         //Todo remove ";"
         (statements:Expression ";")+
         ;
 
