@@ -12,17 +12,35 @@ body {
     display:none;
 }
 
-div.column {
+div.row-one-column {
     width:50%;
     float:left;
     height:50%;
+}
+
+div.row-two-column {
+    width:33.333333%;
+    height:50px;
+    float:left;
+}
+
+div.left-column {
+    text-align:left;
+}
+
+div.middle-column {
+    text-align:center;
+}
+
+div.right-column {
+    text-align:right;
 }
 
 #bottom-container {
     text-align:center;
     clear:both;
     width:100%;
-    height:calc(50% - 54px);
+    height:calc(50% - 110px);
 }
 
 #logos-container {
@@ -39,7 +57,7 @@ div.column {
 #console {
     width:calc(100% - 6px);
     resize:none;
-    height:calc(100% - 64px);
+    height:calc(100% - 12px);
     color:#E1E1E1;
     background-color:#303130;
     border:none;
@@ -51,24 +69,108 @@ iframe {
     border:none;
 }
 
-#button {
+.button {
     height:50px;
 }
 
-#button:hover {
+.button:hover {
     background-color:#F2F2F2;
     border-color:#888;
     box-shadow:0 0 2px #CCC;
     cursor:pointer;
 }
 
-#button.disabled {
+.button.disabled {
     opacity:0.3;
     border:none;
     box-shadow:none;
 }
 
-#button.disabled:hover {
+.button.disabled:hover {
     cursor:default !important;
     background-color:transparent !important;
+}
+
+#button-clear {
+    position:absolute;
+    right:0;
+    display:none;
+}
+
+#img-credits {
+    cursor:pointer;
+}
+
+#credits-overlay {
+    top:0;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.6);
+    display:none;
+}
+
+#credits-overlay:hover {
+    cursor:pointer;
+}
+
+#credits-container {
+    position:fixed;
+    width:30%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    color:#E1E1E1;
+    background-color:#303130;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+}
+
+#credits-container:hover {
+    cursor:default;
+}
+
+#credits-container ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+#credits-container span {
+    float:left;
+}
+
+#credits-container li {
+    width:100%;
+    display:block;
+    clear:both;
+}
+
+#credits-container .credits-icon {
+    width:75px;
+    height:75px;
+}
+
+#credits-container .credits-text {
+    width:calc(100% - 75px - 15px);
+    margin-left:15px;
+    height:75px;
+    vertical-align:middle;
+    display:inline-flex;
+    align-items:center;
+}
+
+#credits-container img {
+    width:100%;
+    background-color:#FFF;
+}
+
+.button-smaller {
+    display:inline-flex;
+    align-items:center;
+    height:50px;
+}
+
+.button-smaller img {
+    height:35px;
 }

@@ -1,8 +1,8 @@
 (function() {
-    var button = document.getElementById("button");
+    var buttonExecute = document.getElementById("button-execute");
 
     function onThen() {
-        button.classList.remove("disabled");
+        buttonExecute.classList.remove("disabled");
     }
 
     function onOCLReadFile(data) {
@@ -10,18 +10,20 @@
 
         function onCD4AReadFile(data) {
             var cdString = data.payload[0];
-
+ 
             cheerpjRunMain("ocl.monticoreocl.ocl.OCLCDTool", "/app/OCL/ocl-1.0.0-SNAPSHOT-jar-with-dependencies-noemf.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
         }
 
-        CD4A.readFile(onCD4AReadFile);
+        CD.readFile(onCD4AReadFile);
     }
 
     function onClick(event) {
-        button.classList.add("disabled");
-        OCL.readFile(onOCLReadFile);
+        if(!buttonExecute.classList.contains("disabled")) {
+            buttonExecute.classList.add("disabled");
+            OCL.readFile(onOCLReadFile);
+        }
     }
 
     cheerpjInit();
-    button.addEventListener("click", onClick);
+    buttonExecute.addEventListener("click", onClick);
 })();
