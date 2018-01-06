@@ -201,7 +201,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- MontiCore Generation -->
       <plugin>
         <groupId>de.monticore.mojo</groupId>
@@ -232,6 +232,7 @@
           </execution>
         </executions>
       </plugin>
+
 
       <!-- Other Configuration -->
       <plugin>

@@ -49,7 +49,7 @@ grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions, d
         OCLConstraint*
         "}"
         |
-        OCLConstraint*
+        OCLConstraint+ // do not * here as this will make the rule OCLFile empty and we do not want to allow empty files to be parsed
         ;
 
 
@@ -103,8 +103,8 @@ grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions, d
         "inv" Name?
         OCLParameters?
          ":"
-         //Todo remove ";"
-        (statements:Expression ";")+
+        statements:(Expression || ";")+
+	";"? // is only here to be backward compatible to Stevens version (but in BRs books are no ; at the end)
         ;
 
     /** ASTOCLClassContext represents the OCL-Context-Clause of an invariant.
