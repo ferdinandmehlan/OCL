@@ -19,7 +19,7 @@
 
 package ocl.monticoreocl;
 
-grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions {
+grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions, de.monticore.lang.monticar.Common2 {
 
 	/*========================================================================*/
     /*============================ PRODUCTIONS  ==============================*/
@@ -249,4 +249,6 @@ grammar OCL extends de.monticore.lang.NumberUnit, de.monticore.OCLExpressions {
     OCLNumberPrimary implements OCLPrimary <0> =
         value:Number;
 
+    // Needed for OCLExpressions to get Types2 from Common2
+    EType = Type;
 }
