@@ -1,3 +1,6 @@
+**grammar moved to:** https://github.com/MontiCore/OCL
+   * fiddle will move later in extra repo (so that checkout does not need forever)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/7f8f42df0538b9b4f8ec/maintainability)](https://codeclimate.com/github/EmbeddedMontiArc/OCL/maintainability)
 [![Build Status](https://travis-ci.org/EmbeddedMontiArc/OCL.svg?branch=master)](https://travis-ci.org/EmbeddedMontiArc/OCL)
 [![Build Status](https://circleci.com/gh/EmbeddedMontiArc/OCL/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/EmbeddedMontiArc/OCL/tree/master)
