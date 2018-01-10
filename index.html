@@ -42,12 +42,12 @@ classdiagram AuctionCD {
 
         <!-- First Row, Left Column -->
         <div class="row-one-column">
-            <iframe id="ide-cd" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+            <iframe id="ide-cd" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&hideControls=2,1,1"></iframe>
         </div>
 
         <!-- First Row, Right Column -->
         <div class="row-one-column">
-            <iframe id="ide-ocl" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&toggles=1,1,1"></iframe>
+            <iframe id="ide-ocl" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&hideControls=2,1,1"></iframe>
         </div>
 
         <!-- Second Row, Left Column -->
@@ -73,9 +73,11 @@ classdiagram AuctionCD {
 
         <!-- Logos -->
         <div id="logos-container">
-            <a href="http://www.monticore.org/" target="_blank"><img src="resources/media/images/MontiCoreLogo.png"></a>
-            <a href="https://www.leaningtech.com/cheerpj/" target="_blank"><img src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png"></a>
-            <img id="img-credits" title="Credits" src="resources/media/images/Information.svg"/>
+            <div>
+                <a href="http://www.monticore.org/" target="_blank"><img class="element" src="resources/media/images/MontiCoreLogo.png"></a>
+                <a href="https://www.leaningtech.com/cheerpj/" target="_blank"><img class="element" src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png"></a>
+                <span id="label-credits" class="element button-smaller label">DEVELOPMENT<br/>TEAM</span>
+            </div>
        </div>
 
         <!-- Credits -->

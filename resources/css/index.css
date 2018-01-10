@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+/*
+ * GENERAL
+ */
 html, body {
     margin:0;
     padding:0;
@@ -6,10 +11,6 @@ html, body {
 
 body {
     background-color:#252525;
-}
-
-#meta-container {
-    display:none;
 }
 
 div.row-one-column {
@@ -36,39 +37,6 @@ div.right-column {
     text-align:right;
 }
 
-#bottom-container {
-    text-align:center;
-    clear:both;
-    width:100%;
-    height:calc(50% - 110px);
-}
-
-#logos-container {
-    width:100%;
-    height:50px;
-    text-align:center;
-}
-
-#logos-container img {
-    height:50px;
-    background-color:#FFF;
-}
-
-#console {
-    width:calc(100% - 6px);
-    resize:none;
-    height:calc(100% - 12px);
-    color:#E1E1E1;
-    background-color:#303130;
-    border:none;
-}
-
-iframe {
-    width:100%;
-    height:100%;
-    border:none;
-}
-
 .button {
     height:50px;
 }
@@ -91,16 +59,85 @@ iframe {
     background-color:transparent !important;
 }
 
+/*
+ * META INFORMATION
+ */
+#meta-container {
+    display:none;
+}
+
+/*
+ * FIRST ROW CONTAINER
+ */
+iframe {
+    width:100%;
+    height:100%;
+    border:none;
+}
+
+/*
+ * SECOND ROW CONTAINER
+ */
+#bottom-container {
+    text-align:center;
+    clear:both;
+    width:100%;
+    height:calc(50% - 110px);
+}
+
+#console {
+    width:calc(100% - 6px);
+    resize:none;
+    height:calc(100% - 12px);
+    color:#E1E1E1;
+    background-color:#303130;
+    border:none;
+}
+
 #button-clear {
     position:absolute;
     right:0;
     display:none;
 }
 
-#img-credits {
+/*
+ * THIRD ROW CONTAINER
+ */
+#logos-container {
+    width:100%;
+    height:50px;
+    text-align:center;
+}
+
+#logos-container img {
+    height:50px;
+    background-color:#FFF;
+}
+
+#logos-container div {
+    display:inline-block;
+    width:422px;
+}
+
+#logos-container .element {
+    float:left;
+    margin-left:5px;
+}
+
+#logos-container .label {
+    padding:0 10px 0 10px;
+    background-color:#FFF;
+    font-family:"Roboto Condensed", Helvetica, sans-serif;
+    font-weight:bolder;
+}
+
+#label-credits {
     cursor:pointer;
 }
 
+/*
+ * CREDITS OVERLAY
+ */
 #credits-overlay {
     top:0;
     position:fixed;
