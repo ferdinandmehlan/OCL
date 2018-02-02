@@ -3,7 +3,7 @@
     var textareaOutput = document.getElementById("console");
 
     function onClick(event) {
-        textareaOutput.value = '';
+        textareaOutput.textContent = '';
     }
 
     buttonClear.addEventListener("click", onClick);

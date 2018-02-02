@@ -1,4 +1,4 @@
-var CD = (function() {
+var CD4A = (function() {
     var PATH = "/cd/Demo.cd";
 
     var port = Port("CD");

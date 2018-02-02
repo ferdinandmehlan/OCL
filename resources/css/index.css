@@ -79,7 +79,6 @@ iframe {
  * SECOND ROW CONTAINER
  */
 #bottom-container {
-    text-align:center;
     clear:both;
     width:100%;
     height:calc(50% - 110px);
@@ -96,8 +95,8 @@ iframe {
 
 #button-clear {
     position:absolute;
-    right:0;
-    display:none;
+    right:20px;
+    bottom:70px;
 }
 
 /*
