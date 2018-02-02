@@ -12,7 +12,7 @@
         }
 
         if(error) console.error("An error occurred while reading the OCL file!");
-        else CD.readFile(onCD4AReadFile);
+        else CD4A.readFile(onCD4AReadFile);
     }
 
     function onClick(event) {
