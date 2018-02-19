@@ -8,7 +8,7 @@
     function onOCLReadFile(error, oclString) {
         function onCD4AReadFile(error, cdString) {
             if(error) console.error("An error occurred while reading the CD4A file!");
-            else cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.1-SNAPSHOT-jar-with-dependencies.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
+            else cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.1-beta.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
         }
 
         if(error) console.error("An error occurred while reading the OCL file!");
