@@ -1,8 +1,0 @@
-cheerpjCL={cl:null};
-var N4test14CollectorsTestG;
-function N4test14CollectorsTest(){N4java4lang6Object.call(this);}
-N4test14CollectorsTest.cl=cheerpjCL;
-function N4test14CollectorsTestX(a){a.f=N4test14CollectorsTestX;if(cheerpjSafeInitGuard('N4test14CollectorsTest')) return;var q=a.q=N4test14CollectorsTest.prototype=Object.create(N4java4lang6Object.prototype);q.constructor=N4test14CollectorsTest;q.ifs=[];N4test14CollectorsTestG=1;cheerpjSafeInitFinish('N4test14CollectorsTest');}
-var N4java4lang6ObjectG;
-var N4java4util6stream10CollectorsG;
-function _d4VaeFS0unoNZcbijWTll1sinXz7969c(d,p){_n4pZObjectC2EVEV(d,p);return;}function _d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79c(h,p){var c=null,d=null;var a={p:p,pc:0,f:_d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79c,c:null};a.pc=0;c=N4java4lang6System.out1;d=cheerpjInternString("Calling Collectors.toList()!");a.pc=5;c.v40(c,d,a);a.pc=1;c=a.c=N4java4lang6System.out1;a.pc=11;;if((N4java4util6stream10CollectorsG|0)==0){cjG(a);};a.pc=12;d=_i4pbNkWlcaVakBmtnnNZcbijWTllPp5uIin596j1jb3NKj(a);a.pc=2;a.pc=14;c.v41(c,d,a);a.pc=3;a.pc=19;_o4VZystem4exitEIEV(0,a);a.pc=4;return;}function _d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79cE(a,b){a.f=_d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79cE;var c=a.c;var pc=a.pc;a.pc=6;c=a.c=b;if(!((pc>=0&&pc<21)&&window.hasOwnProperty("N4java4lang5Error")&&(b instanceof N4java4lang5Error)|0)){a.pc=7;a.pc=-1;return}a.pc=8;a.pc=26;c.v15(c,a);a.pc=9;a.f=_d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79c;a.pc=4;buildContinuations(a, true);currentThread.state='READY';throw 'CheerpJContinue';}var _d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79cEE=_d4VaeFS0unoNZcbijWTml1sinHZaG04Pjr_c79cE;
