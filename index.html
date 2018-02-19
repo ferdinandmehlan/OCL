@@ -15,12 +15,13 @@
         <!-- Hidden Information -->
         <div id="meta-container">
             <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
-package example.typeInferringModels;
+package example.OCL;
 
-ocl cDToolFile {
-    context Auction a inv Test:
-        a.participants.size > 0;
-}
+import example.CDs.AuctionCD;
+
+context Auction a inv:
+    a.participants.size > 0
+
             </textarea>
             <textarea id="cd" rows="8" cols="50" placeholder="CD code here">
 package example.CDs;
