@@ -2563,6 +2563,7 @@ var cjReportedErrors = 0;
 
 function cjReportError(info, message)
 {
+	/* out commented as this causes everytime Access-Control-Allow-Origin errors
 	if(location.protocol == "file:")
 	{
 		// Do not log all errors from local testing pages
@@ -2581,6 +2582,7 @@ function cjReportError(info, message)
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("entry.1790791857=" + encodeURIComponent(info) + "&entry.1699159116=" + encodeURIComponent(message));
 	cjReportedErrors++;
+	*/
 }
 
 function cjStringJavaToJs(javaString)
