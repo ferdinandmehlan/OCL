@@ -80,7 +80,7 @@ iframe {
  */
 #bottom-container {
     clear:both;
-    width:100%;
+    width:50%;
     height:calc(50% - 110px);
 }
 
