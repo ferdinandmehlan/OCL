@@ -1,10 +1,24 @@
 (function() {
+    var buttonTest = document.getElementById("button-plantUMLtest");
     var cdOutput = document.getElementById("cd-output");
-    var cd = document.getElementById("cd");
 
-    function onCDOutputClick(event) {
-        cd.src = "http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/ferdinandmehlan/OCL/gh-pages/resources/txt/plantUML.txt";
+    function onThen() {
+        // Send translated file to plantuml
+
     }
 
-    cdOutput.addEventListener("click", onCDOutputClick);
+    function onCD4AReadFile4Print(error, cdString) {
+        if(error)
+            console.error("An error occurred while reading the CD4A file for visualizing!");
+        else
+            cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "resources/txt/plantUML.txt").then(onThen);
+    }
+
+    function onClick(event) {
+            CD4A.readFile(onCD4AReadFile4Print);
+    }
+
+    //is already initialized in cheerpj.js
+    //cheerpjInit();
+    buttonTest.addEventListener("click", onClick);
 })();
