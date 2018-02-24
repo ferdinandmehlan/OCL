@@ -21,6 +21,6 @@
 
     //is already initialized in cheerpj.js
     cheerpjInit();
-    cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar").then(function();
+    cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar").then(function());
     cdOutput.addEventListener("click", onClick);
 })();
