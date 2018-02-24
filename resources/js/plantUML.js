@@ -1,10 +1,9 @@
 (function() {
-    var buttonTest = document.getElementById("button-plantUMLtest");
     var cdOutput = document.getElementById("cd-output");
 
     function onThen() {
         // Send translated file to plantuml
-
+        cdOutput.src = "";
     }
 
     function onCD4AReadFile4Print(error, cdString) {
@@ -20,5 +19,5 @@
 
     //is already initialized in cheerpj.js
     //cheerpjInit();
-    buttonTest.addEventListener("click", onClick);
+    cdOutput.addEventListener("click", onClick);
 })();
