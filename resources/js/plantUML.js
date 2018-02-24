@@ -11,7 +11,7 @@
         if(error)
             console.error("An error occurred while reading the CD4A file for visualizing!");
         else {
-            var returnVal = cjCall("ocl.cli.OCLCDTool", "printCD2PlantUML", cdString).then(plantUMLString = cjStringJavatoJS(returnVal)).then(getPng);
+            var returnVal = cjCall("ocl.cli.OCLCDTool", "printCD2PlantUML", cdString).then(plantUMLString = cjStringJavaToJs(returnVal)).then(getPng);
         }
     }
 
