@@ -8,7 +8,13 @@
     function onOCLReadFile(error, oclString) {
         function onCD4AReadFile(error, cdString) {
             if(error) console.error("An error occurred while reading the CD4A file!");
-            else cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
+            else {
+                write('/example/cd/AuctionCD.cd', cdString);
+                write('/DefaultTypes.cd', document.getElementById("cd-default").value);
+                write('/demo/demo.ocl', oclString);
+                cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-path", "", "-ocl", "demo.demo").then(onThen);
+                //cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-ocl", oclString, "-cd", cdString).then(onThen);
+            }
         }
 
         if(error) console.error("An error occurred while reading the OCL file!");
@@ -25,6 +31,6 @@
     // init cheerpj
     cheerpjInit();
     // run once to let cj get the static functions
-    cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-init").then(document.getElementById("console").textContent = '');
+    //cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-init").then(document.getElementById("console").textContent = '');
     buttonExecute.addEventListener("click", onClick);
 })();
