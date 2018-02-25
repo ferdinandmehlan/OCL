@@ -86,7 +86,7 @@
     }
 
     function done_deflating(e) {
-    	cdoutput.src = "http://www.plantuml.com/plantuml/img/"+encode64(e.data);
+    	cdOutput.src = "http://www.plantuml.com/plantuml/img/"+encode64(e.data);
     }
 
     function compress(s) {
