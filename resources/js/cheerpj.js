@@ -25,6 +25,6 @@
     // init cheerpj
     cheerpjInit();
     // run once to let cj get the static functions
-    cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-init");;
+    cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-init").then(document.getElementById("console").textContent = '');
     buttonExecute.addEventListener("click", onClick);
 })();

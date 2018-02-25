@@ -4,6 +4,24 @@
 
     function getPng() {
         // generate new image
+        var request = window.indexedDB.open("cjFS_/files/");
+        var db;
+        request.onerror = function(event) {
+          alert("Unable to open database!");
+        };
+        request.onsuccess = function(event) {
+            db = request.result;
+            var transaction = db.transaction(["files"]);
+            var objectStore = transaction.objectStore("files");
+            var request = objectStore.get("/plantUML.txt");
+            request.onerror = function(event) {
+              alert("Unable to retrieve daa from database!");
+            };
+            request.onsuccess = function(event) {
+              plantUMLString = request.result;
+            };
+        };
+
         compress(plantUMLString);
         return false;
     }

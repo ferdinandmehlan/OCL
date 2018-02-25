@@ -1,5 +1,0 @@
-@startuml
-!pragma graphviz_dot jdot
-
-class Auction
-@enduml
