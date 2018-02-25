@@ -22,6 +22,6 @@
         }
     }
 
-    //cheerpjInit();
+    cheerpjInit();
     buttonExecute.addEventListener("click", onClick);
 })();
