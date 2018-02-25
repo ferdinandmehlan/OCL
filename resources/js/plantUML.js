@@ -17,7 +17,9 @@
             console.error("An error occurred while reading the CD4A file for visualizing!");
         else {
             // translate MC-CD to plantUML-CD
-            cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "resources/txt/plantUML.txt").then(getPng);
+            //cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "resources/txt/plantUML.txt").then(getPng);
+            var plantumlCjString = cjCall("ocl.cli.OCLCDTool", "printCD2PlantUML", cdString);
+            var plantumlJsString = cjStringJavaToJs(plantumlCjString);
         }
     }
 
@@ -25,7 +27,5 @@
         CD4A.readFile(onCD4AReadFile4Print);
     }
 
-    // is already initialized in cheerpj.js
-    // cheerpjInit();
     cdOutput.addEventListener("click", onClick);
 })();
