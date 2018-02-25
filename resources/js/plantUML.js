@@ -9,7 +9,7 @@
 
     function getPng() {
         // generate new image
-        cheerpjRunMain("net.sourceforge.plantuml.Run", "/app/OCL/plantuml.jar", "resources/txt/plantUML.txt").then(setPng);
+        // cheerpjRunMain("net.sourceforge.plantuml.Run", "/app/OCL/plantuml.jar", "resources/txt/plantUML.txt").then(setPng);
     }
 
     function onCD4AReadFile4Print(error, cdString) {
@@ -17,8 +17,7 @@
             console.error("An error occurred while reading the CD4A file for visualizing!");
         else {
             // translate MC-CD to plantUML-CD
-            getPng();
-            // cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "resources/txt/plantUML.txt").then(getPng);
+            cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "resources/txt/plantUML.txt").then(getPng);
         }
     }
 
