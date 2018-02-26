@@ -37,7 +37,19 @@
             console.error("An error occurred while reading the CD4A file for visualizing!");
         else {
             // translate MC-CD to plantUML-CD and write to file
-            cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "plantUML.txt").then(getPng);
+            var arguments = ["ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "plantUML.txt", "", "", "", ""];
+
+            if(buttonShowAttributes.value == "true")
+                arguments[6] = "-showAttributes";
+            if(buttonShowAssocNames.value == "true")
+                arguments[7] = "-showAssociationNames";
+            if(buttonShowRoleNames.value == "true")
+                arguments[8] = "-showRoleNames";
+            if(buttonShowAttributes.value != "true")
+                arguments[9] = "-showNoCardinality";
+
+            cheerpjRunMain(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5],
+                    arguments[6], arguments[7], arguments[8], arguments[9]).then(getPng);
         }
     }
 
