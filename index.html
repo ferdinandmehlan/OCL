@@ -18,10 +18,10 @@
             <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
 package demo;
 
-import example.CDs.AuctionCD;
+import example.cd.AuctionCD;
 
-  context Auction a inv:
-    a.participants.size > 0
+context Auction a inv:
+  a.participants.size > 0
             </textarea>
             <textarea id="cd" rows="8" cols="50" placeholder="CD code here">
 package example.cd;
@@ -164,7 +164,8 @@ classdiagram DefaultTypes {
              <div id="wrapper">
                  <!-- CD Visualization -->
                 <div id="div-cd">
-                   <img id="cd-output" src="resources/media/images/plantUML.png"/>
+                   <img id="cd-output" alt="click to rerender picture"
+                        src="http://www.plantuml.com/plantuml/svg/SoWkIImgAStDuKhEIImkLd0iJIx9pC-3yW9IYug17AYWWfAMaeADhgwTWfAX4apE8JKl1QWT0000"/>
                 </div>
                 <div id="div-console">
                     <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output" readonly></textarea>
