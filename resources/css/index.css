@@ -119,6 +119,10 @@ iframe {
     overflow:scroll;
 }
 
+#cd-output {
+    background-color: white;
+}
+
 #button-clear {
     position:absolute;
     right:20px;
