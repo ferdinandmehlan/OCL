@@ -61,6 +61,7 @@
     buttonShowAssocNames.addEventListener("click", onSwitchOption);
     buttonShowRoleNames.addEventListener("click", onSwitchOption);
     buttonShowCardinality.addEventListener("click", onSwitchOption);
+    buttonShowCardinality.value = "true";
 
 
     // code below from http://plantuml.com/code-javascript-asynchronous
