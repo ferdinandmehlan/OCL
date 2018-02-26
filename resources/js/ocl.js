@@ -1,5 +1,5 @@
 var OCL = (function() {
-    var PATH = "/demo/Demo.ocl";
+    var PATH = "/example/ocl/Demo.ocl";
 
     var port = Port("OCL");
     var iframe = document.getElementById("ide-ocl");

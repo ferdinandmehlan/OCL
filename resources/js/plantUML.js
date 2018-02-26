@@ -1,6 +1,11 @@
 (function() {
     var cdOutput = document.getElementById("cd-output");
-    var plantUMLString = "@startuml\nclass Auction\n@enduml";
+    var buttonReleadCd = document.getElementById("button-reload-cd");
+    var plantUMLString = "@startuml\n@enduml";
+    var buttonShowAttributes = document.getElementById("button-show-attributes");
+    var buttonShowAssocNames = document.getElementById("button-show-assoc-names");
+    var buttonShowRoleNames = document.getElementById("button-show-role-names");
+    var buttonShowCardinality = document.getElementById("button-show-cardinality");
 
     function getPng() {
         // generate new image
@@ -32,16 +37,43 @@
             console.error("An error occurred while reading the CD4A file for visualizing!");
         else {
             // translate MC-CD to plantUML-CD and write to file
-            cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "plantUML.txt").then(getPng);
+            var arguments = ["ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-printSrc", cdString, "-printTgt", "plantUML.txt", "", "", "", ""];
+
+            if(buttonShowAttributes.value == "true")
+                arguments[6] = "-showAttributes";
+            if(buttonShowAssocNames.value == "true")
+                arguments[7] = "-showAssociationNames";
+            if(buttonShowRoleNames.value == "true")
+                arguments[8] = "-showRoleNames";
+            if(buttonShowCardinality.value != "true")
+                arguments[9] = "-showNoCardinality";
+
+            cheerpjRunMain(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5],
+                    arguments[6], arguments[7], arguments[8], arguments[9]).then(getPng);
         }
     }
 
-    function onClick(event) {
+    function onReload(event) {
         CD4A.readFile(onCD4AReadFile4Print);
     }
 
-    cdOutput.addEventListener("click", onClick);
+    function onSwitchOption(event) {
+        if(event.target.value == "true") {
+            event.target.src = "resources/media/images/Eye.png";
+            event.target.value = "false";
+        }
+        else {
+            event.target.src = "resources/media/images/Eye2.png";
+            event.target.value = "true";
+        }
+    }
 
+    buttonReleadCd.addEventListener("click", onReload);
+    buttonShowAttributes.addEventListener("click", onSwitchOption);
+    buttonShowAssocNames.addEventListener("click", onSwitchOption);
+    buttonShowRoleNames.addEventListener("click", onSwitchOption);
+    buttonShowCardinality.addEventListener("click", onSwitchOption);
+    buttonShowCardinality.value = "true";
 
 
     // code below from http://plantuml.com/code-javascript-asynchronous

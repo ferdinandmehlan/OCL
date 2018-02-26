@@ -1,7 +1,7 @@
 var CD4ADefault = (function() {
-    var PATH = "/DefaultTypes.cd";
+    var PATH = "/example/cd/DefaultTypes.cd";
 
-    var port = Port("CD");
+    var port = Port("CD4Default");
     var iframe = document.getElementById("ide-cd");
     var textarea = document.getElementById("cd-default");
     var button = document.getElementById("button-reset-cd");

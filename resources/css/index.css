@@ -20,20 +20,27 @@ div.row-one-column {
 }
 
 div.row-two-column {
-    width:33.333333%;
     height:50px;
     float:left;
 }
 
 div.left-column {
+    width:20%;
     text-align:left;
 }
 
-div.middle-column {
-    text-align:center;
+div.middle-left-column {
+    width:30%;
+    text-align:left;
+}
+
+div.middle-right-column {
+    width:30%;
+    text-align:right;
 }
 
 div.right-column {
+    width:20%;
     text-align:right;
 }
 
@@ -110,6 +117,10 @@ iframe {
     background-color:#303130;
     border:none;
     overflow:scroll;
+}
+
+#cd-output {
+    background-color: white;
 }
 
 #button-clear {

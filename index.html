@@ -16,9 +16,10 @@
         <!-- Hidden Information -->
         <div id="meta-container">
             <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
-package demo;
+package example.ocl;
 
 import example.cd.AuctionCD;
+import example.cd.DefaultTypes;
 
 context Auction a inv:
   a.participants.size > 0
@@ -34,6 +35,8 @@ classdiagram AuctionCD {
 }
             </textarea>
             <textarea id="cd-default" rows="8" cols="50" placeholder="DefaultTypes code here">
+package example.cd;
+
 classdiagram DefaultTypes {            
     // DefaultTypes below, Do Not delete
     public class Class;
@@ -147,7 +150,16 @@ classdiagram DefaultTypes {
         </div>
 
         <!-- Second Row, Middle Column -->
-        <div class="row-two-column middle-column">
+        <div class="row-two-column middle-left-column">
+            <img id="button-reload-cd" class="button" src="resources/media/images/Refresh.png"/>
+            <img id="button-show-attributes" class="button" src="resources/media/images/Eye.png" value="false"/>
+            <img id="button-show-assoc-names" class="button" src="resources/media/images/Eye.png" value="false"/>
+            <img id="button-show-role-names" class="button" src="resources/media/images/Eye.png" value="false"/>
+            <img id="button-show-cardinality" class="button" src="resources/media/images/Eye2.png" value="true"/>
+        </div>
+
+        <!-- Second Row, Middle Column -->
+        <div class="row-two-column middle-right-column">
             <img id="button-execute" class="button" src="resources/media/images/Execute.svg"/>
         </div>
 
