@@ -1,6 +1,11 @@
 (function() {
     var cdOutput = document.getElementById("cd-output");
-    var plantUMLString = "@startuml\nclass Auction\n@enduml";
+    var buttonReleadCd = document.getElementById("button-reload-cd");
+    var plantUMLString = "@startuml\n@enduml";
+    var buttonShowAttributes = document.getElementById("button-show-attributes");
+    var buttonShowAssocNames = document.getElementById("button-show-assoc-names");
+    var buttonShowRoleNames = document.getElementById("button-show-role-names");
+    var buttonShowCardinality = document.getElementById("button-show-cardinality");
 
     function getPng() {
         // generate new image
@@ -36,12 +41,26 @@
         }
     }
 
-    function onClick(event) {
+    function onReload(event) {
         CD4A.readFile(onCD4AReadFile4Print);
     }
 
-    cdOutput.addEventListener("click", onClick);
+    function onSwitchOption(event) {
+        if(event.target.value == "true") {
+            event.target.src = "resources/media/images/Eye.png";
+            event.target.value = "false";
+        }
+        else {
+            event.target.src = "resources/media/images/Eye2.png";
+            event.target.value = "true";
+        }
+    }
 
+    buttonReleadCd.addEventListener("click", onReload);
+    buttonShowAttributes.addEventListener("click", onSwitchOption);
+    buttonShowAssocNames.addEventListener("click", onSwitchOption);
+    buttonShowRoleNames.addEventListener("click", onSwitchOption);
+    buttonShowCardinality.addEventListener("click", onSwitchOption);
 
 
     // code below from http://plantuml.com/code-javascript-asynchronous
