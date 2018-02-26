@@ -83,14 +83,33 @@ iframe {
     width:100%;
     height:calc(50% - 110px);
 }
-
-#console {
+#wrapper{
     width:calc(100% - 6px);
-    resize:none;
     height:calc(100% - 12px);
+}
+#div-console {
+    float:right;
+    width:50%;
+    height:100%;
+}
+#console {
+    width:100%;
+    resize:none;
+    height:100%;
     color:#E1E1E1;
     background-color:#303130;
     border:none;
+}
+
+#div-cd {
+    float:left;
+    width: 50%;
+    resize:none;
+    height:100%;
+    color:#E1E1E1;
+    background-color:#303130;
+    border:none;
+    overflow:scroll;
 }
 
 #button-clear {

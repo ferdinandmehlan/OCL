@@ -18,7 +18,6 @@
             <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
 package demo;
 
-import DefaultTypes;
 import example.CDs.AuctionCD;
 
   context Auction a inv:
@@ -157,16 +156,20 @@ classdiagram DefaultTypes {
             <span class="button-smaller"><img title="Reset" id="button-reset-ocl" class="button" src="resources/media/images/Reset.svg"/></span>
         </div>
 
-        <!-- CD Visualization -->
-        <div>
-            <img id="cd-output" src="resources/media/images/plantUML.png"/>
-        </div>
-
+       
 
         <!-- Bottom Row -->
         <div id="bottom-container">
             <img id="button-clear" class="button" src="resources/media/images/Trashbin.svg"/>
-            <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output" readonly></textarea>
+             <div id="wrapper">
+                 <!-- CD Visualization -->
+                <div id="div-cd">
+                   <img id="cd-output" src="resources/media/images/plantUML.png"/>
+                </div>
+                <div id="div-console">
+                    <textarea id="console" rows="8" cols="50" placeholder="Console Tool Output" readonly></textarea>
+                </div>
+              </div>
         </div>
 
         <!-- Logos -->
