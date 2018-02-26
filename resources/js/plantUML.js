@@ -45,7 +45,7 @@
                 arguments[7] = "-showAssociationNames";
             if(buttonShowRoleNames.value == "true")
                 arguments[8] = "-showRoleNames";
-            if(buttonShowAttributes.value != "true")
+            if(buttonShowCardinality.value != "true")
                 arguments[9] = "-showNoCardinality";
 
             cheerpjRunMain(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5],
