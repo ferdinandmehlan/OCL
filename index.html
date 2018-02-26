@@ -16,9 +16,10 @@
         <!-- Hidden Information -->
         <div id="meta-container">
             <textarea id="ocl" rows="8" cols="50" placeholder="OCL code here">
-package demo;
+package example.ocl;
 
 import example.cd.AuctionCD;
+import example.cd.DefaultTypes;
 
 context Auction a inv:
   a.participants.size > 0
@@ -34,6 +35,8 @@ classdiagram AuctionCD {
 }
             </textarea>
             <textarea id="cd-default" rows="8" cols="50" placeholder="DefaultTypes code here">
+package example.cd;
+
 classdiagram DefaultTypes {            
     // DefaultTypes below, Do Not delete
     public class Class;

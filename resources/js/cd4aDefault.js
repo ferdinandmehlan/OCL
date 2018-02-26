@@ -1,5 +1,5 @@
 var CD4ADefault = (function() {
-    var PATH = "/DefaultTypes.cd";
+    var PATH = "/example/cd/DefaultTypes.cd";
 
     var port = Port("CD");
     var iframe = document.getElementById("ide-cd");
