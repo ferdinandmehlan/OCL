@@ -1,4 +1,9 @@
 var CD4ADefault = (function() {
+	var url_string = window.location.href;
+    var url = new URL(url_string);
+    var cd = url.searchParams.get("cd");
+
+
     var PATH = "/example/cd/DefaultTypes.cd";
 
     var port = Port("CD4Default");
