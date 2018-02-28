@@ -1,5 +1,9 @@
 var write = function(fileName, type, content, inodeIdX) {
-
+        /*
+         * Using Raw IndexedDB is a very bad idea.
+         * Use Dexie.org instead.
+         * It is already loaded in the index.html.
+         */
         var request = window.indexedDB.open("cjFS_/files/", 1);
         var db;
         request.onerror = function(event) {
