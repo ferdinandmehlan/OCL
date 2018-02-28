@@ -15,7 +15,8 @@ $(document).ready(function() {
     function onExistsFile(exists) {
         var value = $textarea.val();
 
-        if(!exists) CD4APort.writeFile(PATH, value, onWriteFile);
+        if(exists) CD4APort.openFile(PATH, onOpenFile);
+        else CD4APort.writeFile(PATH, value, onWriteFile);
     }
 
     function onResetFile(error) {
