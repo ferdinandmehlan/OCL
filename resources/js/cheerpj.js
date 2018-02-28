@@ -12,6 +12,7 @@
 
     function onThen() {
         buttonExecute.classList.remove("disabled");
+        $("#console").scrollTop(10000000000);
     }
 
     function onOCLReadFile(error, oclString) {
