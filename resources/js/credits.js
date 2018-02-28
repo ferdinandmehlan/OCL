@@ -1,15 +1,15 @@
-(function() {
-    var labelCredits = document.getElementById("label-credits");
-    var creditsOverlay = document.getElementById("credits-overlay");
+$(document).ready(function() {
+    var $labelCredits = $("#label-credits");
+    var $creditsOverlay = $("#credits-overlay");
 
     function onCreditsClick(event) {
-        creditsOverlay.style = "display:block";
+        $creditsOverlay.show();
     }
 
     function onOverlayClick(event) {
-        creditsOverlay.style = "display:none";
+        $creditsOverlay.hide();
     }
 
-    labelCredits.addEventListener("click", onCreditsClick);
-    creditsOverlay.addEventListener("click", onOverlayClick);
-})();
+    $labelCredits.on("click", onCreditsClick);
+    $creditsOverlay.on("click", onOverlayClick);
+});

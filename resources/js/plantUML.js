@@ -1,4 +1,6 @@
-(function() {
+$(document).ready(function() {
+    var PATH = "/example/cd/AuctionCD.cd";
+
     var cdOutput = document.getElementById("cd-output");
     var buttonReleadCd = document.getElementById("button-reload-cd");
     var plantUMLString = "@startuml\n@enduml";
@@ -54,7 +56,7 @@
     }
 
     function onReload(event) {
-        CD4A.readFile(onCD4AReadFile4Print);
+        CD4APort.readFile(PATH, onCD4AReadFile4Print);
     }
 
     function onSwitchOption(event) {
@@ -156,4 +158,4 @@
     		}, 100);
       	}
     }
-})();
+});

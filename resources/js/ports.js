@@ -1,4 +1,8 @@
-var Common = function(PATH, port, iframe, textarea, button) {
+var CommonPort = function(portname, iframeId) {
+    var eventEmitter = $({});
+    var port = undefined;
+    var iframe = undefined;
+
     function executeCallback(reference, callback, index) {
         var data = { reference: reference, method: "{{raw}}", arguments: [] };
 
@@ -17,43 +21,45 @@ var Common = function(PATH, port, iframe, textarea, button) {
         port.sendTo("api.ide", data, onResponse);
     }
 
-    function readFile(callback) {
-        var data = { plugin: "fs", method: "readFile", arguments: [PATH] };
+    function readFile(path, callback) {
+        var data = { plugin: "fs", method: "readFile", arguments: [path] };
 
         function onResponse(data) {
             var errorReference = data.payload[0];
             var contentReference = data.payload[1];
 
-            if(errorReference) console.error("An error occurred while reading the CD4A file!");
+            if(errorReference) console.error("An error occurred while reading a file!");
             else executeCallback(contentReference, callback, 1);
         }
 
         port.sendTo("api.ide", data, onResponse);
     }
 
-    function writeFile(callback) {
-        var data = { plugin: "fs", method: "writeFile", arguments: [PATH, textarea.value] };
+    function writeFile(path, value, callback) {
+        var data = { plugin: "fs", method: "writeFile", arguments: [path, value] };
 
         function onResponse(data) {
-            var errorReference = data.payload[0];
+            /*var errorReference = data.payload[0];
 
-            if(errorReference) console.error("An error occurred while writing to the CD4A file!");
-            else callback(null);
+            if(errorReference) console.error("An error occurred while writing to a file!");
+            else */callback(null);
         }
 
         port.sendTo("api.ide", data, onResponse);
     }
 
-    function openFile() {
-        var data = { plugin: "tabManager", method: "openFile", arguments: [PATH, true] };
+    function openFile(path, callback) {
+        var data = { plugin: "tabManager", method: "openFile", arguments: [path, true] };
 
-        function onResponse(data) {}
+        function onResponse(data) {
+            callback(null);
+        }
 
         port.sendTo("api.ide", data, onResponse);
     }
 
-    function existsFile(callback) {
-        var data = { plugin: "fs", method: "exists", arguments: [PATH] };
+    function existsFile(path, callback) {
+        var data = { plugin: "fs", method: "exists", arguments: [path] };
 
         function onResponse(data) {
             var existsReference = data.payload[0];
@@ -84,28 +90,21 @@ var Common = function(PATH, port, iframe, textarea, button) {
         port.sendTo("api.ide", data, onResponse);
     }
 
-
-    function onClick(event) {
-        function onWriteFile(error) {
-            if(error) console.error("An error occurred while writing to the file!");
-            else reloadTab();
-        }
-
-        writeFile(onWriteFile);
+    function on(eventName, callback) {
+        eventEmitter.on(eventName, callback);
     }
 
-    function onWriteFile(error) {
-        if(error) console.error("An error occurred while writing to the file!");
-        else openFile();
+    function off(eventName, callback) {
+        eventEmitter.off(eventName, callback);
     }
 
-    function onExistsFile(exists) {
-        if(exists) openFile();
-        else writeFile(onWriteFile);
+    function once(eventName, callback) {
+        eventEmitter.once(eventName, callback);
     }
+
 
     function onConnected(data) {
-        if(data.source === "api.ide") existsFile(onExistsFile);
+        if(data.source === "api.ide") eventEmitter.trigger("connected");
     }
 
     function onConnect(data) {
@@ -119,13 +118,32 @@ var Common = function(PATH, port, iframe, textarea, button) {
         port.connectTo(iframe.contentWindow, onConnect);
     }
 
+    function onDocumentReady() {
+        port = Port(portname);
+        iframe = $(iframeId)[0];
 
-    port.on("online", onOnline);
-    button.addEventListener("click", onClick);
+        port.on("online", onOnline);
+    }
+
+    $(document).ready(onDocumentReady);
 
 
     return {
+        on: on,
+        off: off,
+        once: once,
         readFile: readFile,
-        writeFile: writeFile
+        writeFile: writeFile,
+        reloadTab: reloadTab,
+        existsFile: existsFile,
+        openFile: openFile
     };
 };
+
+var CD4APort = (function() {
+    return CommonPort("CD4A", "#ide-cd");
+})();
+
+var OCLPort = (function() {
+    return CommonPort("OCL", "#ide-ocl");
+})();

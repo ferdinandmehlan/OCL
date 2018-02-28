@@ -1,5 +1,8 @@
-(function() {
-    var buttonExecute = document.getElementById("button-execute");
+$(document).ready(function() {
+    var CD_PATH = "/example/cd/AuctionCD.cd";
+    var OCL_PATH = "/example/ocl/Demo.ocl";
+
+    var $buttonExecute = $("#button-execute");
 
   function rawStringToBuffer( str ) {
     var idx, len = str.length, arr = new Array( len );
@@ -11,7 +14,7 @@
    }
 
     function onThen() {
-        buttonExecute.classList.remove("disabled");
+        $buttonExecute.removeClass("disabled");
         $("#console").scrollTop(10000000000);
     }
 
@@ -39,13 +42,13 @@
         }
 
         if(error) console.error("An error occurred while reading the OCL file!");
-        else CD4A.readFile(onCD4AReadFile);
+        else CD4APort.readFile(CD_PATH, onCD4AReadFile);
     }
 
     function onClick(event) {
-        if(!buttonExecute.classList.contains("disabled")) {
-            buttonExecute.classList.add("disabled");
-            OCL.readFile(onOCLReadFile);
+        if(!$buttonExecute.hasClass("disabled")) {
+            $buttonExecute.addClass("disabled");
+            OCLPort.readFile(OCL_PATH, onOCLReadFile);
         }
     }
 
@@ -53,5 +56,5 @@
     cheerpjInit();
     // run once to let cj get the static functions
     //cheerpjRunMain("ocl.cli.OCLCDTool", "/app/OCL/ocl-1.2.2-cli.jar", "-init").then(document.getElementById("console").textContent = '');
-    buttonExecute.addEventListener("click", onClick);
-})();
+    $buttonExecute.on("click", onClick);
+});
