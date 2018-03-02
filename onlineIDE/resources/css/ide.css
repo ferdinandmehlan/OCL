@@ -1,0 +1,44 @@
+#loader-container {
+    background-color:#303030;
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    top:0px;
+    left:0px;
+}
+
+#loader-container img {
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate3d(-50%,-50%,0);
+}
+
+#loader-percentage {
+    position:fixed;
+    top:50%;
+    transform:translate(0, 60px);
+    text-align:center;
+    width:100%;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#cecece;
+    font-size:15px;
+    display:none;
+}
+
+.icon-loader {
+    background:url("../media/images/Loader32.svg") no-repeat center;
+    background-size:100% 100%;
+}
+
+#se-rwth-logo {
+    position:fixed;
+    top:-3px;
+    right:62px;
+    background:url("../media/images/SE-RWTH-Cropped.png") no-repeat center;
+    z-index:999;
+    height:40px;
+    width:40px;
+    background-size:contain;
+}
