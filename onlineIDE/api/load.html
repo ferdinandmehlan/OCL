@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Load</title>
+        <base href=".."/>
+
+        <link href="resources/css/index.css" type="text/css" rel="stylesheet"/>
+
+        <script src="resources/js/production/index/jquery-3.2.1.min.js"></script>
+        <script src="resources/js/production/browserfs.min.js"></script>
+        <script src="resources/js/production/index/async.min.js"></script>
+        <script src="resources/js/production/jszip.min.js"></script>
+        <script src="resources/js/production/index/browser-detect.min.js"></script>
+
+        <script src="resources/js/development/shared/Loader.js"></script>
+        <script src="resources/js/development/shared/Dialog.js"></script>
+        <script src="resources/js/development/index/Settings.js"></script>
+        <script src="resources/js/development/shared/Checker.js"></script>
+        <script src="resources/js/development/index/Trashbin.js"></script>
+        <script src="resources/js/development/index/Menu.js"></script>
+        <script src="resources/js/development/shared/Dashboard.js"></script>
+        <script src="resources/js/development/shared/VFS.js"></script>
+        <script src="resources/js/development/shared/Utilities.js"></script>
+        <script src="resources/js/development/api/load/URLVFS.js"></script>
+        <script src="resources/js/development/api/load/load.js"></script>
+    </head>
+    <body>
+        <div id="loader-container">
+            <img src="resources/media/images/Loader.svg"/>
+            <span id="loader-message">Checking Prerequisites...</span>
+        </div>
+        <div id="dialog-container">
+            <div id="dialog-panel" class="container panel">
+                <span id="dialog-icon"></span>
+                <span id="dialog-message">Are you sure you want to delete this project?</span>
+            </div>
+        </div>
+    </body>
+</html>

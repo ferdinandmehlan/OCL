@@ -1,0 +1,573 @@
+/** DISCLAIMER ***************************
+This stylesheet is currently really unoptimized,
+but I was told to make haste, so there was no
+time for optimizations yet!
+*/
+
+/** GENERAL ******************************/
+html, body {
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    height:100%;
+    width:100%;
+}
+
+body {
+    background-color:#303130;
+    color:#cecece;
+}
+
+::-webkit-scrollbar-track-piece {
+    margin:4px 0;
+}
+
+::-webkit-scrollbar-thumb {
+    border:solid 0 rgba(0, 0, 0, 0);
+    border-right-width:4px;
+    border-left-width:4px;
+    -webkit-border-radius:9px 4px;
+    -webkit-box-shadow:inset 0 0 0 1px rgba(128, 128, 128, 0.2), inset 0 0 0 4px rgba(128, 128, 128, 0.2);
+}
+
+::-webkit-scrollbar-corner {
+    background:transparent;
+}
+
+::-webkit-scrollbar {
+    background:none;
+    width:16px;
+    height:16px;
+}
+
+/** SHARED *******************************/
+div.container {
+    position:absolute;
+}
+
+div.panel {
+    background-color:#252525;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding:10px;
+}
+
+.shared-span {
+    padding:5px;
+    background-color:#252525;
+    user-select:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    cursor:pointer;
+}
+
+.shared-span:hover {
+    background-color:#333333;
+    box-shadow:1px -1px 0 0 #000000, -1px 0 0 0 #000000, 0 1px 0 0 rgba(255, 255, 255, 0.15) inset;
+    color:#d4d4d4;
+}
+
+.label-form {
+    text-align:right;
+    padding-right:20px;
+}
+
+.input-form {
+    width:196px !important;
+    padding:2px;
+    background-color:#3D3D3D;
+    border:none;
+    color:#cecece;
+    font-size:12px;
+}
+
+br {
+    clear:left;
+}
+
+.shared-form {
+    display:block;
+    width:120px;
+    float:left;
+    margin-bottom:10px;
+}
+
+span.highlighted, a {
+    color:#89b1d3;
+}
+
+/** LOADER *******************************/
+#loader-container {
+    background-color:rgba(0,0,0,0.6);
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:4;
+}
+
+#loader-container img {
+    position:fixed;
+    top:calc(50% - 30px);
+    left:calc(50% - 30px);
+}
+
+#loader-message {
+    position:fixed;
+    top:calc(50% + 60px);
+    display:block;
+    text-align:center;
+    width:100%;
+    font-size:15px;
+}
+
+/** MAIN *********************************/
+#main-container {
+    z-index:0;
+}
+
+/** CREDENTIALS **************************/
+#credentials-container {
+    background-color:rgba(0,0,0,0.6);
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:3;
+    display:none;
+}
+
+#credentials-panel {
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+}
+
+/** USERS ********************************/
+#users-panel {
+    max-width:calc(100% - 470px);
+    left:420px;
+    top:30px;
+    max-height:calc(100% - 167px);
+    overflow-y:auto;
+    display:none;
+}
+
+#users-list {
+    margin:0;
+    list-style:none;
+    padding:0;
+}
+
+#users-list li {
+    display:inline;
+    float:left;
+    height:150px;
+    width:150px;
+    margin:10px;
+    background:url("../media/images/User.svg") no-repeat center;
+    background-size:cover;
+    position:relative;
+    overflow:hidden;
+}
+
+#users-list li:hover {
+    background-color:grey !important;
+    cursor:pointer !important;
+    overflow:auto !important;
+}
+
+#users-list li.selected {
+    width:calc(100% - 20px);
+    padding:10px 10px 10px 10px;
+    margin:0px 0px 5px 0px;
+    background-color:#00549f;
+}
+
+#users-list span.text {
+    text-align:center;
+    display:inline-block;
+    color:#FFFFFF;
+    text-shadow:2px 2px #000000;
+    position:relative;
+}
+
+#users-list span.text:hover {
+    background-color:grey;
+    z-index:5;
+}
+
+/** REPOSITORIES *************************/
+#repositories-panel {
+    max-width:calc(100% - 470px);
+    left:420px;
+    top:30px;
+    max-height:calc(100% - 167px);
+    overflow-y:auto;
+    display:none;
+}
+
+#repositories-list {
+    margin:0;
+    list-style:none;
+    padding:0;
+}
+
+#repositories-list li {
+    display:inline;
+    float:left;
+    height:150px;
+    width:150px;
+    margin:10px;
+    background:url("../media/images/Folder.svg") no-repeat center;
+    background-size:cover;
+    position:relative;
+    overflow:hidden;
+}
+
+#repositories-list li:hover {
+    background-color:grey;
+    cursor:pointer;
+    overflow:auto !important;
+}
+
+#repositories-list li.selected {
+    width:calc(100% - 20px);
+    padding:10px 10px 10px 10px;
+    margin:0px 0px 5px 0px;
+    background-color:#00549f;
+}
+
+#repositories-list span.text {
+    text-align:center;
+    /*width:100%;*/
+    display:inline-block;
+    color:#FFFFFF;
+    text-shadow:2px 2px #000000;
+    position:relative;
+}
+
+#repositories-list span.text:hover {
+    background-color:grey;
+    z-index:5;
+}
+
+#repositories-back {
+    background:url("../media/images/Back.svg") no-repeat center !important;
+    background-size:100% 100% !important;
+}
+
+#repositories-back:hover {
+    cursor:pointer;
+    background-color:grey !important;
+}
+
+/** NEWS **********************************/
+#news-panel {
+    width:340px;
+    left:30px;
+    top:30px;
+    max-height:calc(100% - 167px);
+    overflow-y:auto;
+}
+
+/** LOGOS ********************************/
+#logos-container {
+    position:absolute;
+    right:30px;
+    bottom:30px;
+    z-index:2;
+}
+
+#logos-container img {
+    height:54px;
+}
+
+/** GITHUB ******************************/
+#github-container {
+    width:100%;
+    height:100%;
+    z-index:1;
+    background-color:#303130;
+    position:absolute;
+    display:none;
+}
+
+/** SEARCH ******************************/
+#search-panel {
+    top:30px;
+    left:30px;
+}
+
+/** DASHBOARD ***************************/
+#dashboard-panel {
+    top:30px;
+    left:420px;
+    max-height:calc(100% - 167px);
+    max-width:calc(100% - 470px);
+    overflow-y:auto;
+}
+
+#dashboard-list {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+#dashboard-list li {
+    display:inline;
+    float:left;
+    height:150px;
+    width:150px;
+    margin:10px;
+    background:url("../media/images/Folder.svg") no-repeat center;
+    background-size:cover;
+    position:relative;
+    overflow:hidden;
+}
+
+#dashboard-list li:hover {
+    overflow:auto !important;
+}
+
+#dashboard-plus {
+    background:url("../media/images/Plus.svg") no-repeat center !important;
+    background-size:100% 100% !important;
+}
+
+#dashboard-plus:hover {
+    cursor:pointer;
+    background-color:grey !important;
+}
+
+#dashboard-list span.text {
+    text-align:center;
+    width:100%;
+    display:block;
+    color:#FFFFFF;
+    text-shadow:2px 2px #000000;
+    position:relative;
+}
+
+#dashboard-list span.trash {
+    height:30%;
+    width:30%;
+    background:url("../media/images/Trash.svg") no-repeat center #89b1d3;
+    background-size:100% 100%;
+    display:inline-block;
+    position:absolute;
+    top:100%;
+    transform:translate(-100%, -100%);
+    left:100%;
+}
+
+#dashboard-list span.tick {
+    height:30%;
+    width:30%;
+    background:url("../media/images/Tick.svg") no-repeat center #89b1d3;
+    background-size:100% 100%;;
+    display:inline-block;
+    position:absolute;
+    top:100%;
+    transform:translate(-200%, -100%);
+    left:100%;
+}
+
+#dashboard-list span.tick:hover, #dashboard-list span.trash:hover {
+    background-color:grey !important;
+    cursor:pointer;
+}
+
+/** MENU *******************************/
+#menu-panel {
+    display:none;
+    top:40px;
+    left:430px;
+    width:150px;
+    height:150px;
+}
+
+#menu-panel ul {
+    margin:0;
+    list-style:none;
+    padding:0;
+}
+
+#menu-panel li {
+    text-align:center;
+    width:calc(100% - 20px);
+    padding:10px 10px 10px 10px;
+    margin:0px 0px 5px 0px;
+}
+
+#menu-panel li:hover {
+    background-color:grey;
+    cursor:pointer;
+}
+
+/** DEMOS ******************************/
+#demos-panel {
+    max-width:calc(100% - 470px);
+    left:420px;
+    top:30px;
+    max-height:calc(100% - 167px);
+    overflow-y:auto;
+    display:none;
+}
+
+#demos-list {
+    margin:0;
+    list-style:none;
+    padding:0;
+}
+
+#demos-list li {
+    display:inline;
+    float:left;
+    height:150px;
+    width:150px;
+    margin:10px;
+    background:url("../media/images/Folder.svg") no-repeat center;
+    background-size:cover;
+    position:relative;
+    overflow:hidden;
+}
+
+#demos-list li:hover {
+    background-color:grey;
+    cursor:pointer;
+    overflow:auto !important;
+}
+
+#demos-list li.selected {
+    width:calc(100% - 20px);
+    padding:10px 10px 10px 10px;
+    margin:0px 0px 5px 0px;
+    background-color:#00549f;
+}
+
+#demos-list span.text {
+    text-align:center;
+    /*width:100%;*/
+    display:inline-block;
+    color:#FFFFFF;
+    text-shadow:2px 2px #000000;
+    position:relative;
+}
+
+#demos-list span.text:hover {
+    background-color:grey;
+    z-index:5;
+}
+
+#demos-back {
+    background:url("../media/images/Back.svg") no-repeat center !important;
+    background-size:100% 100% !important;
+}
+
+#demos-back:hover {
+    cursor:pointer;
+    background-color:grey !important;
+}
+
+/** DIALOG *****************************/
+#dialog-container {
+    background-color:rgba(0,0,0,0.6);
+    display:none;
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:4;
+}
+
+#dialog-panel {
+    width:400px;
+    top:50%;
+    transform:translate(-50%,-50%);
+    left:50%;
+    padding:10px;
+    position:fixed;
+}
+
+#dialog-message {
+    width:calc(100% - 70px);
+    display:inline-block;
+    font-size:13px;
+    min-height:50px;
+    margin:0px 0px 10px 10px;
+}
+
+#dialog-icon {
+    background:url("../media/images/Warning.svg") no-repeat;
+    background-size:contain;
+    display:inline;
+    width:50px;
+    height:50px;
+    float:left;
+}
+
+/** BRANCHES ***************************/
+#branches-panel {
+    max-width:calc(100% - 470px);
+    left:420px;
+    top:30px;
+    max-height:calc(100% - 167px);
+    overflow-y:auto;
+    display:none;
+}
+
+#branches-list {
+    margin:0;
+    list-style:none;
+    padding:0;
+}
+
+#branches-list li {
+    display:inline;
+    float:left;
+    height:150px;
+    width:150px;
+    margin:10px;
+    background:url("../media/images/Folder.svg") no-repeat center;
+    background-size:cover;
+    position:relative;
+    overflow:hidden;
+}
+
+#branches-list li:hover {
+    background-color:grey;
+    cursor:pointer;
+    overflow:auto !important;
+}
+
+#branches-list li.selected {
+    width:calc(100% - 20px);
+    padding:10px 10px 10px 10px;
+    margin:0px 0px 5px 0px;
+    background-color:#00549f;
+}
+
+#branches-list span.text {
+    text-align:center;
+    /*width:100%;*/
+    display:inline-block;
+    color:#FFFFFF;
+    text-shadow:2px 2px #000000;
+    position:relative;
+}
+
+#branches-list span.text:hover {
+    background-color:grey;
+    z-index:5;
+}
+
+#branches-back {
+    background:url("../media/images/Back.svg") no-repeat center !important;
+    background-size:100% 100% !important;
+}
+
+#branches-back:hover {
+    cursor:pointer;
+    background-color:grey !important;
+}

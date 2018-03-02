@@ -1,10 +1,10 @@
-(function() {
-    var buttonClear = document.getElementById("button-clear");
+$(document).ready(function() {
+    var $buttonClear = $("#button-clear");
     var textareaOutput = document.getElementById("console");
 
     function onClick(event) {
         textareaOutput.textContent = '';
     }
 
-    buttonClear.addEventListener("click", onClick);
-})();
+    $buttonClear.on("click", onClick);
+});
