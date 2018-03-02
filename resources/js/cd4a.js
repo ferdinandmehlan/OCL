@@ -1,31 +1,65 @@
-var CD4A = (function() {
-    var textarea = document.getElementById("cd");
-
-    var url1 = new URL(window.location.href);
-    var cd1 = url1.searchParams.get("cd");
-    var gist1 = url1.searchParams.get("gist");
-        
-
+$(document).ready(function() {
+    var $textarea = $("#cd");
     var PATH = "/example/cd/AuctionCD.cd";
-    
-    var port = Port("CD");
-    var iframe = document.getElementById("ide-cd");
-    
-    if(gist1) {
-        var sUrl = 'https://api.github.com/gists/' + gist1;
-        $.get(sUrl, function( data ) {
-            var cd4ATxt = data.files["cd4A.txt"];
-            textarea.value = cd4ATxt.content;
-            $("#button-reset-cd").click();
-        });
+
+    function handleText(cdText) {
+        $textarea.value(cdText);
+        CD4APort.writeFile(PATH, cdText, onWriteFile);
+    }
+
+    function handleGist(gistId) {
+        var sUrl = 'https://api.github.com/gists/' + gistId;
+
+        $.get(sUrl, onGetGist);
     }
 
 
-    if(cd1) {
-        textarea.value = cd1;
+    function onOpenFile(error) {
+        if(error) console.log("An error occurred while opening the CD4A file!");
     }
 
-    var button = document.getElementById("button-reset-cd");
+    function onWriteFile(error) {
+        if(error) console.log("An error occurred while writing to the CD4A file!");
+        else CD4APort.openFile(PATH, onOpenFile);
+    }
 
-    return Common(PATH, port, iframe, textarea, button);
-})();
+    function onExistsFile(exists) {
+        var value = $textarea.val();
+
+        if(exists) CD4APort.openFile(PATH, onOpenFile);
+        else CD4APort.writeFile(PATH, value, onWriteFile);
+    }
+
+    function onResetFile(error) {
+        if(error) console.log("An error occurred while writing to the CD4A file!");
+        else CD4APort.reloadTab();
+    }
+
+    function onClick() {
+        var value = $textarea.val();
+
+        CD4APort.writeFile(PATH, value, onResetFile);
+    }
+
+    function onGetGist(data) {
+        var cd4aText = data.files["cd4A.txt"];
+
+        $textarea.val(cd4aText.content);
+        CD4APort.writeFile(PATH, cd4aText.content, onWriteFile);
+    }
+
+    function onConnected() {
+        var url = new URL(window.location.href);
+        var cd4aText = url.searchParams.get("cd");
+        var gistId = url.searchParams.get("gist");
+
+        if(cd4aText) handleText(cd4aText);
+        else if(gistId) handleGist(gistId);
+        else CD4APort.existsFile(PATH, onExistsFile);
+
+        $("#button-reset-cd").on("click", onClick);
+    }
+
+
+    CD4APort.on("connected", onConnected);
+});
