@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+	
+	<!-- Added -->
+    <script>
+        var username = localStorage.getItem("username");
+        var reponame = localStorage.getItem("reponame");
+        var branchname = localStorage.getItem("branchname");
+
+        if(username === null || reponame === null || branchname === null) {
+            window.location.href = ".";
+        }
+    </script>
+
+    <!-- Added -->
+    <link href="resources/css/ide.css" type="text/css" rel="stylesheet"/>
+
+    <script src="resources/js/development/shared/Base.js"></script>
+	<script src="resources/js/production/browserfs.min.js"></script>
+	<script src="resources/js/development/shared/VFS.js"></script>
+</head>
+<body>
+    <!-- Added -->
+    <div id="loader-container">
+        <img src="resources/media/images/Loader.svg"/>
+        <span id="loader-percentage">0%</span>
+    </div>
+
+    <a id="se-rwth-logo" href="http://www.se-rwth.de/" target="_blank"></a>
+
+    <link rel="stylesheet" type="text/css" href="plugins/c9.ide.layout.classic/loading-flat.css"/>
+
+    <script src="static/mini_require.js"></script>
+    <script src="configs/require_config.js"></script>
+    <script src="resources/js/development/ide/Plugins.js"></script>
+    <script>
+        var start = Date.now();
+        
+        require(["lib/architect/architect"], function (architect) {
+            plugins.push({
+                consumes: [],
+                provides: ["auth.bootstrap"],
+                setup: function(options, imports, register) {
+                    register(null, {
+                        "auth.bootstrap": {
+                            login: function(callback) { callback(); }
+                        }
+                    });
+                }
+            });
+            
+            architect.resolveConfig(plugins, function(err, config) {
+                if(err) throw err;
+
+                var errored;
+                var counter = 0;
+                var messageLoader = document.getElementById("loader-percentage");
+
+                function setMessage(message) {
+                    messageLoader.innerHTML = message;
+                }
+
+                function updatePercentage(counter) {
+                    var length = plugins.length;
+                    var percentage = counter / length * 100;
+                    var roundedPercentage = (percentage - 0.5) >> 0;
+                    var message = roundedPercentage + '%';
+
+                    setMessage(message);
+                }
+
+                var app = architect.createApp(config, function(err, app){
+                    if(err) {
+                        errored = true;
+                        console.error(err.stack);
+                        alert(err);
+                    }
+                });
+                
+                app.on("error", function(err){
+                    console.error(err.stack);
+                    if(!errored) alert(err);
+                });
+                
+                app.on("service", function(name, plugin, options) {
+                    if(!plugin.name) plugin.name = name;
+                    updatePercentage(counter++);
+                });
+                
+                app.on("ready", function() {
+                    window.app = app.services;
+                    window.app.__defineGetter__("_ace", function(){
+                        return this.tabManager.focussedTab.editor.ace;
+                    });
+                    Object.keys(window.app).forEach(function(n) {
+                        if (/[^\w]/.test(n))
+                            window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                    });
+                    
+                    done();
+                });
+
+                // For Development only
+                function done() {
+                    var c9 = app.services.c9;
+                    
+                    c9.ready();
+                    c9.totalLoadTime = Date.now() - start;
+
+                    console.warn("Total Load Time: ", Date.now() - start);
+                    document.getElementById("loader-container").remove();
+                }
+            }, function loadError(mod) {
+                if (mod.id === "plugins/c9.ide.clipboard/html5")
+                    return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
+            });
+        });
+    </script>
+</body>
+</html>

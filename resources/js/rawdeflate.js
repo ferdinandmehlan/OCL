@@ -1668,7 +1668,7 @@ return function deflate(str, level) {
 })();
 
 onmessage = function worker(m) {
-  postMessage(deflate(m.data, 9));
+  postMessage(deflate(m.data, 9), '*');
 };
 
 onconnect = function sharedWorker(e) {

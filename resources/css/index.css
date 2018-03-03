@@ -3,45 +3,37 @@
 /*
  * GENERAL
  */
+::-webkit-scrollbar {
+    background:none;
+    width:16px;
+    height:16px;
+}
+
+::-webkit-scrollbar-corner {
+  background:transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border:solid 0 rgba(0, 0, 0, 0);
+  border-right-width:4px;
+  border-left-width:4px;
+  -webkit-border-radius:9px 4px;
+  -webkit-box-shadow:inset 0 0 0 1px rgba(128, 128, 128, 0.2), inset 0 0 0 4px rgba(128, 128, 128, 0.2);
+}
+
+::-webkit-scrollbar-track-piece {
+  margin:4px 0;
+}
+
 html, body {
     margin:0;
     padding:0;
     height:100%;
+    overflow:hidden;
 }
 
 body {
     background-color:#252525;
-}
-
-div.row-one-column {
-    width:50%;
-    float:left;
-    height:50%;
-}
-
-div.row-two-column {
-    height:50px;
-    float:left;
-}
-
-div.left-column {
-    width:20%;
-    text-align:left;
-}
-
-div.middle-left-column {
-    width:30%;
-    text-align:left;
-}
-
-div.middle-right-column {
-    width:30%;
-    text-align:right;
-}
-
-div.right-column {
-    width:20%;
-    text-align:right;
 }
 
 .button {
@@ -95,16 +87,15 @@ iframe {
     height:calc(100% - 12px);
 }
 #div-console {
-    float:right;
-    width:50%;
     height:100%;
+    overflow-y:scroll;
 }
 #console {
     width:100%;
     resize:none;
     height:100%;
     color:#E1E1E1;
-    background-color:#303130;
+    background-color:#363636;
     border:none;
 }
 
@@ -114,42 +105,24 @@ iframe {
     resize:none;
     height:100%;
     color:#E1E1E1;
-    background-color:#303130;
+    background-color:#363636;
     border:none;
-    overflow:scroll;
+    overflow:auto;
 }
 
 #cd-output {
-    background-color: white;
-}
-
-#button-clear {
-    position:absolute;
-    right:20px;
-    bottom:70px;
+    background-color:white;
 }
 
 /*
  * THIRD ROW CONTAINER
  */
-#logos-container {
-    width:100%;
-    height:50px;
-    text-align:center;
-}
-
 #logos-container img {
     height:50px;
     background-color:#FFF;
 }
 
-#logos-container div {
-    display:inline-block;
-    width:422px;
-}
-
 #logos-container .element {
-    float:left;
     margin-left:5px;
 }
 
@@ -162,6 +135,8 @@ iframe {
 
 #label-credits {
     cursor:pointer;
+    width:75px;
+    height:50px;
 }
 
 /*
@@ -232,11 +207,27 @@ iframe {
 }
 
 .button-smaller {
-    display:inline-flex;
-    align-items:center;
+    /*display:inline-flex;
+    align-items:center;*/
     height:50px;
 }
 
 .button-smaller img {
     height:35px;
+}
+
+/*
+ * SPLITTER
+ */
+#rows, #columns-1, #columns-2 {
+    height:100%;
+    overflow:hidden;
+}
+
+#rows {
+    border-width:0;
+}
+
+.k-splitter .k-scrollable {
+    overflow:hidden !important;
 }
