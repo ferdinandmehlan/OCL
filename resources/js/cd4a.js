@@ -3,7 +3,7 @@ $(document).ready(function() {
     var PATH = "/example/cd/AuctionCD.cd";
 
     function handleText(cdText) {
-        $textarea.value(cdText);
+        $textarea.text(cdText);
         CD4APort.writeFile(PATH, cdText, onWriteFile);
     }
 

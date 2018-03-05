@@ -18,7 +18,8 @@
         <script src="resources/js/kendo.ui.core.min.js"></script>
         <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
         
-        <script src="https://ide.embeddedmontiarc.com/static/plugins/se.rwth.api.switch/port.js"></script>
+        <!-- <script src="https://ide.embeddedmontiarc.com/static/plugins/se.rwth.api.switch/port.js"></script> -->
+        <script src="onlineIDE/static/plugins/se.rwth.api.switch/port.js"></script>
 
         <script src="resources/js/ui.js"></script>
         <script src="resources/js/ports.js"></script>
@@ -58,8 +59,11 @@ classdiagram AuctionCD {
             <textarea id="cd-default" rows="8" cols="50" placeholder="DefaultTypes code here">
 package example.cd;
 
+/** DefaultTypes below. 
+  * Changes you make in this file, 
+  * have no impact on the OCLFiddle.
+ **/
 classdiagram DefaultTypes {            
-    // DefaultTypes below, Do Not delete
     public class Class;
     
     public class Object;
@@ -151,14 +155,16 @@ classdiagram DefaultTypes {
     class VolumetricDensity implements Amount;
     class VolumetricFlowRate implements Amount;
 
+    // http://jscience.org/api/org/jscience/geography/coordinates/Time.html
+    class Time extends Duration;
 }
             </textarea>
         </div>
 
         <div id="rows">
             <div id="columns-1">
-                <div><iframe id="ide-cd" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&hideControls=1,1,1"></iframe></div>
-                <div><iframe id="ide-ocl" src="https://ide.embeddedmontiarc.com/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&hideControls=2,1,1"></iframe></div>
+                <div><iframe id="ide-cd" src="onlineIDE/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&hideControls=1,1,1"></iframe></div>
+                <div><iframe id="ide-ocl" src="onlineIDE/api/load.html?mountPoint=[EmbeddedMontiArc]/OCL/Demos&hideControls=2,1,1"></iframe></div>
             </div>
             <div id="toolstrip">
                 <div class="uk-width-1-2 uk-position-center-left">
@@ -166,7 +172,7 @@ classdiagram DefaultTypes {
                         <span class="button-smaller"><img title="Reset" id="button-reset-cd" class="button" src="resources/media/images/Reset.svg"/></span>
                     </div>
                     <div class="uk-position-center">
-                        <img id="button-reload-cd" title="Reload Class Diagram" class="button" src="resources/media/images/Refresh.png"/>
+                        <img id="button-reload-cd" title="Reload Class Diagram (CD code will be send to plant-uml server to create image)" class="button" src="resources/media/images/Refresh.png"/>
                         <img id="button-show-attributes" title="Show Attributes" class="button" src="resources/media/images/Eye.png" value="false"/>
                         <img id="button-show-assoc-names" title="Show Association Names" class="button" src="resources/media/images/Eye.png" value="false"/>
                         <img id="button-show-role-names" title="Show Role Names" class="button" src="resources/media/images/Eye.png" value="false"/>
@@ -178,7 +184,7 @@ classdiagram DefaultTypes {
                         <img title="Execute" id="button-execute" class="button" src="resources/media/images/Execute.svg"/>
                     </div>
                     <div class="uk-position-center">
-                        <span class="button"><img title="Save" id="button-save" class="button" src="resources/media/images/Disk.svg"/></span>
+                        <span class="button"><img title="Save on github gist to share your code via URL" id="button-save" class="button" src="resources/media/images/Disk.svg"/></span>
                     </div>
                     <div class="uk-position-center-right">
                         <span class="button-smaller"><img title="Reset" id="button-reset-ocl" class="button" src="resources/media/images/Reset.svg"/></span>
@@ -201,6 +207,7 @@ classdiagram DefaultTypes {
                     <div class="uk-position-center">
                         <a href="http://www.monticore.org/" target="_blank"><img class="element" src="resources/media/images/MontiCoreLogo.png"></a>
                         <a href="https://www.leaningtech.com/cheerpj/" target="_blank"><img class="element" src="https://github.com/leaningtech/cheerpj-meta/raw/master/media/cheerpj_logo_whitebg.png"></a>
+                        <a href="http://plantuml.com/" target="_blank"><img class="element" src="resources/media/images/logoPlantUml.png"></a>
                     </div>
                 </div>
                 <div class="uk-width-1-2 uk-position-center-right">
