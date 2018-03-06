@@ -146,8 +146,7 @@ define(function(require, exports, module) {
             var entries = queue.entries;
             var entry = entries[index];
 
-            entry.done = true;
-
+            if(entry) entry.done = true;
             if(pointer === index) nextEntry(editor);
         }
 
