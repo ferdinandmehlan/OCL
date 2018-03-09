@@ -231,3 +231,15 @@ iframe {
 .k-splitter .k-scrollable {
     overflow:hidden !important;
 }
+
+.k-splitbar-horizontal.k-splitbar-draggable-horizontal .k-i-arrow-60-right {
+    margin-top:6px !important;
+}
+
+.k-splitbar-vertical .k-i-arrow-60-up {
+    margin-left:10px;
+}
+
+.k-splitbar-vertical .k-i-arrow-60-down {
+    margin-left:-15px;
+}

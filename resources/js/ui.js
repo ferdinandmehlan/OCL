@@ -26,6 +26,7 @@ $(document).ready(function() {
     });
 
     $("#toolstrip").kendoTooltip({
+        "width": "200px",
         "filter": "img",
         "position": "top"
     });
