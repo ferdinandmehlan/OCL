@@ -46,7 +46,7 @@ $(document).ready(function() {
 
     function onConnected() {
         var url = new URL(window.location.href);
-        var oclText = url.searchParams.get("cd");
+        var oclText = url.searchParams.get("ocl");
         var gistId = url.searchParams.get("gist");
 
         if(oclText) handleText(oclText);

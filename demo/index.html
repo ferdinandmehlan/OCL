@@ -1,0 +1,590 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Chapter 3-1 UML/P</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="oclFiddle.js"></script>
+</head>
+<body>
+<div style="margin-left:15px; margin-top:6px;">
+		
+		
+
+		
+		
+			  <table class="pageNavigation" width="738px">
+				<tbody><tr>
+					
+					<td align="left" width="33%">
+											<a style="font-family:Times New Roman, serif;  border: 1px solid #eeeeee; border-radius: 20px 3px 3px 20px; box-shadow: 0 0 2px 0 #dddddd; color: #0067a6;  margin: 2px; padding: 2px 4px 3px 6px; text-align: center; text-decoration: none; " href="index.php?c=chapter3">&lt;&lt; zurück</a>
+										</td>
+					
+					<td align="center" width="33%">
+						<a style="font-family:Arial, sans;  border: 1px solid #eeeeee; border-radius: 3px 3px 3px 3px; box-shadow: 0 0 4px 0 #dddddd; color: #779ec9;  padding: 2px 10px 3px 10px; text-align: center; text-decoration: none; " href="../">MBSE Home</a>
+					</td><td>					
+										
+					</td><td align="right" width="33%">
+											<a style="font-family:Times New Roman, serif;  border: 1px solid #eeeeee; border-radius: 3px 20px 20px 3px; box-shadow: 0 0 2px 0 #dddddd; color: #0067a6;  margin: 2px; padding: 2px 4px 3px 4px; text-align: center; text-decoration: none; " href="index.php?c=chapter3-2">weiter &gt;&gt;</a>
+										</td>
+					
+				</tr>
+			  </tbody></table>
+
+			  <!--    -->
+			  <div id="cse" style="width:100%;"> </div> 
+			  <!--    -->
+			  
+			<h3 class="sectionHead"><span class="titlemark">3.1</span> <a id="x1-390003.1" name="x1-390003.1"></a>Übersicht über OCL/P</h3><!--l. 135-->
+
+  <p>Abbildung <a href="#x1-390091">3.1<!--tex4ht:ref: begOCL --></a> erläutert die wichtigsten Begriffe der OCL. <!--l. 137--></p>
+ 
+  
+
+  <div class="figure">
+    <a id="x1-390091" name="x1-390091"></a> <a id="dx1-39001" name="dx1-39001"></a>
+          <div class="minipage">
+            <dl class="description">
+              <dt class="description"><span class="bold">Bedingung</span></dt>
+
+              <dd class="description">Eine Bedingung ist eine boolesche Aussage über ein System. Sie beschreibt eine Eigenschaft, die ein System oder ein Ergebnis besitzen soll. Ihre Interpretation ergibt grundsätzlich einen der Wahrheitswerte <span class="bold">true</span> oder <span class="bold">false</span>. <a id="dx1-39002" name="dx1-39002"></a></dd>
+
+              <dt class="description"><span class="bold">Kontext</span></dt>
+
+              <dd class="description">Eine Bedingung ist in einen Kontext eingebettet, über den sie Aussagen macht. Der Kontext wird definiert durch eine Menge von in der Bedingung verwendbaren <span class="italics">Namen</span> und ihren Signaturen. Dazu gehören Klassen-, Methoden- und Attributnamen des Modells und insbesondere im Kontext einer Bedingung explizit eingeführte Variablen. <a id="dx1-39003" name="dx1-39003"></a></dd>
+
+              <dt class="description"><span class="bold">Interpretation</span></dt>
+
+              <dd class="description">einer Bedingung wird anhand einer konkreten Objektstruktur vorgenommen. Dabei werden die im Kontext eingeführten Variablen mit Werten beziehungsweise Objekten belegt. <a id="dx1-39004" name="dx1-39004"></a></dd>
+
+              <dt class="description"><span class="bold">Invariante</span></dt>
+
+              <dd class="description">beschreibt eine Eigenschaft, die in einem System zu jedem (beobachteten) Zeitpunkt gelten soll. Die Beobachtungszeitpunkte können eingeschränkt sein, um zeitlich begrenzte Verletzungen zum Beispiel während der Ausführung einer Methode zu erlauben. <a id="dx1-39005" name="dx1-39005"></a></dd>
+
+              <dt class="description"><span class="bold">Vorbedingung</span></dt>
+
+              <dd class="description">einer Methode charakterisiert die Eigenschaften, die gelten müssen, damit diese Methode ein definiertes und sinnvolles Ergebnis liefert. Ist die Vorbedingung nicht erfüllt, so wird über das Ergebnis keine Aussage getroffen. <a id="dx1-39006" name="dx1-39006"></a></dd>
+
+              <dt class="description"><span class="bold">Nachbedingung</span></dt>
+
+              <dd class="description">einer Methode beschreibt, welche Eigenschaften nach Ausführung der Methode gelten. Dabei kann auf Objekte in dem Zustand zurückgegriffen werden, der unmittelbar vor dem Methodenaufruf (zur „Zeit“ der Interpretation der Vorbedingung) gültig war. Nachbedingungen werden anhand zweier Objektstrukturen interpretiert, die die Situationen vor und nach dem Methodenaufruf darstellen. <a id="dx1-39007" name="dx1-39007"></a></dd>
+
+              <dt class="description"><span class="bold">Methodenspezifikation</span></dt>
+
+              <dd class="description">ist ein Paar bestehend aus Vor- und Nachbedingung. <a id="dx1-39008" name="dx1-39008"></a></dd>
+
+              <dt class="description"><span class="bold">Query</span></dt>
+
+              <dd class="description">ist eine von der Implementierung angebotene Methode, deren Aufruf keine Veränderung des Systemzustands hervorruft. Es dürfen neue Objekte als Aufrufergebnis erzeugt werden. Allerdings dürfen diese nicht mit dem Systemzustand durch Links verbunden sein. Dadurch sind Queries ohne Seiteneffekte und können in OCL-Bedingungen verwendet werden.</dd>
+            </dl>
+          </div>
+
+    <div class="caption">
+      <span class="id">Abbildung&nbsp;3.1:</span> <span class="content">Begriffsdefinitionen zur OCL</span>
+    </div><!--tex4ht:label?: x1-390091 -->
+    <!--l. 198-->
+
+    
+  </div>
+  
+  <!--l. 202-->
+
+  <p>Die Möglichkeiten der OCL zur Beschreibung von Bedingungen werden in diesem Abschnitt anhand von Beispielen aus dem Auktionssystem demonstriert. In den nachfolgenden Abschnitten werden diese und weitere OCL-Konstrukte vertieft. Eine vollständige Grammatik der OCL findet sich in Anhang <a href="index.php?c=chapterC-3#x1-182000C.3">C.3<!--tex4ht:ref: 6oclsyntax --></a>. <!--l. 209--></p>
+
+  
+
+  <h4 class="subsectionHead"><span class="titlemark">3.1.1</span> <a id="x1-400003.1.1" name="x1-400003.1.1"></a>Der Kontext einer Bedingung</h4><!--l. 211-->
+
+  <p>Eines der herausragenden Merkmale von OCL-Bedingungen ist ihre grundsätzliche Einbettung in einen Kontext, bestehend aus UML-Modellen. Meist ist dieser Kontext durch ein Klassendiagramm gegeben. Das Klassendiagramm in Abbildung <a href="#x1-400012">3.2<!--tex4ht:ref: 6auktionPerson --></a> stellt einen solchen Kontext in Form zweier Klassen und einer Reihe teilweise voneinander abhängiger Attribute bereit, die einen Ausschnitt des Auktionssystems modellieren. Die Attributabhängigkeiten können durch OCL/P-Bedingungen dargestellt werden. <!--l. 221--></p>
+
+  
+  
+
+  <div class="figure">
+    <a id="x1-400012" name="x1-400012"></a> <img src="pics/figure19x.png" alt="" class="graphics" onload="imageLoaded()" width="735px"><!--tex4ht:graphics  
+name="figure19x.png" src="psfigsgen/z6auktionPerson.eps"  
+--><br>
+
+    <div class="caption">
+      <span class="id">Abbildung&nbsp;3.2:</span> <span class="content">Ausschnitt des Auktionssystems</span>
+    </div><!--tex4ht:label?: x1-400012 -->
+    <!--l. 224-->
+
+    
+  </div>
+  
+  <!--l. 226-->
+
+  <p>Eine einfache Bedingung ist zum Beispiel, dass eine Auktion immer startet bevor sie beendet wird. Diese Bedingung wird durch explizite Erwähnung eines Auktionsobjekts im Kontext beschrieben. Der explizit angegebene Kontext einer OCL-Bedingung besteht aus einem oder mehreren Objekten, deren Name durch die Erwähnung im Kontext in der Bedingung bekannt gemacht wird. Die Bedingung nutzt eine Methode der Klasse <span class="pcrr7t-">Time</span> zum Vergleich:</p>
+
+  <div class="ocl_minipage tooltip" onclick="javascript:setOCL(
+`package example;
+
+import example.cd.AuctionCD;
+import example.cd.DefaultTypes;
+
+context Auction a inv:
+  a.startTime < a.closingTime`)">
+    <span class="tooltiptext">Click to open constraint in OCLFiddle</span>
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv:</span></span>
+	<br>
+		&nbsp;&nbsp;a.startTime.lessThan(a.closingTime)
+	</p>
+  </div>
+
+  <p><a id="dx1-40002" name="dx1-40002"></a> <!--l. 240--></p>
+
+  <p>Diese Bedingung benötigt aus ihrem Kontext die Signatur der Klasse <span class="pcrr7t-">Auction</span>. Der Variablenname <span class="pcrr7t-">a</span> wird im Sinne einer Variablenvereinbarung lokal durch die <span class="bold">context</span>-Angabe eingeführt. Stattdessen können Variablen auch explizit <span class="italics">importiert</span> werden, wenn sie zum Beispiel in einer anderen Bedingung oder einem anderen Diagramm bereits definiert wurden. Mit dieser <span class="italics">importierenden</span> Form des Kontexts werden in Kapitel <a href="index.php?c=chapter4">4<!--tex4ht:ref: 7objekte --></a> OCL-Bedingungen kombiniert und mit Objektdiagrammen verbunden, denn die in den Objektdiagrammen benannten Objekte können so explizit in den OCL-Bedingungen verwendet werden. Die durch <span class="bold">import</span> definierten Kontexte werden deshalb in Kapitel <a href="index.php?c=chapter4">4<!--tex4ht:ref: 7objekte --></a> genauer diskutiert. Folgender Kontext charakterisiert zum Beispiel eine Eigenschaft eines Auktionsobjekts <span class="pcrr7t-">a</span>, das aus einem Objektdiagramm stammen kann:</p>
+
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">import</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv:</span></span>
+	<br>
+		&nbsp;&nbsp;a.startTime.lessThan(a.closingTime)
+	</p>
+  </div>
+
+  <p><a id="dx1-40003" name="dx1-40003"></a> <!--l. 265--></p>
+
+  <p>Durch Navigationsausdrücke können die in Assoziationen verbundenen Objekte einbezogen werden. Der Ausdruck <span class="pcrr7t-">a.bidder</span> liefert als Ergebnis eine Menge von Personen, das heißt einen Wert vom Typ <span class="pcrr7t-">Set&lt;Person&gt;</span>, von der mit dem Attribut <span class="pcrr7t-">size</span> die Größe bestimmt werden kann. Um sicherzustellen, dass die Anzahl der aktiven Teilnehmer nicht größer als die Anzahl der tatsächlich an einer Auktion teilnehmenden Personen ist, wird folgende Bedingung formuliert:</p>
+
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv</span></span>&nbsp;Bidders1:
+	<br>
+		&nbsp;&nbsp;a.activeParticipants &lt;= a.bidder.size
+	</p>
+  </div>
+
+  <p><a id="dx1-40004" name="dx1-40004"></a> <!--l. 280--></p>
+
+  <p>Einer Bedingung kann wie hier ein eigener Name (<span class="pcrr7t-">Bidders1</span>) gegeben werden, damit darauf an anderen Stellen Bezug genommen werden kann. Navigationsausdrücke können aneinander gereiht werden. Zur Navigation werden jeweils die dem Ausgangsobjekt gegenüberliegenden Rollennamen einer Assoziation verwendet. Ist die Assoziation <span class="pcrr7t-">participants</span> korrekt implementiert, so ist die folgende Bedingung richtig:</p>
+
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv:</span></span>
+	<br>
+		&nbsp;&nbsp;a in a.bidder.auctions
+	</p>
+  </div>
+
+  <p>In Verschärfung der vorletzten Bedingung <span class="pcrr7t-">Bidders1</span> wird nun gefordert, dass die Anzahl der aktiven Teilnehmer einer Auktion genauso groß ist, wie die Anzahl der ihr zugeordneten Personen, deren Attribut <span class="pcrr7t-">isActive</span> gesetzt ist:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv</span></span>&nbsp;Bidders2:
+	<br>
+		&nbsp;&nbsp;a.activeParticipants <span class="bold">==</span> { p in a.bidder | p.isActive }.size
+	</p>
+  </div>
+
+  <p><a id="dx1-40005" name="dx1-40005"></a> <!--l. 307--></p>
+
+  <p>Die dabei verwendete <span class="italics">Mengenkomprehension</span> ist eine komfortable Erweiterung gegenüber dem OCL-Standard. Sie wird später in mehreren Formen ausführlicher besprochen. <!--l. 312--></p>
+
+  <p>Wird in einem Kontext statt einem expliziten Namen nur die Klasse festgelegt, so wird implizit der Name <span class="pcrr7t-">this</span> als vereinbart angenommen. In diesem Fall kann auf Attribute auch direkt zugegriffen werden. Dies zeigt die folgende Bedingung, in der auch logische Verknüpfungen verwendet werden:<span class="footnote-mark"><a href="notes.php?c=footnotes3" target="_blank" onclick="return pop('notes.php?c=footnotes3.html');"><sup class="textsuperscript">1</sup></a></span><a id="x1-40006f1" name="x1-40006f1"></a> <span class="footnote-mark"><a id="fn1x0" name="fn1x0"><!--l. 318--></a></span></p>
+
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;<span class="underline"><span class="bold">inv</span></span>
+	<br>
+		&nbsp;&nbsp;startTime.greaterThan(Time.now())&nbsp;<span class="bold">implies</span>
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;numberOfBids&nbsp;<span class="bold">==</span>&nbsp;0
+	</p>
+  </div>
+
+  <p>Diese Bedingung ist äquivalent zu der Fassung mit expliziter Verwendung des Namens <span class="pcrr7t-">this</span>:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;<span class="underline"><span class="bold">inv</span></span>
+	<br>
+		&nbsp;&nbsp;this.startTime.greaterThan(Time.now())&nbsp;<span class="bold">implies</span>
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;this.numberOfBids&nbsp;<span class="bold">==</span>&nbsp;0
+	</p>
+  </div>
+
+  <p><span class="italics">Geschlossene Bedingungen</span>, wie die Nachfolgende, besitzen einen leeren Kontext. Grundsätzlich kann ein Kontext durch Quantoren ersetzt werden, die über alle existenten Objekte der Klassen aus dem Kontext definiert werden. Die nachfolgende Bedingung mit leerem Kontext ist deshalb äquivalent zur vorhergehenden:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">inv:</span></span>
+	<br>
+		&nbsp;&nbsp;<span class="bold">forall</span>&nbsp;a&nbsp;<span class="bold">in</span>&nbsp;Auction&nbsp;
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;a.startTime.greaterThan(Time.now())&nbsp;<span class="bold">implies</span>
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.numberOfBids&nbsp;<span class="bold">==</span>&nbsp;0
+	</p>
+  </div>
+  
+
+  <h4 class="subsectionHead"><span class="titlemark">3.1.2</span> <a id="x1-410003.1.2" name="x1-410003.1.2"></a>Das <span class="bold">let</span>-Konstrukt</h4><!--l. 351-->
+
+  <p>Mithilfe des <span class="bold">let</span>-Konstrukts können Zwischenergebnisse einer Hilfsvariablen zugewiesen werden, um diese im Rumpf des Konstrukts gegebenenfalls mehrfach zu nutzen. Nachfolgende Bedingung fordert, dass Start- und Endezeit jeder Auktion in der richtigen Relation stehen, wobei auch das aus Java bekannte if-then-else in der Kompaktform <span class="pcrr7t-">.?.:.</span> zum Einsatz kommt:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv</span></span>&nbsp;Time1:
+	<br>
+		&nbsp;&nbsp;<span class="bold">let</span>&nbsp;min = startTime.lessThan(closingTime)<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? startTime : closingTime&nbsp;
+	<br>
+		&nbsp;&nbsp;<span class="bold">in</span>
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;<span class="bold">==</span>&nbsp;startTime
+	</p>
+  </div>
+
+  <p>Das <span class="bold">let</span>-Konstrukt vereinbart lokal benutzbare Variablen und Operationen, die nur innerhalb des Ausdrucks sichtbar sind. Der Typ einer solchen Variable wird durch den rechts gegebenen Ausdruck inferiert, kann aber auch explizit angegeben werden. <!--l. 373--></p>
+
+  <p>In einer <span class="bold">let</span>-Klausel können mehrere lokale Variablen und Operationen definiert werden, von denen die nachfolgenden bereits auf die jeweils vorhergehenden zugreifen dürfen.<span class="footnote-mark"><a href="notes.php?c=footnotes3" target="_blank" onclick="return pop('notes.php?c=footnotes3.html');"><sup class="textsuperscript">2</sup></a></span><a id="x1-41001f2" name="x1-41001f2"></a> <span class="footnote-mark"><a id="fn2x0" name="fn2x0"><!--l. 383--></a></span></p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv</span></span>&nbsp;Time2:
+	<br>
+		&nbsp;&nbsp;<span class="bold">let</span>&nbsp;min1 = a.startTime.lessThan(a.closingTime)<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? a.startTime : a.closingTime;&nbsp;
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min2 = min1.lessThan(a.finishTime)? min1 : a.finishTime
+	<br>
+		&nbsp;&nbsp;<span class="bold">in</span>
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;min2&nbsp;<span class="bold">==</span>&nbsp;startTime
+	</p>
+  </div>
+
+  <p>Hier werden zwei strukturell gleiche Zwischenergebnisse mit unterschiedlichen Parametern definiert. Um dies zu vereinfachen, kann das <span class="bold">let</span>-Konstrukt auch dazu genutzt werden, Hilfsfunktionen zu vereinbaren. Folgendes Beispiel zeigt die Verwendung einer Hilfsfunktion zur Berechnung des Minimums der Zeiten und ist damit äquivalent zur Bedingung <span class="pcrr7t-">Time2</span>:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Auction&nbsp;a&nbsp;<span class="underline"><span class="bold">inv</span></span>&nbsp;Time3:
+	<br>
+		&nbsp;&nbsp;<span class="bold">let</span>&nbsp;min(Time x, Time y) = x.lessThan(y) ? x : y
+	<br>
+		&nbsp;&nbsp;<span class="bold">in</span>
+	<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;min(a.startTime, min(a.closingTime, a.finishTime))<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="bold">==</span>&nbsp;startTime
+	</p>
+  </div>
+
+  <p>Bei der Definition einer Hilfsfunktion sind wie in normalen Java-Methoden die Argumente gemeinsam mit ihren Typen anzugeben. Die Operationen sind im funktionalen Stil angegeben, der gleichzeitig dem in Java üblichen objektorientierten Stil für Methoden desselben Objekts entspricht. <!--l. 418--></p>
+
+  <p>Sollte eine Hilfsfunktion öfter benötigt werden, so ist es sinnvoll, diese in einer Klasse des zugrunde liegenden Modells oder in eine eigens dafür bereitgestellte Bibliothek abzulegen. In Abschnitt <a href="index.php?c=chapter3-4#x1-810003.4.4">3.4.4<!--tex4ht:ref: 6bibl --></a> wird eine solche Bibliothek diskutiert. <!--l. 423--></p>
+
+  <p>Zwischenvariablen und Hilfsfunktionen können auch als Attribute beziehungsweise als Methoden einer anonymen Klasse verstanden werden, die bei einer <span class="bold">let</span>-Konstruktion implizit in den Kontext aufgenommen wird. Dies wird in Abschnitt <a href="index.php?c=chapter3-4#x1-720003.4.3">3.4.3<!--tex4ht:ref: 6methodspec --></a> nach Einführung der Methodenspezifikation noch an einem Beispiel erläutert. Ein Sonderfall, der im nächsten Abschnitt noch diskutiert wird, besteht jedoch in der Behandlung von undefinierten Ergebnissen. Das <span class="bold">let</span>-Konstrukt erlaubt undefinierte Zwischenergebnisse und kann doch in definierter Weise ein Gesamtergebnis erbringen, wenn die Zwischenergebnisse dort nicht auftreten.<span class="footnote-mark"><a href="notes.php?c=footnotes3" target="_blank" onclick="return pop('notes.php?c=footnotes3.html');"><sup class="textsuperscript">3</sup></a></span><a id="x1-41002f3" name="x1-41002f3"></a> <span class="footnote-mark"><a id="fn3x0" name="fn3x0"><!--l. 435--></a></span></p>  
+
+  <h4 class="subsectionHead"><span class="titlemark">3.1.3</span> <a id="x1-420003.1.3" name="x1-420003.1.3"></a>Fallunterscheidungen</h4><!--l. 446-->
+
+  <p>Eine Spezifikationssprache besitzt im Gegensatz zu einer imperativen Programmiersprache keine Kontrollstrukturen zur Steuerung des Kontrollflusses. Jedoch werden einige Operationen, die an imperative Konstrukte angelehnt sind, angeboten. Dazu gehört die Fallunterscheidung <span class="pcrr7t-">if-then-else</span> oder die bereits in Bedingung <span class="pcrr7t-">Time1</span> verwendete äquivalente Form <span class="pcrr7t-">.?.:.</span>. Auf Basis des ersten Arguments wird festgelegt, welches der beiden anderen Argumente evaluiert und als Ergebnis der Fallunterscheidung angenommen wird. Im Gegensatz zur imperativen Fallunterscheidung sind immer der <span class="pcrr7t-">then</span>- und der <span class="pcrr7t-">else</span>-Zweig anzugeben. Beide Zweige beinhalten Ausdrücke mit dem gleichen Datentyp. Die Fallunterscheidung hat dann den gleichen Datentyp wie der erste der beiden Ausdrücke. Das bedeutet, der zweite Ausdruck muss einem Subtyp des ersten Ausdrucks angehören. <a id="dx1-42001" name="dx1-42001"></a> <a id="dx1-42002" name="dx1-42002"></a> <!--l. 463--></p>
+
+  <p>Eine spezielle Form der Fallunterscheidung erlaubt die Behandlung von Typkonversionen, wie sie bei Subtyphierarchien gelegentlich auftreten. OCL/P bietet dafür eine typsichere Konstruktion an, die eine Kombination einer Typkonversion und einer Abfrage nach dessen Konvertierbarkeit darstellt. Gemäß Abbildung <a href="index.php?c=chapter2-2#x1-240016">2.6<!--tex4ht:ref: 5vererbung --></a> lässt sich aus Geboten der Bieter extrahieren:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Message&nbsp;m&nbsp;<span class="underline"><span class="bold">inv:</span></span>
+	<br>
+		&nbsp;&nbsp;<span class="bold">let</span>&nbsp;Person p =<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="bold">typeif</span>&nbsp;m&nbsp;<span class="bold">instanceof</span>&nbsp;BidMessage&nbsp;<span class="bold">then</span>&nbsp;m.bidder&nbsp;<span class="bold">else</span>&nbsp;null
+	<br>
+		&nbsp;&nbsp;<span class="bold">in</span>&nbsp;...
+	</p>
+  </div>
+
+  <p>Äquivalent dazu kann die kompaktere Form der Fallunterscheidung gewählt werden:</p>
+  
+  <div class="ocl_minipage">
+	<p> 
+		<span class="underline"><span class="bold">context</span></span>&nbsp;Message&nbsp;m&nbsp;<span class="underline"><span class="bold">inv:</span></span>
+	<br>
+		&nbsp;&nbsp;<span class="bold">let</span>&nbsp;Person p =&nbsp;m&nbsp;<span class="bold">instanceof</span>&nbsp;BidMessage&nbsp;?&nbsp;m.bidder&nbsp;:&nbsp;null
+	<br>
+		&nbsp;&nbsp;<span class="bold">in</span>&nbsp;...
+	</p>
+  </div>
+
+  <p>Zusätzlich zu einer normalen Fallunterscheidung wird bei beiden Formen im <span class="pcrr7t-">then</span>-Zweig der Fallunterscheidung der Typ der Variable <span class="pcrr7t-">m</span> auf <span class="pcrr7t-">BidMessage</span> gesetzt. Die Variable <span class="pcrr7t-">m</span> nimmt diesen Typ dort temporär an und ermöglicht dadurch die Selektion <span class="pcrr7t-">m.bidder</span>. Im Gegensatz zur in Java üblichen Typkonversion mit <span class="pcrr7t-">(BidMessage)</span> ist mit dieser Konstruktion die Typsicherheit gegeben. Das heißt, ein Konversionsfehler, der in Java zu einer Exception und in OCL zu einem undefinierten Wert führen würde, kann nicht auftreten. <!--l. 502--></p>
+
+  
+
+  <h4 class="subsectionHead"><span class="titlemark">3.1.4</span> <a id="x1-430003.1.4" name="x1-430003.1.4"></a>Grunddatentypen</h4><a id="dx1-43001" name="dx1-43001"></a> <!--l. 506-->
+
+  <p>Als Grunddatentypen stehen die aus Java bekannten Sorten <span class="pcrr7t-">boolean</span>, <span class="pcrr7t-">char</span>, <span class="pcrr7t-">int</span>, <span class="pcrr7t-">long</span>, <span class="pcrr7t-">float</span>, <span class="pcrr7t-">byte</span>, <span class="pcrr7t-">short</span> und <span class="pcrr7t-">double</span><a id="dx1-43002" name="dx1-43002"></a> zur Verfügung. Auch die aus Java bekannten Operatoren wie <span class="pcrr7t-">+</span> oder <span class="pcrr7t-">-</span> werden in OCL/P eingesetzt. Tabelle <a href="#x1-430053">3.3<!--tex4ht:ref: 6javaPrios --></a> enthält eine Liste der in OCL/P verfügbaren Infix- und Präfixoperatoren inklusive ihrer Prioritäten.<span class="footnote-mark"><a href="notes.php?c=footnotes3" target="_blank" onclick="return pop('notes.php?c=footnotes3.html');"><sup class="textsuperscript">4</sup></a></span><a id="x1-43003f4" name="x1-43003f4"></a> <span class="footnote-mark"><a id="fn4x0" name="fn4x0"><!--l. 525--></a></span></p>
+
+  
+
+  <div class="border_minipage">
+    <!--l. 533-->
+
+    <p><a id="x1-430053" name="x1-430053"></a></p>
+      <table id="TBL-12" class="tabular" rules="groups" cellspacing="0" cellpadding="0">
+
+        <tbody><tr style="vertical-align:baseline;" id="TBL-12-1-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-1-1" class="td01"><span class="pplr7t-x-x-90">Priorit</span><span class="pplr7t-x-x-90">ät</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-1-2" class="td11"><span class="pplr7t-x-x-90">Operator</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-1-3" class="td11"><span class="pplr7t-x-x-90">Assoziativit</span><span class="pplr7t-x-x-90">ät</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-1-4" class="td11"><span class="pplr7t-x-x-90">Operand(en), Bedeutung</span></td>
+        </tr>
+
+        <tr class="hline">
+          <td>
+            <hr>
+          </td>
+
+          <td>
+            <hr>
+          </td>
+
+          <td>
+            <hr>
+          </td>
+
+          <td>
+            <hr>
+          </td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-2-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-2-1" class="td01"><span class="pplr7t-x-x-90">14</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-2-2" class="td11"><span class="pcrr7t-x-x-90">@pre</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-2-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-2-4" class="td11"><span class="pplr7t-x-x-90">Wert des Ausdrucks in der Vorbedingung</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-3-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-3-1" class="td01"></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-3-2" class="td11"><span class="pcrr7t-x-x-90">⋆⋆</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-3-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-3-4" class="td11"><span class="pplr7t-x-x-90">Transitive H</span><span class="pplr7t-x-x-90">ülle einer Assoziation</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-4-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-4-1" class="td01"><span class="pplr7t-x-x-90">13</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-4-2" class="td11"><span class="pcrr7t-x-x-90">+, -, ~</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-4-3" class="td11"><span class="pplr7t-x-x-90">rechts</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-4-4" class="td11"><span class="pplr7t-x-x-90">Zahlen</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-5-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-5-1" class="td01"></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-5-2" class="td11"><span class="pplr7t-x-x-90">!</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-5-3" class="td11"><span class="pplr7t-x-x-90">rechts</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-5-4" class="td11"><span class="pplr7t-x-x-90">Boolean: Negation</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-6-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-6-1" class="td01"></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-6-2" class="td11"><span class="pcrr7t-x-x-90">(type)</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-6-3" class="td11"><span class="pplr7t-x-x-90">rechts</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-6-4" class="td11"><span class="pplr7t-x-x-90">Typkonversion (Cast)</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-7-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-7-1" class="td01"><span class="pplr7t-x-x-90">12</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-7-2" class="td11"><span class="pcrr7t-x-x-90">⋆, /, %</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-7-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-7-4" class="td11"><span class="pplr7t-x-x-90">Zahlen</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-8-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-8-1" class="td01"><span class="pplr7t-x-x-90">11</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-8-2" class="td11"><span class="pcrr7t-x-x-90">+, -</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-8-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-8-4" class="td11"><span class="pplr7t-x-x-90">Zahlen, String (+)</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-9-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-9-1" class="td01"><span class="pplr7t-x-x-90">10</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-9-2" class="td11"><span class="pcrr7t-x-x-90">&lt;&lt;, &gt;&gt;, &gt;&gt;&gt;</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-9-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-9-4" class="td11"><span class="pplr7t-x-x-90">Shifts</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-10-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-10-1" class="td01"><span class="pplr7t-x-x-90">9</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-10-2" class="td11"><span class="pcrr7t-x-x-90">&lt;, &lt;=, &gt;, &gt;=</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-10-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-10-4" class="td11"><span class="pplr7t-x-x-90">Vergleiche</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-11-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-11-1" class="td01"></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-11-2" class="td11"><span class="pcrr7t-x-x-90">instanceof</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-11-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-11-4" class="td11"><span class="pplr7t-x-x-90">Typvergleich</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-12-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-12-1" class="td01"></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-12-2" class="td11"><span class="pcrr7t-x-x-90">in</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-12-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-12-4" class="td11"><span class="pplr7t-x-x-90">Element von</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-13-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-13-1" class="td01"><span class="pplr7t-x-x-90">8</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-13-2" class="td11"><span class="pcrr7t-x-x-90">==, !=</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-13-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-13-4" class="td11"><span class="pplr7t-x-x-90">Vergleiche</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-14-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-14-1" class="td01"><span class="pplr7t-x-x-90">7</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-14-2" class="td11"><span class="pcrr7t-x-x-90">&amp;</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-14-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-14-4" class="td11"><span class="pplr7t-x-x-90">Zahlen, Boolean: striktes und</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-15-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-15-1" class="td01"><span class="pplr7t-x-x-90">6</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-15-2" class="td11"><span class="pcrr7t-x-x-90">^</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-15-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-15-4" class="td11"><span class="pplr7t-x-x-90">Zahlen, Boolean: xor</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-16-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-16-1" class="td01"><span class="pplr7t-x-x-90">5</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-16-2" class="td11"><span class="pcrr7t-x-x-90">|</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-16-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-16-4" class="td11"><span class="pplr7t-x-x-90">Zahlen, Boolean: striktes oder</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-17-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-17-1" class="td01"><span class="pplr7t-x-x-90">4</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-17-2" class="td11"><span class="pcrr7t-x-x-90">&amp;&amp;</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-17-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-17-4" class="td11"><span class="pplr7t-x-x-90">Boolesche Logik: und</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-18-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-18-1" class="td01"><span class="pplr7t-x-x-90">3</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-18-2" class="td11"><span class="pcrr7t-x-x-90">||</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-18-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-18-4" class="td11"><span class="pplr7t-x-x-90">Boolesche Logik: oder</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-19-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-19-1" class="td01"><span class="pplr7t-x-x-90">2,7</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-19-2" class="td11"><span class="pcrr7t-x-x-90">implies</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-19-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-19-4" class="td11"><span class="pplr7t-x-x-90">Boolesche Logik: impliziert</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-20-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-20-1" class="td01"><span class="pplr7t-x-x-90">2,3</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-20-2" class="td11"><span class="pcrr7t-x-x-90">&lt;=&gt;</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-20-3" class="td11"><span class="pplr7t-x-x-90">links</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-20-4" class="td11"><span class="pplr7t-x-x-90">Boolesche Logik:</span> <span class="pplr7t-x-x-90">äquivalent</span></td>
+        </tr>
+
+        <tr style="vertical-align:baseline;" id="TBL-12-21-">
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-21-1" class="td01"><span class="pplr7t-x-x-90">2</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-21-2" class="td11"><span class="pcrr7t-x-x-90">? :</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-21-3" class="td11"><span class="pplr7t-x-x-90">rechts</span></td>
+
+          <td style="white-space:nowrap; text-align:left;" id="TBL-12-21-4" class="td11"><span class="pplr7t-x-x-90">Auswahlausdruck (if-then-else)</span></td>
+        </tr>
+      </tbody></table><a id="dx1-43004" name="dx1-43004"></a>      
+  </div><!--l. 566-->
+  <div class="caption">
+        <span class="id">Tabelle&nbsp;3.3:</span> <span class="content">Prioritäten der OCL-Operatoren</span>
+      </div><!--tex4ht:label?: x1-430053 -->
+
+  <p>Der Datentyp <span class="pcrr7t-">String</span> wird wie in Java nicht als Grunddatentyp, sondern als standardmäßig zur Verfügung stehende Klasse verstanden. Aus den Java-Klassenbibliotheken und den Packages <span class="pcrr7t-">java.util</span> und <span class="pcrr7t-">java.lang</span> stehen eine Reihe solcher Klassen zur Verfügung. <!--l. 572--></p>
+
+  <p>Eine Sonderrolle unter den Grunddatentypen nimmt der Typ der Wahrheitswerte <span class="pcrr7t-">boolean</span> ein, weil er auch dazu genutzt wird, OCL-Bedingungen zu interpretieren. Da in der (klassischen) Logik nur zwei Wahrheitswerte verwendet werden und die Behandlung nichtterminierender oder abbrechender Interpretation einige Probleme bereitet, wird im folgenden Abschnitt <a href="index.php?c=chapter3-2#x1-440003.2">3.2<!--tex4ht:ref: 6oclboolean --></a> eine detaillierte Untersuchung des Zusammenhangs zwischen dem Datentyp <span class="pcrr7t-">boolean</span> und der in der OCL zu verwendenden Logik vorgenommen. <!--l. 584--></p>
+
+  
+
+  			
+			<p>
+				<br>
+				<span style="font-family:Times New Roman, serif; color: #999999;">Bernhard Rumpe. Agile Modellierung mit UML. Springer 2012</span>
+			</p>
+			
+			<table width="738px">
+				<tbody><tr class="pageNavigation">
+
+					<td align="left" width="33%">
+										
+						<a style="font-family:Times New Roman, serif;  border: 1px solid #dddddd; border-radius: 20px 3px 3px 20px; box-shadow: 0 0 4px 0 #cccccc; color: #0067a6;  margin: 2px; padding: 2px 4px 3px 6px; text-align: center; text-decoration: none; " href="index.php?c=chapter3">&lt;&lt; zurück</a>
+										</td>
+					<td align="center" width="33%">
+						<a style="font-family:Arial, sans;  border: 1px solid #dddddd; border-radius: 3px 3px 3px 3px; box-shadow: 0 0 4px 0 #cccccc; color: #0067a6;  padding: 2px 10px 3px 10px; text-align: center; text-decoration: none; " href="../">MBSE Home</a>
+					</td><td>
+					
+									
+					</td><td align="right" width="33%">
+												<a style="font-family:Times New Roman, serif;  border: 1px solid #dddddd; border-radius: 3px 20px 20px 3px; box-shadow: 0 0 4px 0 #cccccc; color: #0067a6;  margin: 2px; padding: 2px 6px 3px 4px; text-align: center; text-decoration: none; " href="index.php?c=chapter3-2">weiter &gt;&gt;</a>
+											</td>
+				</tr>
+			  </tbody></table>
+						</div>
+</body>
+</html>
